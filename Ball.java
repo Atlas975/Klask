@@ -1,15 +1,15 @@
 /**
- * Models a simple solid sphere. 
+ * Models a simple solid sphere.
  * This class represents a Ball object. When combined with the GameArena class,
  * instances of the Ball class can be displayed on the screen.
  */
-public class Ball 
+public class Ball
 {
 	// The following instance variables define the
 	// information needed to represent a Ball
-	// Feel free to more instance variables if you think it will 
-	// support your work... 
-	
+	// Feel free to more instance variables if you think it will
+	// support your work...
+
 	private double xPosition;			// The X coordinate of this Ball
 	private double yPosition;			// The Y coordinate of this Ball
 	private double size;				// The diameter of this Ball
@@ -19,7 +19,7 @@ public class Ball
 										// Permissable colours are:
 										// BLACK, BLUE, CYAN, DARKGREY, GREY,
 										// GREEN, LIGHTGREY, MAGENTA, ORANGE,
-										// PINK, RED, WHITE, YELLOW or #RRGGBB 
+										// PINK, RED, WHITE, YELLOW or #RRGGBB
 
 	/**
 	 * Constructor. Creates a Ball with the given parameters.
@@ -35,7 +35,7 @@ public class Ball
 		this.size = diameter;
 		this.colour = col;
 		this.layer = 0;
-	}	
+	}
 
 	/**
 	 * Constructor. Creates a Ball with the given parameters.
@@ -52,7 +52,7 @@ public class Ball
 		this.size = diameter;
 		this.colour = col;
 		this.layer = layer;
-	}	
+	}
 
 	/**
 	 * Obtains the current position of this Ball.
@@ -98,7 +98,7 @@ public class Ball
 	{
 		return size;
 	}
-	
+
 	/**
 	 * Sets the diameter of this Ball to the given size.
 	 * @param s the new diameter of this Ball, in pixels.
@@ -146,7 +146,7 @@ public class Ball
 
 	/**
 	 * Moves this Ball by the given amount.
-	 * 
+	 *
 	 * @param dx the distance to move on the x axis (in pixels)
 	 * @param dy the distance to move on the y axis (in pixels)
 	 */
@@ -158,7 +158,7 @@ public class Ball
 
 	/**
 	 * Determines if this Ball is overlapping the given ball.
-	 * 
+	 *
 	 * @param b the ball to test for collision
 	 * @return true of this ball is overlapping the ball b, false otherwise.
 	 */

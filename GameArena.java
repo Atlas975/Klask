@@ -1,7 +1,4 @@
 import javax.swing.*;
-
-import Ball;
-
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;
