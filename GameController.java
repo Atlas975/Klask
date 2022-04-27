@@ -1,5 +1,7 @@
 import java.awt.Color;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.awt.*;
 import javax.swing.*;
 
@@ -12,6 +14,7 @@ public class GameController {
             window.addBall(magnets[i]);
         }
         Ball scorePuck=new Ball(1006,600,30,"YELLOW");
+        OverheadText(window);
         // window.addBall(scorePuck);
         newRound(window,overheadStats,magnets,scorePuck);
     }
@@ -34,11 +37,21 @@ public class GameController {
     }
 
 
-    public JPanel OverheadText(){
-        JPanel textBox=new JPanel();
-        textBox.setLayout(new GridLayout(1,3));
+    public void OverheadText(GameArena window){
 
+        Text timerText=new Text("Time elapsed: 0s",30,1550,90,"WHITE");
+        Timer stopwatch=new Timer();
+        TimerTask countDown=new TimerTask(){
+            int seconds=0;
+            @Override
+            public void run() {
+                timerText.setText("Time elapsed: "+seconds+"s");
+                seconds++;
+            }
+        };
+        stopwatch.scheduleAtFixedRate(countDown,0,1000);
 
+        window.addText(timerText);
     }
 
     public void newRound(GameArena window, int[] overheadStats, Ball[] magnets, Ball scorePuck){
