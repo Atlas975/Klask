@@ -100,12 +100,7 @@ class OptionsMenu extends JFrame {
             modeParameters[0] = mode;
             switch (mode) {
                 case 0 -> {
-                    modeParameters[1] = 24;
-                    modeParameters[2] = 6;
-                    modeParameters[3] = 4;
-                    modeParameters[4] = 12;
-                    modeParameters[5] = 2;
-                    modeParameters[6] = 50;
+                    modeParameters[1]=0;
                 }
                 case 1 -> {
                     modeParameters[1] = 16;

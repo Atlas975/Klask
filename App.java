@@ -3,6 +3,6 @@ public class App {
         int overheadStats[] = {1,0,0,0,0};
         OptionsMenu options=new OptionsMenu("Welcome to Klask!","Select Option",overheadStats);
         options.dispose();
-        new GameController(overheadStats);
+        new GameController(overheadStats,options.getModeParameters());
     }
 }
