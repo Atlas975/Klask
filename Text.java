@@ -1,5 +1,5 @@
-/**
- * Models a simple piece of text. 
+	/**
+ * Models a simple piece of text.
  * This class represents a Text object. When combined with the GameArena class,
  * instances of the Text class can be displayed on the screen to show display
  * an appropriate piece of text.
@@ -8,12 +8,12 @@ public class Text
 {
 	// The following instance variables define the
 	// information needed to represent a line.
-	// Feel free to more instance variables if you think it will 
-	// support your work... 
-	
-	private double xPosition;			// The X coordinate of the start of this text 
-	private double yPosition;			// The Y coordinate of the start of this text 
-	private int size;					// The font size of this text 
+	// Feel free to more instance variables if you think it will
+	// support your work...
+
+	private double xPosition;			// The X coordinate of the start of this text
+	private double yPosition;			// The Y coordinate of the start of this text
+	private int size;					// The font size of this text
 	private int layer;					// The layer this text is drawn on
 	private String text;				// The actual text to display
 	private String colour;				// The colour of this text
@@ -21,7 +21,7 @@ public class Text
 										// Permissable colours are:
 										// BLACK, BLUE, CYAN, DARKGREY, GREY,
 										// GREEN, DARKGREEN, LIGHTGREY, MAGENTA, ORANGE,
-										// PINK, RED, WHITE, YELLOW, BROWN 
+										// PINK, RED, WHITE, YELLOW, BROWN
 
 	/**
 	 * Obtains the position of this text on the X axis.
@@ -90,12 +90,12 @@ public class Text
 	/**
 	 * Constructor. Creates a new piece of text at the given coordinates.
 	 *
-	 * @param text The text to display 
+	 * @param text The text to display
 	 * @param size The font size of of the text
 	 * @param x The x co-ordinate of the text
 	 * @param y The y co-ordinate of the text
 	 * @param col The colour of the line (Permissable colours are: BLACK, BLUE, CYAN, DARKGREY, GREY, GREEN, LIGHTGREY, MAGENTA, ORANGE, PINK, RED, WHITE, YELLOW or ##RRGGBB)
-	 * @param layer The layer this line is to be drawn on. Objects with a higher layer number are always drawn on top of those with lower layer numbers. 
+	 * @param layer The layer this line is to be drawn on. Objects with a higher layer number are always drawn on top of those with lower layer numbers.
 	 */
 	public Text(String text, int size, double x, double y, String col, int layer)
 	{
@@ -105,12 +105,12 @@ public class Text
 		this.text = text;
 		this.colour = col;
 		this.layer = layer;
-	}	
+	}
 
 	/**
 	 * Constructor. Creates a new piece of text at the given coordinates.
-	 * 
-	 * @param text The text to display 
+	 *
+	 * @param text The text to display
 	 * @param size The font size of of the text
 	 * @param x The x co-ordinate of the text
 	 * @param y The y co-ordinate of the text
@@ -124,11 +124,11 @@ public class Text
 		this.text = text;
 		this.colour = col;
 		this.layer = 0;
-	}	
+	}
 
 	/**
 	 * Changes the text displayed to that given value
-	 * 
+	 *
 	 * @param text The text to display
 	 */
 	public void setText(String text)
@@ -138,7 +138,7 @@ public class Text
 
 	/**
 	 * Changes the colour of this text to the given value
-	 * 
+	 *
 	 * @param colour The new colour of this text. (Permissable colours are: BLACK, BLUE, CYAN, DARKGREY, GREY, GREEN, LIGHTGREY, MAGENTA, ORANGE, PINK, RED, WHITE, YELLOW or #RRGGBB)
 	 */
 	public void setColour(String colour)

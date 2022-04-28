@@ -14,8 +14,9 @@ public class GameController {
             window.addBall(magnets[i]);
         }
         Ball scorePuck=new Ball(1006,600,30,"YELLOW");
-        OverheadText(window);
+        OverheadText(window,overheadStats);
         // window.addBall(scorePuck);
+        int constraints[][]={{}};
         newRound(window,overheadStats,magnets,scorePuck);
     }
 
@@ -37,9 +38,15 @@ public class GameController {
     }
 
 
-    public void OverheadText(GameArena window){
+    public void OverheadText(GameArena window, int[] overheadStats){
+        Text welcomeText=new Text("Welcome to Klask!",30,150,80,"WHITE");
+        Text roundNumber=new Text("Round "+overheadStats[0],30,950,80,"WHITE");
+        Text p1Wins=new Text("W : "+overheadStats[1],30,40,1120,"WHITE");
+        Text p2Wins=new Text("W : "+overheadStats[2],30,1890,1120,"WHITE");
+        Text p1RoundWins=new Text(""+overheadStats[2],30,50,600,"WHITE");
+        Text p2RoundWins=new Text(""+overheadStats[2],30,1950,600,"WHITE");
 
-        Text timerText=new Text("Time elapsed: 0s",30,1550,90,"WHITE");
+        Text timerText=new Text("Time elapsed: 0s",30,1590,80,"WHITE");
         Timer stopwatch=new Timer();
         TimerTask countDown=new TimerTask(){
             int seconds=0;
@@ -51,7 +58,17 @@ public class GameController {
         };
         stopwatch.scheduleAtFixedRate(countDown,0,1000);
 
+        window.addText(roundNumber);
+        window.addText(p1Wins);
+        window.addText(p2Wins);
+        window.addText(p1RoundWins);
+        window.addText(p2RoundWins);
+        window.addText(welcomeText);
         window.addText(timerText);
+    }
+
+    public void inputKeys(){
+        
     }
 
     public void newRound(GameArena window, int[] overheadStats, Ball[] magnets, Ball scorePuck){
