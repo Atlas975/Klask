@@ -1,6 +1,37 @@
 
-public class Motion{
-    
+public class Motion extends Thread{
+
+    private double minX;
+    private double maxX;
+    private double minY=185;
+    private double maxY=1015;
+
+    public Motion(Ball piece,Ball allPieces[], double zoneConstraints[][],Boolean isScorePuck){
+
+        
+
+
+        double boundryOffset=piece.getSize()/2;
+        for(int i=0; i<2; i++){
+
+
+        }
+        if(isScorePuck){
+            scoreController(piece,allPieces);
+        }
+        else{
+            magnetController(piece,allPieces);
+
+        }
+    }
+
+    public void scoreController(Ball piece,Ball allPieces[]){
+
+    }
+
+    public void magnetController(Ball piece,Ball allPieces[]){
+
+    }
 
 }
 

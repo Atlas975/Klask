@@ -18,23 +18,22 @@ public class GameController {
         }
         Ball scorePuck=new Ball(0,0,30,"YELLOW",3);
         window.addBall(scorePuck);
-        int zoneConstraints[][]={{165,1010,165,1035},{1010,1835,165,1035}};
         int ballPositions[][]={{205,205},{205,995},{1800,205},{1800,995}};
+        double zoneConstraints[][]={{165,1010,165,1035},{1010,1835,165,1035}};
+
+        double ballBounds[]={scorePuck.getSize()/2,magnets[0].getSize()/2};
         startGame(window,overheadStats,magnets,scorePuck,zoneConstraints,ballPositions,0);
     }
 
 
-
-
-
-    public void startGame(GameArena window, int[] overheadStats, Ball[] magnets, Ball scorePuck, int[][] zoneConstraints, int[][] ballPositions, int startCondition){
+    public void startGame(GameArena window, int[] overheadStats, Ball[] magnets, Ball scorePuck, double[][] zoneConstraints, int[][] ballPositions, int startCondition){
 
         resetBoard(window,overheadStats,magnets,scorePuck,ballPositions,startCondition);
         for(int i=0; i<6; i++){
 
 
 
-            
+
             if(overheadStats[3]==5){
                 overheadStats[1]+=1;
                 newGame(window, overheadStats,1);
@@ -46,7 +45,7 @@ public class GameController {
 
         }
 
-        newGame(window, overheadStats, 1);
+        // newGame(window, overheadStats, 1);
 
     }
 
