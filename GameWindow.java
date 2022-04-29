@@ -10,7 +10,7 @@ public class GameWindow extends GameArena{
         Rectangle gameZone=new Rectangle(165,165,1670,870,"BLUE",2);
         Ball p1goal= new Ball(250,600,80,"GREY",2);
         Ball p2goal= new Ball(1750,600,80,"GREY",2);
-        Line split= new Line(1006,165,1010,1035,5,"GREY",2);
+        Line split= new Line(1006,165,1006,1035,6,"GREY",2);
         this.addRectangle(gameZone);
         this.addBall(p1goal);
         this.addBall(p2goal);
