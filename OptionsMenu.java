@@ -18,7 +18,7 @@ class OptionsMenu extends JFrame {
     *@param message the message disp layed to the user
     *@param score the games current score
     */
-    public OptionsMenu(String title, String message,int[] score) {
+    public OptionsMenu(String title,int[] score) {
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         this.setTitle(title);
@@ -32,7 +32,7 @@ class OptionsMenu extends JFrame {
         options=createPanel(options, 1, 3, 750, 100);
 
         Font txtFont=new Font("Arial",Font.BOLD,18);
-        textDisplay(message, txtFont, textPanel);
+        textDisplay("Select option", txtFont, textPanel);
         textDisplay("Round "+score[0], txtFont, textPanel);
         textDisplay("P1 wins: "+score[1], txtFont, textPanel);
         textDisplay("P2 wins: "+score[2], txtFont, textPanel);
