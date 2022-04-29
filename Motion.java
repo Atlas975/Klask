@@ -1,28 +1,51 @@
 
 public class Motion extends Thread{
 
+    private int winner;
     private double minX;
     private double maxX;
-    private double minY=185;
+    private double minY=165;
     private double maxY=1015;
 
-    public Motion(Ball piece,Ball allPieces[], double zoneConstraints[][],Boolean isScorePuck){
-
-        
 
 
-        double boundryOffset=piece.getSize()/2;
-        for(int i=0; i<2; i++){
+    //  Constructor class to control the magents motion
+    public Motion(Ball piece,Ball allPieces[],int minX,int maxX){
+
+
+
+
+
+
+    }
+
+    // Constructor class to control the score pucks motion
+    public Motion(Ball piece,Ball allPieces[],int minX,int maxX,int p1zoneX,int p2zoneX){
+        // int scoreLeftX=p1zoneX+
+
+
+
+        if(piece.getSize()/2==0){
 
 
         }
-        if(isScorePuck){
-            scoreController(piece,allPieces);
-        }
-        else{
-            magnetController(piece,allPieces);
 
-        }
+
+
+
+    }
+
+    // Constructor class to control the player pucks motion
+    public Motion(Ball piece,Ball allPieces[],int minX,int maxX,int zoneX,Player user){
+
+
+    }
+
+
+
+
+    public void playerController(Ball piece,Ball allPiecs){
+
     }
 
     public void scoreController(Ball piece,Ball allPieces[]){

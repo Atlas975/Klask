@@ -3,12 +3,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameWindow extends GameArena{
+
     public GameWindow(int []overheadStats){
         super(2000,1200);
         this.setBackground(new Color(0x2e3440));
         Rectangle gameZone=new Rectangle(165,165,1670,870,"BLUE",2);
-        Ball p1goal= new Ball(250,600,90,"GREY");
-        Ball p2goal= new Ball(1750,600,90,"GREY");
+        Ball p1goal= new Ball(250,600,80,"GREY",2);
+        Ball p2goal= new Ball(1750,600,80,"GREY",2);
         Line split= new Line(1006,165,1010,1035,5,"GREY",2);
         this.addRectangle(gameZone);
         this.addBall(p1goal);
@@ -57,6 +58,15 @@ public class GameWindow extends GameArena{
         for(int i=0; i<4; i++){
             this.addLine(new Line(overlapFill[i][0],overlapFill[i][1],overlapFill[i][2],overlapFill[i][3],60,"BLACK",3));
             this.addLine(new Line(borderFill[i][0],borderFill[i][1],borderFill[i][2],borderFill[i][3],20,"GREY",3));
+        }
+    }
+
+    public int goalXPos(int type){
+        if(type==0){
+            return 250;
+        }
+        else{
+            return 1750;
         }
     }
 }

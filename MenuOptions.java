@@ -7,7 +7,7 @@ import javax.swing.*;
  * An extension of CBbody that initializes the games main menu where the user
  * can select a mode to play
  */
-class OptionsMenu extends JFrame {
+class MenuOptions extends JFrame {
     private int option;
     private int[] modeParameters;
 
@@ -18,7 +18,7 @@ class OptionsMenu extends JFrame {
     *@param message the message disp layed to the user
     *@param score the games current score
     */
-    public OptionsMenu(String title,int[] score) {
+    public MenuOptions(String title,int[] score) {
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         this.setTitle(title);
