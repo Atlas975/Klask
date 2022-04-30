@@ -6,4 +6,3 @@ public class App {
         new GameController(overheadStats,options.getModeParameters());
     }
 }
-    

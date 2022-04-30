@@ -1,9 +1,3 @@
-import java.awt.Color;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.awt.*;
-import javax.swing.*;
 
 public class GameController {
     public GameController(int overheadStats[], int modeParameters[]) {
@@ -22,40 +16,42 @@ public class GameController {
         window.addBall(scorePuck);
         window.addBall(player1);
         window.addBall(player2);
-
         int ballPositions[][]={{205,205},{205,995},{1800,205},{1800,995}};
         double zoneConstraints[][]={{165,1010,165,1035},{1010,1835,165,1035}};
         startGame(window,overheadStats,magnets,scorePuck,zoneConstraints,ballPositions,player1,player2,0);
+
     }
 
 
     public void startGame(GameWindow window, int[] overheadStats, Ball[] magnets, Ball scorePuck, double[][] zoneConstraints, int[][] ballPositions,Player player1,Player player2,int startCondition){
 
         resetBoard(window,overheadStats,magnets,scorePuck,ballPositions,player1,player2,startCondition);
-        for(int i=0; i<6; i++){
 
-            Motion p1=new Motion(player1,player2,magnets,scorePuck);
-            Motion p2=new Motion(player2,player1,magnets,scorePuck);
-            p1.start();
-            p2.start();
-            for(int j=0; j<3; j++){
-                Motion magForce=new Motion(i,player1,player2,magnets,scorePuck);
-                magForce.start();
-            }
-            Motion puck=new Motion(scorePuck,player1,player2,magnets);
-            puck.start();
+        // while(true){
+        //     GameRound activeRound=new GameRound(window, magnets, scorePuck, player1, player2);
 
-            if(overheadStats[3]==6){
-                overheadStats[1]+=1;
-                newGame(window, overheadStats,1);
-            }
-            if(overheadStats[4]==6){
-                overheadStats[2]+=1;
-                newGame(window, overheadStats,2);
-            }
+        //     synchronized(activeRound){
+        //         try {
+        //             activeRound.wait();
+        //         } catch (InterruptedException e) {
+        //             e.printStackTrace();
+        //         }
+        //     }
 
 
-        }
+
+
+        //     if(overheadStats[3]==6){
+        //         overheadStats[1]+=1;
+        //         newGame(window, overheadStats,1);
+        //     }
+        //     if(overheadStats[4]==6){
+        //         overheadStats[2]+=1;
+        //         newGame(window, overheadStats,2);
+        //     }
+
+
+        // }
         // movementControl(magnets, scorePuck,zoneConstraints);
 
 
@@ -63,11 +59,6 @@ public class GameController {
         // newGame(window, overheadStats, 1);
 
     }
-
-    public void movementControl(Ball[] magnets, Ball scorePuck, double[][] zoneConstraints){
-
-    }
-
 
 
     public void resetBoard(GameWindow window, int[] overheadStats, Ball[] magnets, Ball scorePuck, int[][] ballPositions,Player player1,Player player2,int startCondition){

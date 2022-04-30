@@ -3,6 +3,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameWindow extends GameArena{
+    private Timer stopwatch;
 
     public GameWindow(int []overheadStats){
         super(2000,1200);
@@ -37,6 +38,7 @@ public class GameWindow extends GameArena{
             }
         };
         stopwatch.scheduleAtFixedRate(counter,0,1000);
+        this.stopwatch=stopwatch;
         this.addText(roundNumber);
         this.addText(p1Wins);
         this.addText(p2Wins);
@@ -62,11 +64,15 @@ public class GameWindow extends GameArena{
     }
 
     public int goalXPos(int type){
-        if(type==0){
+        if(type==1){
             return 250;
         }
         else{
             return 1750;
         }
+    }
+
+    public Timer getTimerInstance(){
+        return this.stopwatch;
     }
 }
