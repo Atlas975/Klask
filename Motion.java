@@ -1,4 +1,7 @@
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 public class Motion extends Thread{
 
     private int winner;
@@ -6,11 +9,12 @@ public class Motion extends Thread{
     private double maxX;
     private double minY=165;
     private double maxY=1015;
+    private int basesleep;
 
 
 
     //  Constructor class to control the magnets motion
-    public Motion(int pieceIndex,Ball player1,Ball player2,Ball magnets[],Ball scorePuck){
+    public Motion(int pieceIndex,Ball player1,Ball player2,Ball magnets[],Ball scorePuck, GameWindow window){
 
 
 
@@ -20,7 +24,7 @@ public class Motion extends Thread{
     }
 
     // Constructor class to control the score pucks motion
-    public Motion(Ball piece,Ball player1, Ball player2, Ball magnets[]){
+    public Motion(Ball piece,Ball player1, Ball player2, Ball magnets[], GameWindow window){
 
 
 
@@ -29,7 +33,30 @@ public class Motion extends Thread{
     }
 
     // Constructor class to control the player pucks motion
-    public Motion(Ball piece,Ball opponent,Ball magnets[],Ball scorePuck){
+    public Motion(Ball piece,Ball opponent,Ball magnets[],Ball scorePuck, GameWindow window){
+
+        System.out.println("Ran");
+
+
+        window.addKeyListener(new KeyListener() {
+            @Override public void keyTyped(KeyEvent e){
+                System.out.println("butt presed");
+
+            }  //not using key typed
+            @Override public void keyReleased(KeyEvent e){
+                System.out.println("butt presed");
+
+            }  //not using key released
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("butt presed");
+            }
+        });
+
+
+
+
+
 
 
 

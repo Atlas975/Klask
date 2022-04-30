@@ -7,6 +7,7 @@ public class GameWindow extends GameArena{
 
     public GameWindow(int []overheadStats){
         super(2000,1200);
+        this.setFocusable(true);
         this.setBackground(new Color(0x2e3440));
         Rectangle gameZone=new Rectangle(165,165,1670,870,"BLUE",2);
         Ball p1goal= new Ball(250,600,80,"GREY",2);
@@ -73,6 +74,34 @@ public class GameWindow extends GameArena{
     }
 
     public Timer getTimerInstance(){
-        return this.stopwatch;
+        return stopwatch;
     }
+
+    public int playerMinX(int type){
+        if(type==1){
+            return 195;
+        }
+        else{
+            return 1036;
+        }
+    }
+
+    public int playerMaxX(int type){
+        if(type==1){
+            return 976;
+        }
+        else{
+            return 1805;
+        }
+    }
+
+    public int ballMinY(){
+        return 195;
+    }
+    public int ballMaxY(){
+        return 1005;
+    }
+
+
 }
+
