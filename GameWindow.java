@@ -4,6 +4,8 @@ import java.util.TimerTask;
 
 public class GameWindow extends GameArena{
     private Timer stopwatch;
+    private Text p1Wins;
+    private Text p2Wins;
 
     public GameWindow(int []overheadStats){
         super(2000,1200);
@@ -26,6 +28,8 @@ public class GameWindow extends GameArena{
         Text roundNumber=new Text("Round "+overheadStats[0],30,950,80,"WHITE");
         Text p1Wins=new Text("W : "+overheadStats[1],30,40,1150,"WHITE");
         Text p2Wins=new Text("W : "+overheadStats[2],30,1890,1150,"WHITE");
+        this.p1Wins=p1Wins;
+        this.p2Wins=p2Wins;
         Text p1Score=new Text(""+overheadStats[2],40,50,610,"WHITE");
         Text p2Score=new Text(""+overheadStats[2],40,1930,610,"WHITE");
         Text timerText=new Text("Time elapsed: 0s",30,1585,80,"WHITE");
@@ -79,27 +83,28 @@ public class GameWindow extends GameArena{
 
     public int playerMinX(int type){
         if(type==1){
-            return 195;
+            return 200;
         }
         else{
-            return 1036;
+            return 1025;
         }
     }
 
     public int playerMaxX(int type){
         if(type==1){
-            return 976;
+            return 975;
         }
         else{
-            return 1805;
+            return 1800;
         }
     }
 
     public int ballMinY(){
-        return 195;
+        return 200;
     }
+
     public int ballMaxY(){
-        return 1005;
+        return 1000;
     }
 
 

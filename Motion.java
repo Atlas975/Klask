@@ -4,7 +4,7 @@ import java.awt.event.KeyListener;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Motion extends Thread{
+public class Motion{
 
     private int winner;
     private double minX;
@@ -13,6 +13,8 @@ public class Motion extends Thread{
     private double maxY=1035;
     private int baseleep;
     private GameWindow window;
+    private int overheadStats[];
+    private boolean loss=false;
 
 
 
@@ -37,13 +39,14 @@ public class Motion extends Thread{
     }
 
     // Constructor class to control the player pucks motion
-    public Motion(Ball piece, int playerID, Ball opponent,Ball magnets[],Ball scorePuck, GameWindow window){
-        this.window=window;
+    public Motion(Ball piece, int playerID, Ball opponent,Ball magnets[],Ball scorePuck, GameWindow window,int overheadStats[]){
 
+        this.window=window;
+        this.overheadStats=overheadStats;
         this.minX=window.playerMinX(playerID);
         this.maxX=window.playerMaxX(playerID);
-        this.minY+=30;
-        this.maxY-=30;
+        this.minY=window.ballMinY();
+        this.maxY=window.ballMaxY();
 
         window.addKeyListener(new KeyListener() {
             boolean keyArray[]=new boolean[8];
@@ -53,7 +56,7 @@ public class Motion extends Thread{
             }
             @Override public void keyPressed(KeyEvent e) {
                 keyArray=playerInput(e,keyArray, playerID, true);
-                playerUpdate(keyArray,piece);
+                playerUpdate(keyArray,piece,playerID);
             }
 
         });
@@ -103,26 +106,44 @@ public class Motion extends Thread{
         return keyArray;
     }
 
-    public void playerUpdate(boolean keyArray[],Ball player){
+    public void playerUpdate(boolean keyArray[],Ball player,int playerID){
         double currentX=player.getXPosition();
         double currentY=player.getYPosition();
 
-        synchronized(this){
-            if(keyArray[0] && currentX>minX){
-                player.setXPosition(currentX-20);
-            }
-            if(keyArray[1] && currentY>minY){
-                player.setYPosition(currentY-20);
-            }
-            if(keyArray[2] && (currentX<maxX)){
-                player.setXPosition(currentX+20);
-            }
-            if(keyArray[3] && (currentY<maxY)){
-                player.setYPosition(currentY+20);
-            }
-
-            this.notify();
+        if(keyArray[0] && currentX>minX){
+            player.setXPosition(currentX-25);
         }
+        if(keyArray[1] && currentY>minY){
+            player.setYPosition(currentY-25);
+        }
+        if(keyArray[2] && (currentX<maxX)){
+            player.setXPosition(currentX+25);
+        }
+        if(keyArray[3] && (currentY<maxY)){
+            player.setYPosition(currentY+25);
+        }
+
+
+        if(player.getXPosition()==window.goalXPos(playerID) ){
+            if(player.getYPosition()==600){
+                loss=true;
+            }
+        }
+
+
+
+
+            // if((currentX-30<window.goalXPos(playerID)+40) || (currentX+30>window.goalXPos(playerID)-40)){
+            //     System.out.println("Player "+playerID+" scored!");
+
+            //     if(currentY+30<560 || currentY-30>640){
+            //         // System.out.println("Player "+playerID+" scored!");
+            //         this.run=false;
+            //     }
+
+            // }
+
+
 
 
 
@@ -132,7 +153,17 @@ public class Motion extends Thread{
 
         // }
     }
+    public boolean ended(){
+        return loss;
+    }
 
+    public void reset(){
+        loss=false;
+    }
+
+    public int[] getResult(){
+        return overheadStats;
+    }
 
 
 
