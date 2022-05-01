@@ -26,18 +26,19 @@ public class GameController {
 
         resetBoard(window,overheadStats,magnets,scorePuck,ballPositions,player1,player2,startCondition);
 
-            // GameRound activeRound=new GameRound(window, magnets, scorePuck, player1, player2);
 
         Boolean gameRun=true;
         // GameWindow.addKeyListener(player1,1);
         // GameWindow.addKeyListener(player2,2);
         while(gameRun){
-            overheadStats=gameRound(window,overheadStats,magnets,scorePuck,player1,player2);
 
-            try {
-                Thread.sleep(10000);
-            } catch(InterruptedException ex) {
-                Thread.currentThread().interrupt();
+            synchronized(this){
+                overheadStats=gameRound(window, overheadStats, magnets, scorePuck, player1, player2);
+                try {
+                    this.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
 
@@ -47,15 +48,17 @@ public class GameController {
             if(overheadStats[4]==6){
                 gameRun=false;
             }
+
+            resetBoard(window,overheadStats,magnets,scorePuck,ballPositions,player1,player2,startCondition);
         }
 
     }
 
     public int[] gameRound(GameWindow window,int overheadStats[],Ball magnets[],Ball scorePuck,Ball player1,Ball player2){
-        Motion p1=new Motion(player1,player2,magnets,scorePuck,window);
-        Motion p2=new Motion(player2,player1,magnets,scorePuck,window);
-        // p1.start();
-        // p2.start();
+        Motion p1=new Motion(player1,1,player2,magnets,scorePuck,window);
+        p1.start();
+        Motion p2=new Motion(player2,2,player1,magnets,scorePuck,window);
+        p2.start();
         // for(int j=0; j<3; j++){
         //     Motion magForce=new Motion(j,player1,player2,magnets,scorePuck,window);
         //     magForce.start();

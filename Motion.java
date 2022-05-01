@@ -1,6 +1,8 @@
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Motion extends Thread{
 
@@ -8,8 +10,10 @@ public class Motion extends Thread{
     private double minX;
     private double maxX;
     private double minY=165;
-    private double maxY=1015;
-    private int basesleep;
+    private double maxY=1035;
+    private int baseleep;
+    private GameWindow window;
+
 
 
 
@@ -33,33 +37,100 @@ public class Motion extends Thread{
     }
 
     // Constructor class to control the player pucks motion
-    public Motion(Ball piece,Ball opponent,Ball magnets[],Ball scorePuck, GameWindow window){
+    public Motion(Ball piece, int playerID, Ball opponent,Ball magnets[],Ball scorePuck, GameWindow window){
+        this.window=window;
 
-        System.out.println("Ran");
-
+        this.minX=window.playerMinX(playerID);
+        this.maxX=window.playerMaxX(playerID);
+        this.minY+=30;
+        this.maxY-=30;
 
         window.addKeyListener(new KeyListener() {
-            @Override public void keyTyped(KeyEvent e){
-                System.out.println("butt presed");
-
-            }  //not using key typed
+            boolean keyArray[]=new boolean[8];
+            @Override public void keyTyped(KeyEvent e){} // not used
             @Override public void keyReleased(KeyEvent e){
-                System.out.println("butt presed");
-
-            }  //not using key released
-            @Override
-            public void keyPressed(KeyEvent e) {
-                System.out.println("butt presed");
+                keyArray=playerInput(e,keyArray, playerID, false);
             }
+            @Override public void keyPressed(KeyEvent e) {
+                keyArray=playerInput(e,keyArray, playerID, true);
+                playerUpdate(keyArray,piece);
+            }
+
         });
 
+    }
+
+
+    public boolean[] playerInput(KeyEvent e,boolean keyArray[], int playerID, boolean condition){
+        if(playerID==1){
+            switch(e.getKeyCode()){
+                case 65 ->{
+                    keyArray[0]=condition;
+                }
+                case 87 ->{
+                    keyArray[1]=condition;
+
+                }
+                case 68 ->{
+                    keyArray[2]=condition;
+
+                }
+                case 83 ->{
+                    keyArray[3]=condition;
+
+                }
+            }
+        }
+        else{
+            switch(e.getKeyCode()){
+                case 37 ->{
+                    keyArray[0]=condition;
+                }
+                case 38 ->{
+                    keyArray[1]=condition;
+
+                }
+                case 39 ->{
+                    keyArray[2]=condition;
+
+                }
+                case 40 ->{
+                    keyArray[3]=condition;
+
+                }
+            }
+        }
+        return keyArray;
+    }
+
+    public void playerUpdate(boolean keyArray[],Ball player){
+        double currentX=player.getXPosition();
+        double currentY=player.getYPosition();
+
+        synchronized(this){
+            if(keyArray[0] && currentX>minX){
+                player.setXPosition(currentX-20);
+            }
+            if(keyArray[1] && currentY>minY){
+                player.setYPosition(currentY-20);
+            }
+            if(keyArray[2] && (currentX<maxX)){
+                player.setXPosition(currentX+20);
+            }
+            if(keyArray[3] && (currentY<maxY)){
+                player.setYPosition(currentY+20);
+            }
+
+            this.notify();
+        }
 
 
 
+        // if(currentY<6 && currentY>220){
+        //     System
 
 
-
-
+        // }
     }
 
 
