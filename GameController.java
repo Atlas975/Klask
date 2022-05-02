@@ -51,14 +51,27 @@ public class GameController {
 
     public int[] GameRound(GameWindow window,Ball magnets[],Ball scorePuck,Ball player1,Ball player2, int overheadStats[]){
 
-        Object pause=new Object();
-        Player p1=new Player(player1,1,player2,magnets,scorePuck,window,pause);
+        Object active=new Object();
+        Player p1=new Player(player1,1,player2,magnets,scorePuck,window,active);
         p1.start();
-        Player p2=new Player(player2,2,player1,magnets,scorePuck,window,pause);
+        Player p2=new Player(player2,2,player1,magnets,scorePuck,window,active);
         p2.start();
-        synchronized(pause){
+        // ObjectMotion magMovement=new ObjectMotion(1,player1,player2,magnets,scorePuck,active);
+        // magMovement.start();
+
+        ObjectMotion puckMovement=new ObjectMotion(scorePuck,player1,player2,magnets,active);
+        puckMovement.start();
+
+        ObjectMotion magMovement[]=new ObjectMotion[3];
+        for(int i=0; i<3; i++){
+            magMovement[i]=new ObjectMotion(i,player1,player2,magnets,scorePuck,active);
+            magMovement[i].start();
+        }
+
+
+        synchronized(active){
             try {
-                pause.wait();
+                active.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -75,6 +88,34 @@ public class GameController {
             window.scoreIncremeent(1,overheadStats[3]);
             window.resetBoard(overheadStats, magnets, scorePuck,player1, player2, 2);
         }
+
+        if(puckMovement.result()>0){
+            if(puckMovement.result()==1){
+                overheadStats[3]++;
+                window.scoreIncremeent(1,overheadStats[3]);
+                window.resetBoard(overheadStats, magnets, scorePuck,player1, player2, 2);
+            }
+            else if(puckMovement.result()==2){
+                overheadStats[4]++;
+                window.scoreIncremeent(2,overheadStats[4]);
+                window.resetBoard(overheadStats, magnets, scorePuck,player1, player2, 1);
+            }
+        }
+        return overheadStats;
+    }
+
+    public int[] overheadStats(int[] overheadStats, GameWindow window, Ball magnets[], Ball scorePuck, Ball player1, Ball player2, int startCondition){
+        if(startCondition==1){
+            overheadStats[3]++;
+            window.scoreIncremeent(1,overheadStats[3]);
+            window.resetBoard(overheadStats, magnets, scorePuck,player1, player2, 2);
+        }
+        else{
+            overheadStats[4]++;
+            window.scoreIncremeent(2,overheadStats[4]);
+            window.resetBoard(overheadStats, magnets, scorePuck,player1, player2, 1);
+        }
+
         return overheadStats;
     }
 
@@ -84,7 +125,7 @@ public class GameController {
         overheadStats[0]+=1;
         overheadStats[3]=0;
         overheadStats[4]=0;
-        MenuOptions options=new MenuOptions("Player "+winner+"wins!",overheadStats);
+        MenuOptions options=new MenuOptions("Player "+winner+" wins!",overheadStats);
         options.dispose();
         new GameController(overheadStats,options.getModeParameters());
         window.exit();
