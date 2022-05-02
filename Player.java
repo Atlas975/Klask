@@ -1,52 +1,25 @@
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.HashSet;
-import java.util.Set;
 
-public class Motion{
 
-    private int winner;
+public class Player{
     private double minX;
     private double maxX;
-    private double minY=165;
-    private double maxY=1035;
-    private int baseleep;
+    private double minY=200;
+    private double maxY=1000;
     private GameWindow window;
     private int overheadStats[];
     private boolean loss=false;
 
 
 
-
-    //  Constructor class to control the magnets motion
-    public Motion(int pieceIndex,Ball player1,Ball player2,Ball magnets[],Ball scorePuck, GameWindow window){
-
-
-
-
-
-
-    }
-
-    // Constructor class to control the score pucks motion
-    public Motion(Ball piece,Ball player1, Ball player2, Ball magnets[], GameWindow window){
-
-
-
-
-
-    }
-
     // Constructor class to control the player pucks motion
-    public Motion(Ball piece, int playerID, Ball opponent,Ball magnets[],Ball scorePuck, GameWindow window,int overheadStats[]){
+    public Player(Ball piece, int playerID, Ball opponent,Ball magnets[],Ball scorePuck, GameWindow window){
 
         this.window=window;
-        this.overheadStats=overheadStats;
         this.minX=window.playerMinX(playerID);
         this.maxX=window.playerMaxX(playerID);
-        this.minY=window.ballMinY();
-        this.maxY=window.ballMaxY();
 
         window.addKeyListener(new KeyListener() {
             boolean keyArray[]=new boolean[8];
@@ -62,6 +35,8 @@ public class Motion{
         });
 
     }
+
+
 
 
     public boolean[] playerInput(KeyEvent e,boolean keyArray[], int playerID, boolean condition){
@@ -123,36 +98,13 @@ public class Motion{
             player.setYPosition(currentY+25);
         }
 
-
         if(player.getXPosition()==window.goalXPos(playerID) ){
             if(player.getYPosition()==600){
                 loss=true;
             }
         }
-
-
-
-
-            // if((currentX-30<window.goalXPos(playerID)+40) || (currentX+30>window.goalXPos(playerID)-40)){
-            //     System.out.println("Player "+playerID+" scored!");
-
-            //     if(currentY+30<560 || currentY-30>640){
-            //         // System.out.println("Player "+playerID+" scored!");
-            //         this.run=false;
-            //     }
-
-            // }
-
-
-
-
-
-        // if(currentY<6 && currentY>220){
-        //     System
-
-
-        // }
     }
+
     public boolean ended(){
         return loss;
     }

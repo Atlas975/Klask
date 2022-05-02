@@ -4,8 +4,8 @@ import java.util.TimerTask;
 
 public class GameWindow extends GameArena{
     private Timer stopwatch;
-    private Text p1Wins;
-    private Text p2Wins;
+    private Text p1Score;
+    private Text p2Score;
 
     public GameWindow(int []overheadStats){
         super(2000,1200);
@@ -28,10 +28,10 @@ public class GameWindow extends GameArena{
         Text roundNumber=new Text("Round "+overheadStats[0],30,950,80,"WHITE");
         Text p1Wins=new Text("W : "+overheadStats[1],30,40,1150,"WHITE");
         Text p2Wins=new Text("W : "+overheadStats[2],30,1890,1150,"WHITE");
-        this.p1Wins=p1Wins;
-        this.p2Wins=p2Wins;
-        Text p1Score=new Text(""+overheadStats[2],40,50,610,"WHITE");
-        Text p2Score=new Text(""+overheadStats[2],40,1930,610,"WHITE");
+        Text p1Score=new Text(""+overheadStats[3],40,50,610,"WHITE");
+        Text p2Score=new Text(""+overheadStats[4],40,1930,610,"WHITE");
+        this.p1Score=p1Score;
+        this.p2Score=p2Score;
         Text timerText=new Text("Time elapsed: 0s",30,1585,80,"WHITE");
         Timer stopwatch=new Timer();
         TimerTask counter=new TimerTask(){
@@ -99,14 +99,15 @@ public class GameWindow extends GameArena{
         }
     }
 
-    public int ballMinY(){
-        return 200;
+
+
+    public void scoreIncremeent(int type,int score){
+        if(type==1){
+            p1Score.setText(""+score);
+        }
+        else{
+            p2Score.setText(""+score);
+        }
     }
-
-    public int ballMaxY(){
-        return 1000;
-    }
-
-
 }
 

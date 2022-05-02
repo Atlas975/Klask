@@ -1,3 +1,5 @@
+// import java.util.Timer;
+// import java.util.TimerTask;
 
 public class GameController {
     public GameController(int overheadStats[], int modeParameters[]) {
@@ -7,10 +9,10 @@ public class GameController {
         GameWindow window = new GameWindow(overheadStats);
         Ball []magnets=new Ball[3];
         for(int i=0; i<3; i++){
-            magnets[i]=new Ball(0,0,25, "WHITE",3);
+            magnets[i]=new Ball(0,0,30, "WHITE",3);
             window.addBall(magnets[i]);
         }
-        Ball scorePuck=new Ball(0,0,35,"YELLOW",3);
+        Ball scorePuck=new Ball(0,0,40,"YELLOW",3);
         Ball player1= new Ball(0,0,60,"BLACK",3);
         Ball player2= new Ball(0,0,60,"BLACK",3);
         window.addBall(scorePuck);
@@ -25,60 +27,48 @@ public class GameController {
     public void startGame(GameWindow window, int[] overheadStats, Ball[] magnets, Ball scorePuck, double[][] zoneConstraints, int[][] ballPositions,Ball player1,Ball player2,int startCondition){
 
         resetBoard(window,overheadStats,magnets,scorePuck,ballPositions,player1,player2,startCondition);
-
+        int winner=0;
         boolean p1loss,p2loss,magloss,puckloss;
         boolean gameRun=true;
-        Motion p1=new Motion(player1,1,player2,magnets,scorePuck,window,overheadStats);
-        Motion p2=new Motion(player2,2,player1,magnets,scorePuck,window,overheadStats);
+        Player p1=new Player(player1,1,player2,magnets,scorePuck,window);
+        Player p2=new Player(player2,2,player1,magnets,scorePuck,window);
+        ObjectMotion magnetMotion[]=new ObjectMotion[3];
         for(int i=0; i<3; i++){
-            Motion magForce=new Motion(i,player1,player2,magnets,scorePuck,window);
+            magnetMotion[i]=new ObjectMotion(i, player1, player2, magnets, scorePuck);
+            // magnetMotion[i].start();
         }
-        Motion puck=new Motion(scorePuck,player1,player2,magnets,window);
 
+        ObjectMotion scorePuckMotion=new ObjectMotion(scorePuck, player1, player2, magnets);
+        // scorePuckMotion.start();
 
         while(gameRun){
-            System.out.println(p1.ended());
+            // System.out.println();
+            System.out.println();
+
             if(p1.ended()){
                 p1.reset();
                 overheadStats[4]++;
+                window.scoreIncremeent(2,overheadStats[4]);
                 resetBoard(window, overheadStats, magnets, scorePuck, ballPositions, player1, player2, 1);
             }
             if(p2.ended()){
                 p2.reset();
                 overheadStats[3]++;
+                window.scoreIncremeent(1,overheadStats[3]);
                 resetBoard(window, overheadStats, magnets, scorePuck, ballPositions, player1, player2, 2);
             }
-
-
-
-
             if(overheadStats[3]==6){
                 gameRun=false;
+                winner=1;
             }
             if(overheadStats[4]==6){
                 gameRun=false;
+                winner=2;
             }
 
         }
-        resetBoard(window,overheadStats,magnets,scorePuck,ballPositions,player1,player2,startCondition);
-
+        newGame(window, overheadStats, winner);
     }
-
-    // public int[] gameRound(GameWindow window,int overheadStats[],Ball magnets[],Ball scorePuck,Ball player1,Ball player2){
-    //     Motion p1=new Motion(player1,1,player2,magnets,scorePuck,window);
-    //     p1.start();
-    //     Motion p2=new Motion(player2,2,player1,magnets,scorePuck,window);
-    //     p2.start();
-    //     // for(int j=0; j<3; j++){
-    //     //     Motion magForce=new Motion(j,player1,player2,magnets,scorePuck,window);
-    //     //     magForce.start();
-    //     // }
-    //     Motion puck=new Motion(scorePuck,player1,player2,magnets,window);
-    //     puck.start();
-
-
-    //     return overheadStats;
-    // }
 
 
     public void resetBoard(GameWindow window, int[] overheadStats, Ball[] magnets, Ball scorePuck, int[][] ballPositions,Ball player1,Ball player2,int startCondition){
@@ -106,13 +96,15 @@ public class GameController {
         player2.setYPosition(600);
     }
 
-    public void newGame(GameArena window, int[] overheadStats, int winner){
+    public void newGame(GameWindow window, int[] overheadStats, int winner){
+        window.getTimerInstance().cancel();
+        overheadStats[winner]+=1;
         overheadStats[0]+=1;
         overheadStats[3]=0;
         overheadStats[4]=0;
         MenuOptions options=new MenuOptions("Player "+winner+"wins!",overheadStats);
-        window.exit();
         options.dispose();
+        window.exit();
         new GameController(overheadStats,options.getModeParameters());
     }
 
