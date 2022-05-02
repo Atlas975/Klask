@@ -2,6 +2,7 @@
 
 public class ObjectMotion extends Thread{
 
+    private int[] overheadStats[];
     private Ball player1;
     private Ball player2;
     private Ball magnetMain;

@@ -6,6 +6,7 @@ public class GameWindow extends GameArena{
     private Timer stopwatch;
     private Text p1Score;
     private Text p2Score;
+    private int ballPositions[][]={{205,205},{205,995},{1800,205},{1800,995}};
 
     public GameWindow(int []overheadStats){
         super(2000,1200);
@@ -99,7 +100,33 @@ public class GameWindow extends GameArena{
         }
     }
 
+    public void resetBoard(int[] overheadStats, Ball[] magnets, Ball scorePuck, Ball player1,Ball player2,int startCondition){
 
+        int position;
+        switch(startCondition){
+            case 1:
+                position=(int)(Math.random()*2);
+            case 2:
+                position=2+(int)(Math.random()*2);
+            default:
+                position=(int)(Math.random()*4);
+        }
+        scorePuck.setXPosition(ballPositions[position][0]);
+        scorePuck.setYPosition(ballPositions[position][1]);
+        int magnetPosY=850;
+        for(int i=0; i<magnets.length; i++){
+            magnets[i].setXPosition(1008);
+            magnets[i].setYPosition(magnetPosY);
+            magnetPosY-=250;
+        }
+        player1.setXPosition(this.goalXPos(1)+250);
+        player1.setYPosition(600);
+        player2.setXPosition(this.goalXPos(2)-250);
+        player2.setYPosition(600);
+        for (int i=0; i<this.getKeyListeners().length; i++){
+            this.removeKeyListener(this.getKeyListeners()[i]);
+        }
+    }
 
     public void scoreIncremeent(int type,int score){
         if(type==1){

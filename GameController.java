@@ -1,5 +1,3 @@
-// import java.util.Timer;
-// import java.util.TimerTask;
 
 public class GameController {
     public GameController(int overheadStats[], int modeParameters[]) {
@@ -26,37 +24,16 @@ public class GameController {
 
     public void startGame(GameWindow window, int[] overheadStats, Ball[] magnets, Ball scorePuck, double[][] zoneConstraints, int[][] ballPositions,Ball player1,Ball player2,int startCondition){
 
-        resetBoard(window,overheadStats,magnets,scorePuck,ballPositions,player1,player2,startCondition);
+        window.resetBoard(overheadStats,magnets,scorePuck,player1,player2,startCondition);
         int winner=0;
-        boolean p1loss,p2loss,magloss,puckloss;
         boolean gameRun=true;
-        Player p1=new Player(player1,1,player2,magnets,scorePuck,window);
-        Player p2=new Player(player2,2,player1,magnets,scorePuck,window);
-        ObjectMotion magnetMotion[]=new ObjectMotion[3];
-        for(int i=0; i<3; i++){
-            magnetMotion[i]=new ObjectMotion(i, player1, player2, magnets, scorePuck);
-            // magnetMotion[i].start();
-        }
-
-        ObjectMotion scorePuckMotion=new ObjectMotion(scorePuck, player1, player2, magnets);
-        // scorePuckMotion.start();
 
         while(gameRun){
-            // System.out.println();
-            System.out.println();
+            for (int i=0; i<window.getKeyListeners().length; i++){
+                window.removeKeyListener(window.getKeyListeners()[i]);
+            }
+            overheadStats=GameRound(window, magnets, scorePuck, player1, player2, overheadStats);
 
-            if(p1.ended()){
-                p1.reset();
-                overheadStats[4]++;
-                window.scoreIncremeent(2,overheadStats[4]);
-                resetBoard(window, overheadStats, magnets, scorePuck, ballPositions, player1, player2, 1);
-            }
-            if(p2.ended()){
-                p2.reset();
-                overheadStats[3]++;
-                window.scoreIncremeent(1,overheadStats[3]);
-                resetBoard(window, overheadStats, magnets, scorePuck, ballPositions, player1, player2, 2);
-            }
             if(overheadStats[3]==6){
                 gameRun=false;
                 winner=1;
@@ -67,33 +44,38 @@ public class GameController {
             }
 
         }
+
         newGame(window, overheadStats, winner);
     }
 
 
-    public void resetBoard(GameWindow window, int[] overheadStats, Ball[] magnets, Ball scorePuck, int[][] ballPositions,Ball player1,Ball player2,int startCondition){
+    public int[] GameRound(GameWindow window,Ball magnets[],Ball scorePuck,Ball player1,Ball player2, int overheadStats[]){
 
-        int position;
-        switch(startCondition){
-            case 1:
-                position=(int)(Math.random()*2);
-            case 2:
-                position=2+(int)(Math.random()*2);
-            default:
-                position=(int)(Math.random()*4);
+        Object pause=new Object();
+        Player p1=new Player(player1,1,player2,magnets,scorePuck,window,pause);
+        p1.start();
+        Player p2=new Player(player2,2,player1,magnets,scorePuck,window,pause);
+        p2.start();
+        synchronized(pause){
+            try {
+                pause.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        scorePuck.setXPosition(ballPositions[position][0]);
-        scorePuck.setYPosition(ballPositions[position][1]);
-        int magnetPosY=850;
-        for(int i=0; i<magnets.length; i++){
-            magnets[i].setXPosition(1008);
-            magnets[i].setYPosition(magnetPosY);
-            magnetPosY-=250;
+
+        if(p1.ended()){
+            overheadStats[4]++;
+            window.scoreIncremeent(2,overheadStats[4]);
+            window.resetBoard(overheadStats, magnets, scorePuck,player1, player2, 1);
         }
-        player1.setXPosition(window.goalXPos(1)+250);
-        player1.setYPosition(600);
-        player2.setXPosition(window.goalXPos(2)-250);
-        player2.setYPosition(600);
+
+        if(p2.ended()){
+            overheadStats[3]++;
+            window.scoreIncremeent(1,overheadStats[3]);
+            window.resetBoard(overheadStats, magnets, scorePuck,player1, player2, 2);
+        }
+        return overheadStats;
     }
 
     public void newGame(GameWindow window, int[] overheadStats, int winner){
@@ -104,8 +86,8 @@ public class GameController {
         overheadStats[4]=0;
         MenuOptions options=new MenuOptions("Player "+winner+"wins!",overheadStats);
         options.dispose();
-        window.exit();
         new GameController(overheadStats,options.getModeParameters());
+        window.exit();
     }
 
 }
