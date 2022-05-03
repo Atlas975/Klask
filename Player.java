@@ -11,55 +11,48 @@ public class Player extends Thread{
     private boolean loss=false;
     private Ball player;
     private int playerID;
-    private Object active;
-
 
     // Constructor class to control the player pucks motion
-    public Player(Ball piece, int playerID, GameWindow window, Object active){
-        // synchronized(active){
+    public Player(Ball piece, int playerID, GameWindow window){
             this.window=window;
             this.minX=window.playerMinX(playerID);
             this.maxX=window.playerMaxX(playerID);
             this.playerID=playerID;
-            this.active=active;
             this.player=piece;
-        // }
     }
 
 
     @Override
     public void run() {
-        synchronized(active){
-            window.addKeyListener(new KeyListener() {
-                boolean keyArray[]=new boolean[4];
-                @Override public void keyTyped(KeyEvent e){} // not used
-                @Override public void keyReleased(KeyEvent e){
-                    keyArray=playerInput(e,keyArray,false);
-                }
-                @Override public void keyPressed(KeyEvent e) {
-                    keyArray=playerInput(e,keyArray,true);
-                    playerUpdate(keyArray);
-                }
-            });
-        }
+        window.addKeyListener(new KeyListener() {
+            boolean keyArray[]=new boolean[4];
+            @Override public void keyTyped(KeyEvent e){} // unused input method
+            @Override public void keyReleased(KeyEvent e){
+                keyArray=playerInput(e,keyArray,false);
+            }
+            @Override public void keyPressed(KeyEvent e) {
+                keyArray=playerInput(e,keyArray,true);
+                playerUpdate(keyArray);
+            }
+        });
 
     }
-    public boolean[] playerInput(KeyEvent e,boolean keyArray[], boolean condition){
+    public boolean[] playerInput(KeyEvent e,boolean keyArray[], boolean status){
         if(playerID==1){
             switch(e.getKeyCode()){
                 case 65 ->{
-                    keyArray[0]=condition;
+                    keyArray[0]=status;
                 }
                 case 87 ->{
-                    keyArray[1]=condition;
+                    keyArray[1]=status;
 
                 }
                 case 68 ->{
-                    keyArray[2]=condition;
+                    keyArray[2]=status;
 
                 }
                 case 83 ->{
-                    keyArray[3]=condition;
+                    keyArray[3]=status;
 
                 }
             }
@@ -67,18 +60,18 @@ public class Player extends Thread{
         else{
             switch(e.getKeyCode()){
                 case 37 ->{
-                    keyArray[0]=condition;
+                    keyArray[0]=status;
                 }
                 case 38 ->{
-                    keyArray[1]=condition;
+                    keyArray[1]=status;
 
                 }
                 case 39 ->{
-                    keyArray[2]=condition;
+                    keyArray[2]=status;
 
                 }
                 case 40 ->{
-                    keyArray[3]=condition;
+                    keyArray[3]=status;
 
                 }
             }
@@ -88,7 +81,6 @@ public class Player extends Thread{
 
 
     public void playerUpdate(boolean keyArray[]){
-        synchronized(active){
             double currentX=player.getXPosition();
             double currentY=player.getYPosition();
 
@@ -108,15 +100,14 @@ public class Player extends Thread{
             if(player.getXPosition()==window.goalXPos(playerID) ){
                 if(player.getYPosition()==600){
                     loss=true;
-                    active.notifyAll();
                 }
             }
-        }
     }
 
     public boolean ended(){
         return loss;
     }
+
 
 
 }

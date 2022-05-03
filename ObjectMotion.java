@@ -2,7 +2,6 @@
 
 public class ObjectMotion extends Thread{
 
-    private Object active;
     private int[] overheadStats[];
     private double[] movementArray={0,0};
     private int baseSleep=5;
@@ -18,26 +17,21 @@ public class ObjectMotion extends Thread{
     private int maxY=1035;
 
     // Constructor for controlling the score pucks motion
-    public ObjectMotion(Ball scorePuck,Ball player1, Ball player2, Ball magnets[], Object active){
-        synchronized(active){
+    public ObjectMotion(Ball scorePuck,Ball player1, Ball player2, Ball magnets[]){
             this.player1=player1;
             this.player2=player2;
             this.scorePuck=scorePuck;
             this.magnets=magnets;
-            this.active=active;
             this.minX+=20;
             this.maxX-=20;
             this.minY-=20;
             this.maxY-=20;
             // puckMotion(scorePuck,player1,player2,magnets,active);
 
-        }
     }
 
     // Constructor for controlling magnet motion, the magnet in focus is stored as magnetMain
-    public ObjectMotion(int pieceIndex, Ball player1, Ball player2, Ball magnets[], Ball scorePuck, Object active){
-        synchronized(active){
-            this.active=active;
+    public ObjectMotion(int pieceIndex, Ball player1, Ball player2, Ball magnets[], Ball scorePuck){
             this.player1=player1;
             this.player2=player2;
             this.magnetMain=magnets[pieceIndex];
@@ -50,7 +44,6 @@ public class ObjectMotion extends Thread{
                 }
             }
             this.magnets=magnetsTemp;
-        }
         // this.minX+=
     }
 
@@ -59,7 +52,6 @@ public class ObjectMotion extends Thread{
         // synchronized(active){
             // int i=0;
         while(true){
-                // System.out.println("wabbalabbadubdub");
                 // System.out.println(i);
 
                 // i++;
@@ -79,10 +71,14 @@ public class ObjectMotion extends Thread{
 
     // }
 
+
     public int result(){
         return result;
     }
 
+    public void kill(){
+        this.interrupt();
+    }
 
 }
 

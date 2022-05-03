@@ -42,38 +42,23 @@ public class GameController {
             }
 
         }
-
         newGame(window, overheadStats, winner);
     }
 
 
     public int[] GameRound(GameWindow window,Ball magnets[],Ball scorePuck,Ball player1,Ball player2, int overheadStats[]){
 
-        Player p1=new Player(player1,1,window,active);
-        Player p2=new Player(player2,2,window,active);
-        ObjectMotion puckMovement=new ObjectMotion(scorePuck,player1,player2,magnets,active);
+        Player p1=new Player(player1,1,window);
+        Player p2=new Player(player2,2,window);
+        ObjectMotion puckMovement=new ObjectMotion(scorePuck,player1,player2,magnets);
 
         p1.start();
         p2.start();
         puckMovement.start();
-
         ObjectMotion magMovement[]=new ObjectMotion[3];
         for(int i=0; i<3; i++){
-            magMovement[i]=new ObjectMotion(i,player1,player2,magnets,scorePuck,active);
-            magMovement[i].start();
+            magMovement[i]=new ObjectMotion(i,player1,player2,magnets,scorePuck);
         }
-
-
-        //     synchronized(active){
-        //         try {
-        //             p1.run();
-        //             p2.run();
-        //             puckMovement.run();
-        //             active.wait();
-        //         } catch (InterruptedException e) {
-        //         e.printStackTrace();
-        //     }
-        // }
 
         while(true){
             System.out.println();
@@ -87,51 +72,33 @@ public class GameController {
             }
             if(puckMovement.result()>0){
                 if(puckMovement.result()==1){
-                    roundResult(overheadStats, window, magnets, scorePuck, player1, player2, 2);
+                    overheadStats=roundResult(overheadStats, window, magnets, scorePuck, player1, player2, 2);
+                    break;
                 }
-
                 if(puckMovement.result()==2){
-
+                    overheadStats=roundResult(overheadStats, window, magnets, scorePuck, player1, player2, 2);
+                    break;
                 }
             }
         }
 
-        // if(p1.ended()){
-        // }
-
-        // if(p2.ended()){
-        //     overheadStats=roundResult(overheadStats, window, magnets, scorePuck, player1, player2, 1);
-        // }
-
-        if(puckMovement.result()>0){
-            if(puckMovement.result()==1){
-                roundResult(overheadStats, window, magnets, scorePuck, player1, player2, 2);
-            }
-
-            if(puckMovement.result()==2){
-
-            }
-        }
-
-        // if(puckMovement.result()>0){
-        //     if(puckMovement.result()==1){
-        //         overheadStats[3]++;
-        //         window.scoreIncremeent(1,overheadStats[3]);
-        //         window.resetBoard(overheadStats, magnets, scorePuck,player1, player2, 2);
-        //     }
-        //     else if(puckMovement.result()==2){
-        //         overheadStats[4]++;
-        //         window.scoreIncremeent(2,overheadStats[4]);
-        //         window.resetBoard(overheadStats, magnets, scorePuck,player1, player2, 1);
-        //     }
-        // }
+        killThreads(p1,p2,puckMovement,magMovement);
         return overheadStats;
     }
 
 
+    private void killThreads(Player p1, Player p2, ObjectMotion puckMovement, ObjectMotion[] magMovement) {
+        p1.interrupt();
+        p2.interrupt();
+        puckMovement.interrupt();
+        for(int i=0; i<3; i++){
+            magMovement[i].interrupt();
+        }
+    }
 
 
     public int[] roundResult(int[] overheadStats, GameWindow window, Ball magnets[], Ball scorePuck, Ball player1, Ball player2, int winner){
+
         if(winner==1){
             overheadStats[3]++;
             window.scoreIncremeent(1,overheadStats[3]);
