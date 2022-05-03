@@ -14,11 +14,11 @@ public class Player extends Thread{
 
     // Constructor class to control the player pucks motion
     public Player(Ball piece, int playerID, GameWindow window){
-            this.window=window;
-            this.minX=window.playerMinX(playerID);
-            this.maxX=window.playerMaxX(playerID);
-            this.playerID=playerID;
-            this.player=piece;
+        this.window=window;
+        this.minX=window.playerMinX(playerID);
+        this.maxX=window.playerMaxX(playerID);
+        this.playerID=playerID;
+        this.player=piece;
     }
 
 
@@ -35,8 +35,9 @@ public class Player extends Thread{
                 playerUpdate(keyArray);
             }
         });
-
     }
+
+
     public boolean[] playerInput(KeyEvent e,boolean keyArray[], boolean status){
         if(playerID==1){
             switch(e.getKeyCode()){
@@ -81,34 +82,40 @@ public class Player extends Thread{
 
 
     public void playerUpdate(boolean keyArray[]){
-            double currentX=player.getXPosition();
-            double currentY=player.getYPosition();
+        double currentX=player.getXPosition();
+        double currentY=player.getYPosition();
 
-            if(keyArray[0] && currentX>minX){
-                player.setXPosition(currentX-25);
-            }
-            if(keyArray[1] && currentY>minY){
-                player.setYPosition(currentY-25);
-            }
-            if(keyArray[2] && (currentX<maxX)){
-                player.setXPosition(currentX+25);
-            }
-            if(keyArray[3] && (currentY<maxY)){
-                player.setYPosition(currentY+25);
-            }
+        if(keyArray[0] && currentX>minX){
+            player.setXPosition(currentX-25);
+        }
+        if(keyArray[1] && currentY>minY){
+            player.setYPosition(currentY-25);
+        }
+        if(keyArray[2] && (currentX<maxX)){
+            player.setXPosition(currentX+25);
+        }
+        if(keyArray[3] && (currentY<maxY)){
+            player.setYPosition(currentY+25);
+        }
 
-            if(player.getXPosition()==window.goalXPos(playerID) ){
-                if(player.getYPosition()==600){
-                    loss=true;
-                }
+        if(player.getXPosition()<=window.goalXPos(playerID)+25 && player.getXPosition()>=window.goalXPos(playerID)-25){
+            if(player.getYPosition()<=625 && player.getYPosition()>=575){
+                loss=true;
             }
+        }
+    }
+
+    public double getXPosition(){
+        return player.getXPosition();
+    }
+
+    public double getYPosition(){
+        return player.getYPosition();
     }
 
     public boolean ended(){
         return loss;
     }
-
-
 
 }
 

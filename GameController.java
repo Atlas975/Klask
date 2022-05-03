@@ -50,18 +50,17 @@ public class GameController {
 
         Player p1=new Player(player1,1,window);
         Player p2=new Player(player2,2,window);
-        ObjectMotion puckMovement=new ObjectMotion(scorePuck,player1,player2,magnets);
+        ObjectMotion puckMovement=new ObjectMotion(window,scorePuck,p1,p2,magnets);
 
         p1.start();
         p2.start();
         puckMovement.start();
         ObjectMotion magMovement[]=new ObjectMotion[3];
         for(int i=0; i<3; i++){
-            magMovement[i]=new ObjectMotion(i,player1,player2,magnets,scorePuck);
+            magMovement[i]=new ObjectMotion(window,i,p1,p2,magnets,scorePuck);
         }
-
         while(true){
-            System.out.println();
+            System.out.print("");
             if(p1.ended()){
                 overheadStats=roundResult(overheadStats, window, magnets, scorePuck, player1, player2, 2);
                 break;
