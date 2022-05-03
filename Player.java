@@ -8,33 +8,43 @@ public class Player extends Thread{
     private double minY=200;
     private double maxY=1000;
     private GameWindow window;
-    private int overheadStats[];
     private boolean loss=false;
+    private Ball player;
+    private int playerID;
+    private Object active;
+
 
     // Constructor class to control the player pucks motion
-    public Player(Ball piece, int playerID, Ball opponent,Ball magnets[],Ball scorePuck, GameWindow window, Object active){
-        synchronized(active){
+    public Player(Ball piece, int playerID, GameWindow window, Object active){
+        // synchronized(active){
             this.window=window;
             this.minX=window.playerMinX(playerID);
             this.maxX=window.playerMaxX(playerID);
+            this.playerID=playerID;
+            this.active=active;
+            this.player=piece;
+        // }
+    }
+
+
+    @Override
+    public void run() {
+        synchronized(active){
             window.addKeyListener(new KeyListener() {
-                boolean keyArray[]=new boolean[8];
+                boolean keyArray[]=new boolean[4];
                 @Override public void keyTyped(KeyEvent e){} // not used
                 @Override public void keyReleased(KeyEvent e){
-                    keyArray=playerInput(e,keyArray, playerID, false);
+                    keyArray=playerInput(e,keyArray,false);
                 }
                 @Override public void keyPressed(KeyEvent e) {
-                    keyArray=playerInput(e,keyArray, playerID, true);
-                    playerUpdate(keyArray,piece,playerID,active);
+                    keyArray=playerInput(e,keyArray,true);
+                    playerUpdate(keyArray);
                 }
-
             });
         }
 
-
     }
-
-    public boolean[] playerInput(KeyEvent e,boolean keyArray[], int playerID, boolean condition){
+    public boolean[] playerInput(KeyEvent e,boolean keyArray[], boolean condition){
         if(playerID==1){
             switch(e.getKeyCode()){
                 case 65 ->{
@@ -77,8 +87,7 @@ public class Player extends Thread{
     }
 
 
-
-    public void playerUpdate(boolean keyArray[],Ball player,int playerID, Object active){
+    public void playerUpdate(boolean keyArray[]){
         synchronized(active){
             double currentX=player.getXPosition();
             double currentY=player.getYPosition();
@@ -98,8 +107,8 @@ public class Player extends Thread{
 
             if(player.getXPosition()==window.goalXPos(playerID) ){
                 if(player.getYPosition()==600){
-                    active.notify();
                     loss=true;
+                    active.notifyAll();
                 }
             }
         }
@@ -109,9 +118,7 @@ public class Player extends Thread{
         return loss;
     }
 
-    public int[] getResult(){
-        return overheadStats;
-    }
+
 }
 
 
