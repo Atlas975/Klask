@@ -4,6 +4,8 @@ import java.util.TimerTask;
 
 public class GameWindow extends GameArena{
     private Timer stopwatch;
+    private Ball p1Goal;
+    private Ball p2Goal;
     private Text p1Score;
     private Text p2Score;
     private int ballPositions[][]={{205,205},{205,995},{1800,205},{1800,995}};
@@ -16,6 +18,8 @@ public class GameWindow extends GameArena{
         Ball p1goal= new Ball(250,600,80,"GREY",2);
         Ball p2goal= new Ball(1750,600,80,"GREY",2);
         Line split= new Line(1006,165,1006,1035,6,"GREY",2);
+        this.p1Goal=p1goal;
+        this.p2Goal=p2goal;
         this.addRectangle(gameZone);
         this.addBall(p1goal);
         this.addBall(p2goal);
@@ -69,13 +73,18 @@ public class GameWindow extends GameArena{
         }
     }
 
-    public int goalXPos(int type){
+    public double goalXPos(int type){
         if(type==1){
-            return 250;
+            return p1Goal.getXPosition();
         }
         else{
-            return 1750;
+            return p2Goal.getXPosition();
         }
+    }
+
+    public double goalRadius(){
+        return p1Goal.getSize()/2;
+
     }
 
     public Timer getTimerInstance(){

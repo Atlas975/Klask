@@ -59,6 +59,7 @@ public class GameController {
         for(int i=0; i<3; i++){
             magMovement[i]=new ObjectMotion(window,i,p1,p2,magnets,scorePuck);
         }
+        
         while(true){
             System.out.print("");
             if(p1.ended()){
@@ -97,7 +98,6 @@ public class GameController {
 
 
     public int[] roundResult(int[] overheadStats, GameWindow window, Ball magnets[], Ball scorePuck, Ball player1, Ball player2, int winner){
-
         if(winner==1){
             overheadStats[3]++;
             window.scoreIncremeent(1,overheadStats[3]);
@@ -108,7 +108,6 @@ public class GameController {
             window.scoreIncremeent(2,overheadStats[4]);
             window.resetBoard(overheadStats, magnets, scorePuck,player1, player2, 1);
         }
-
         return overheadStats;
     }
 
