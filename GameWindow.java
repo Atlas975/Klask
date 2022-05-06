@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -8,7 +9,7 @@ public class GameWindow extends GameArena{
     private Ball p2Goal;
     private Text p1Score;
     private Text p2Score;
-    private int ballPositions[][]={{205,205},{205,995},{1800,205},{1800,995}};
+    private double ballPositions[][]={{205,205},{205,995},{1800,205},{1800,995}};
 
     public GameWindow(int []overheadStats){
         super(2000,1200);
@@ -59,7 +60,7 @@ public class GameWindow extends GameArena{
     }
 
     public void scoreZones(){
-        int scorePosition[][]={{185,185},{185,1015},{1815,185},{1815,1015}};
+        double scorePosition[][]={{185,185},{185,1015},{1815,185},{1815,1015}};
         for(int i=0; i<4; i++){
             this.addBall(new Ball(scorePosition[i][0],scorePosition[i][1],150,"GREY",3));
             this.addBall(new Ball(scorePosition[i][0],scorePosition[i][1],120,"BLUE",3));
@@ -111,17 +112,30 @@ public class GameWindow extends GameArena{
 
     public void resetBoard(int[] overheadStats, Ball[] magnets, Ball scorePuck, Ball player1,Ball player2,int startCondition){
 
-        int position;
+        int position=0;
+        Random locationIndex=new Random();
+
         switch(startCondition){
             case 1:
-                position=(int)(Math.random()*2);
+                position=locationIndex.nextInt(2);
+                break;
             case 2:
-                position=2+(int)(Math.random()*2);
+                position=2+locationIndex.nextInt(2);
+                break;
             default:
-                position=(int)(Math.random()*4);
+                position=locationIndex.nextInt(4);
         }
+
+
         scorePuck.setXPosition(ballPositions[position][0]);
         scorePuck.setYPosition(ballPositions[position][1]);
+        scorePuck.setXPosition(ballPositions[position][0]);
+        scorePuck.setYPosition(ballPositions[position][1]);
+
+        System.out.println("Score puck position: "+ballPositions[position][0]+","+ballPositions[position][1]);
+        System.out.println("Score puck position: "+scorePuck.getXPosition()+","+scorePuck.getYPosition());
+
+
         int magnetPosY=850;
         for(int i=0; i<magnets.length; i++){
             magnets[i].setXPosition(1008);

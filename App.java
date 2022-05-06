@@ -4,7 +4,5 @@ public class App {
         MenuOptions options=new MenuOptions("Welcome to Klask!",overheadStats);
         options.dispose();
         new GameController(overheadStats,options.getModeParameters());
-
-        // this is an implementation of the game klask, a similar game to pong but with magnetic pucks and magnets added into the fold.
     }
 }

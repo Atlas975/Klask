@@ -40,7 +40,6 @@ public class GameController {
                 gameRun=false;
                 winner=2;
             }
-
         }
         newGame(window, overheadStats, winner);
     }
@@ -59,7 +58,7 @@ public class GameController {
         for(int i=0; i<3; i++){
             magMovement[i]=new ObjectMotion(window,i,p1,p2,magnets,scorePuck);
         }
-        
+
         while(true){
             System.out.print("");
             if(p1.ended()){
@@ -90,7 +89,14 @@ public class GameController {
     private void killThreads(Player p1, Player p2, ObjectMotion puckMovement, ObjectMotion[] magMovement) {
         p1.interrupt();
         p2.interrupt();
+        puckMovement.forceStop();
+        for(int i=0; i<3; i++){
+            magMovement[i].forceStop();
+        }
         puckMovement.interrupt();
+        // for(int i=0; i<3; i++){
+        //     magMovement[i].interrupt();
+        // }
         for(int i=0; i<3; i++){
             magMovement[i].interrupt();
         }
@@ -98,6 +104,8 @@ public class GameController {
 
 
     public int[] roundResult(int[] overheadStats, GameWindow window, Ball magnets[], Ball scorePuck, Ball player1, Ball player2, int winner){
+
+        haltMovement(scorePuck, magnets);
         if(winner==1){
             overheadStats[3]++;
             window.scoreIncremeent(1,overheadStats[3]);
@@ -109,6 +117,15 @@ public class GameController {
             window.resetBoard(overheadStats, magnets, scorePuck,player1, player2, 1);
         }
         return overheadStats;
+    }
+
+    public void haltMovement(Ball puckMovement, Ball[] magMovement){
+        puckMovement.setXVelocity(0);
+        puckMovement.setYVelocity(0);
+        for(int i=0; i<3; i++){
+            magMovement[i].setXVelocity(0);
+            magMovement[i].setYVelocity(0);
+        }
     }
 
     public void newGame(GameWindow window, int[] overheadStats, int winner){
