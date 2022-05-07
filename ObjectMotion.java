@@ -57,135 +57,49 @@ public class ObjectMotion extends Thread{
 
     @Override
     public void run() {
-        // return;
-        // if(!isInterrupted()){
         if(pieceIndex==-1){
             puckMotion();
         }
         else{
             magnetMotion();
         }
-
     }
 
-
-
-
     public void puckMotion(){
-
-        // int magnetMass=1;
-        // int puckMass=2;
-        // int playerMass=3;
-
-
         double puckRadius=scorePuck.getSize()/2;
-
-        double xPosition;
-        double yPosition;
         Ball player1=p1.passObject();
         Ball player2=p2.passObject();
-        // double puckMoveX=0;
-        // double puckMoveY=0;
-        double deflectX=0;
-        double deflectY=0;
         double frictionLoss=0.9985;
 
-        // Timer friction=new Timer();
-        // TimerTask counter=new TimerTask(){
-        //     public int seconds=0;
-        //     @Override
-        //     public void run() {
-        //         seconds++;
-        //     }
-        // };
-        // friction.scheduleAtFixedRate(counter,0,1000);
-
         while(!this.isInterrupted()){
-            xPosition=scorePuck.getXPosition();
-            yPosition=scorePuck.getYPosition();
-
             if(enteredGoal(1)){
-                result=2;
+                this.result=2;
                 break;
             }
-
             if(enteredGoal(2)){
-                result=1;
+                this.result=1;
                 break;
             }
-
-            if(scorePuck.collides(player1)){
-                deflect(scorePuck,player1);
-                deflectX=player1.getXPosition()+player1.getXVelocity();
-                deflectY=player1.getYPosition()+player1.getYVelocity();
-                if(p1.validateBounds(deflectX,deflectY)){
-                    player1.setXPosition(deflectX);
-                    player1.setYPosition(deflectY);
-                }
-
-            }
-
-            if(scorePuck.collides(player2)){
-                deflect(scorePuck, player2);
-                deflectX=player2.getXPosition()+player2.getXVelocity();
-                deflectY=player2.getYPosition()+player2.getYVelocity();
-                if(p2.validateBounds(deflectX,deflectY)){
-                    player2.setXPosition(deflectX);
-                    player2.setYPosition(deflectY);
-                }
-            }
-
-            for(Ball magnet: magnets){
-                if(scorePuck.collides(magnet)){
-                    deflect(scorePuck, magnet);
-                    deflectX=magnet.getXPosition()+magnet.getXVelocity();
-                    deflectY=magnet.getYPosition()+magnet.getYVelocity();
-                    if(magnetBounds(magnet,deflectX,deflectY)){
-                        magnet.setXPosition(deflectX);
-                        magnet.setYPosition(deflectY);
-                    }
-                }
-            }
-
-            deflectX=scorePuck.getXPosition()+scorePuck.getXVelocity();
-            deflectY=scorePuck.getYPosition()+scorePuck.getYVelocity();
-
-            if(deflectX-puckRadius<=minX){
-                scorePuck.setXVelocity(-scorePuck.getXVelocity()*0.5);
-            }
-            else if(deflectX+puckRadius>=maxX){
-                scorePuck.setXVelocity(-scorePuck.getXVelocity()*0.5);
-
-            }
-            if(deflectY+puckRadius>=maxY){
-                scorePuck.setYVelocity(-scorePuck.getYVelocity()*0.5);
-
-            }
-            else if(deflectY-puckRadius<=minY){
-                scorePuck.setYVelocity(-scorePuck.getYVelocity()*0.5);
-
-            }
-
-
-            scorePuck.setXPosition(xPosition+scorePuck.getXVelocity());
-            scorePuck.setYPosition(yPosition+scorePuck.getYVelocity());
-
-            try {
-                Thread.sleep(1);
-                scorePuck.setXVelocity(scorePuck.getXVelocity()*frictionLoss);
-                scorePuck.setYVelocity(scorePuck.getYVelocity()*frictionLoss);
-
-            } catch (InterruptedException e) {
-                break;
-            }
+            playerInteract(scorePuck, player1);
+            playerInteract(scorePuck, player2);
+            magnetsInteract(scorePuck);
+            moveObject(scorePuck,scorePuck.getXPosition(),scorePuck.getYPosition(),puckRadius,frictionLoss);
         }
         return;
     }
 
 
     public void magnetMotion(){
-        while(!this.isInterrupted()){
+        double magnetRadius=magnets[0].getSize()/2;
+        Ball player1=p1.passObject();
+        Ball player2=p2.passObject();
+        double frictionLoss=0.8;
 
+        while(!this.isInterrupted()){
+            playerInteract(magnetMain, player1);
+            playerInteract(magnetMain, player2);
+            magnetsInteract(magnetMain);
+            moveObject(magnetMain,magnetMain.getXPosition(),magnetMain.getYPosition(),magnetRadius,frictionLoss);
         }
         return;
     }
@@ -202,11 +116,66 @@ public class ObjectMotion extends Thread{
         }
     }
 
-    public Boolean magnetBounds(Ball magnet, double deflectX, double deflectY){
-        if(deflectX-15<=minX || deflectX+15>=maxX || deflectY-15<=minY || deflectY+15>=maxY){
+    public void playerInteract(Ball object, Ball player){
+        if(object.collides(player)){
+            deflect(object,player);
+            double deflectX=player.getXPosition()+player.getXVelocity();
+            double deflectY=player.getYPosition()+player.getYVelocity();
+            if(p1.validateBounds(deflectX,deflectY)){
+                player.setXPosition(deflectX);
+                player.setYPosition(deflectY);
+            }
+        }
+    }
+
+    public void magnetsInteract(Ball object){
+        for(Ball magnet: magnets){
+            if(object.collides(magnet)){
+                deflect(scorePuck, magnet);
+                double deflectX=magnet.getXPosition()+magnet.getXVelocity();
+                double deflectY=magnet.getYPosition()+magnet.getYVelocity();
+                if(displacementCheck(magnet,deflectX,deflectY,15)){
+                    magnet.setXPosition(deflectX);
+                    magnet.setYPosition(deflectY);
+                }
+            }
+        }
+    }
+
+    public Boolean displacementCheck(Ball magnet, double deflectX, double deflectY, double radius){
+        if(deflectX-radius<=minX || deflectX+radius>=maxX || deflectY-radius<=minY || deflectY+radius>=maxY){
             return false;
         }
         return true;
+    }
+
+    public void moveObject(Ball object, double xPosition, double yPosition, double radius, double frictionLoss){
+        double deflectX=object.getXPosition()+object.getXVelocity();
+        double deflectY=object.getYPosition()+object.getYVelocity();
+
+        if(deflectX-radius<=minX){
+            object.setXVelocity(-object.getXVelocity()*0.5);
+        }
+        else if(deflectX+radius>=maxX){
+            object.setXVelocity(-object.getXVelocity()*0.5);
+        }
+        if(deflectY+radius>=maxY){
+            object.setYVelocity(-object.getYVelocity()*0.5);
+        }
+        else if(deflectY-radius<=minY){
+            object.setYVelocity(-object.getYVelocity()*0.5);
+        }
+
+        object.setXPosition(xPosition+object.getXVelocity());
+        object.setYPosition(yPosition+object.getYVelocity());
+
+        try {
+            Thread.sleep(1);
+            object.setXVelocity(object.getXVelocity()*frictionLoss);
+            object.setYVelocity(object.getYVelocity()*frictionLoss);
+        } catch (InterruptedException e) {
+            return;
+        }
     }
 
 
@@ -221,37 +190,6 @@ public class ObjectMotion extends Thread{
     //         magnet.setYPosition(p.getYPosition()+magnetY);
     //     }
     // }
-    public Boolean puckBoundsInteract(double xPosition, double yPosition, double puckRadius){
-        Boolean moveForward=true;
-        if(xPosition+puckRadius>=maxX){
-            moveForward=false;
-            scorePuck.setXPosition(-xPosition/2);
-
-            if(yPosition+puckRadius>=maxY){
-                scorePuck.setYPosition(-yPosition/2);
-            }
-            else if(yPosition-puckRadius<=minY){
-                scorePuck.setXPosition(-xPosition/2);
-                scorePuck.setYPosition(-yPosition/2);
-                moveForward=false;
-            }
-        }
-        else if(xPosition-puckRadius<=minX){
-            moveForward=false;
-            if(yPosition+puckRadius>maxY){
-                scorePuck.setXVelocity(xPosition-scorePuck.getXVelocity()/2);
-                scorePuck.setYVelocity(yPosition-scorePuck.getYVelocity()/2);
-                moveForward=false;
-            }
-            else if(yPosition-puckRadius<minY){
-                scorePuck.setXVelocity(xPosition-scorePuck.getXVelocity()/2);
-                scorePuck.setYVelocity(yPosition-scorePuck.getYVelocity()/2);
-                moveForward=false;
-            }
-        }
-        return moveForward;
-    }
-
 
     public void deflect(Ball object1, Ball object2){
         // The position and speed of each of the two balls in the x and y axis before collision.
@@ -305,14 +243,12 @@ public class ObjectMotion extends Thread{
         for (int i=0; i < dimensions; i++)
         mag += vec[i] * vec[i];
         mag = Math.sqrt(mag);
-        if (mag == 0.0)
-        {
+        if (mag == 0.0){
             result[0] = 1.0;
             for (int i=1; i < dimensions; i++)
             result[i] = 0.0;
         }
-        else
-        {
+        else{
             for (int i=0; i < dimensions; i++)
             result[i] = vec[i] / mag;
         }
