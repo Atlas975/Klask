@@ -25,6 +25,9 @@ public class Player extends Thread{
 
     @Override
     public void run() {
+        if(this.isInterrupted()){
+            return;
+        }
         window.addKeyListener(new KeyListener() {
             boolean keyArray[]=new boolean[4];
             @Override public void keyTyped(KeyEvent e){} // unused input method
@@ -147,6 +150,7 @@ public class Player extends Thread{
 
     public void incrementMagnet(){
         magnetsLatched++;
+        System.out.println(magnetsLatched);
         if(magnetsLatched==2){
             loss=true;
         }

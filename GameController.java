@@ -6,7 +6,7 @@ public class GameController {
         GameWindow window = new GameWindow(overheadStats);
         Ball []magnets=new Ball[3];
         for(int i=0; i<3; i++){
-            magnets[i]=new Ball(0,0,30, "WHITE",3);
+            magnets[i]=new Ball(0,0,30, "WHITE",4);
             window.addBall(magnets[i]);
         }
         Ball scorePuck=new Ball(0,0,50,"YELLOW",3);
@@ -100,7 +100,6 @@ public class GameController {
         puckMovement.interrupt();
         p1.interrupt();
         p2.interrupt();
-
         for(int i=0; i<3; i++){
             magMovement[i].interrupt();
         }
