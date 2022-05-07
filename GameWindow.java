@@ -9,7 +9,7 @@ public class GameWindow extends GameArena{
     private Ball p2Goal;
     private Text p1Score;
     private Text p2Score;
-    private double ballPositions[][]={{205,205},{205,995},{1800,205},{1800,995}};
+    private double ballPositions[][]={{210,210},{210,990},{1790,210},{1790,990}};
 
     public GameWindow(int []overheadStats){
         super(2000,1200);
@@ -61,6 +61,7 @@ public class GameWindow extends GameArena{
 
     public void scoreZones(){
         double scorePosition[][]={{185,185},{185,1015},{1815,185},{1815,1015}};
+
         for(int i=0; i<4; i++){
             this.addBall(new Ball(scorePosition[i][0],scorePosition[i][1],150,"GREY",3));
             this.addBall(new Ball(scorePosition[i][0],scorePosition[i][1],120,"BLUE",3));
@@ -94,19 +95,19 @@ public class GameWindow extends GameArena{
 
     public int playerMinX(int type){
         if(type==1){
-            return 200;
+            return 220;
         }
         else{
-            return 1025;
+            return 1045;
         }
     }
 
     public int playerMaxX(int type){
         if(type==1){
-            return 975;
+            return 955;
         }
         else{
-            return 1800;
+            return 1780;
         }
     }
 
@@ -117,24 +118,17 @@ public class GameWindow extends GameArena{
 
         switch(startCondition){
             case 1:
-                position=locationIndex.nextInt(2);
+                position=2+locationIndex.nextInt(2);
                 break;
             case 2:
-                position=2+locationIndex.nextInt(2);
+                position=locationIndex.nextInt(2);
                 break;
             default:
                 position=locationIndex.nextInt(4);
         }
 
-
         scorePuck.setXPosition(ballPositions[position][0]);
         scorePuck.setYPosition(ballPositions[position][1]);
-        scorePuck.setXPosition(ballPositions[position][0]);
-        scorePuck.setYPosition(ballPositions[position][1]);
-
-        System.out.println("Score puck position: "+ballPositions[position][0]+","+ballPositions[position][1]);
-        System.out.println("Score puck position: "+scorePuck.getXPosition()+","+scorePuck.getYPosition());
-
 
         int magnetPosY=850;
         for(int i=0; i<magnets.length; i++){
@@ -142,6 +136,7 @@ public class GameWindow extends GameArena{
             magnets[i].setYPosition(magnetPosY);
             magnetPosY-=250;
         }
+
         player1.setXPosition(this.goalXPos(1)+250);
         player1.setYPosition(600);
         player2.setXPosition(this.goalXPos(2)-250);

@@ -5,8 +5,8 @@ import java.awt.event.KeyListener;
 public class Player extends Thread{
     private double minX;
     private double maxX;
-    private double minY=200;
-    private double maxY=1000;
+    private double minY=215;
+    private double maxY=980;
     private GameWindow window;
     private boolean loss=false;
     private Ball player;
@@ -95,18 +95,18 @@ public class Player extends Thread{
         double currentX=player.getXPosition();
         double currentY=player.getYPosition();
 
-        if((keyArray[0] ^ keyArray[2]) && player.getXVelocity()<30){
-            player.setXVelocity(player.getXVelocity()+5);
+        if((keyArray[0] ^ keyArray[2]) && player.getXVelocity()<9){
+            player.setXVelocity(player.getXVelocity()+3);
         }
         else{
-            player.setXVelocity(0);
+            player.setXVelocity(5);
         }
 
-        if((keyArray[1] ^ keyArray[3]) && player.getYVelocity()<30){
-            player.setYVelocity(player.getYVelocity()+5);
+        if((keyArray[1] ^ keyArray[3]) && player.getYVelocity()<9){
+            player.setYVelocity(player.getYVelocity()+3);
         }
         else{
-            player.setYVelocity(0);
+            player.setYVelocity(5);
         }
 
 
@@ -130,14 +130,11 @@ public class Player extends Thread{
 
     public boolean goalEnter(double goalXPos, double ballXPos, double ballYPos){
         double distance=Math.sqrt(Math.pow(goalXPos-ballXPos,2)+Math.pow(600-ballYPos,2))-70;
-        if(distance<-15){
-            return true;
-        }
-        return false;
+        return distance < -15;
     }
 
     public Boolean validateBounds(double moveX, double moveY){
-        if(moveX-30<=minX || moveX+30>=maxX || moveY-30<=minY || moveY+30>=maxY){
+        if(moveX-35<=minX || moveX+35>=maxX || moveY-35<=minY || moveY+35>=maxY){
             return false;
         }
         return true;

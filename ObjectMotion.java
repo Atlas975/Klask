@@ -5,7 +5,6 @@ import java.util.TimerTask;
 public class ObjectMotion extends Thread{
 
     private GameWindow window;
-    private boolean terminated=false;
     private int[] overheadStats[];
     private Player p1;
     private Player p2;
@@ -58,21 +57,22 @@ public class ObjectMotion extends Thread{
 
     @Override
     public void run() {
+        // return;
+        // if(!isInterrupted()){
         if(pieceIndex==-1){
             puckMotion();
         }
         else{
             magnetMotion();
         }
+
     }
+
 
 
 
     public void puckMotion(){
 
-
-        // double xVelocity=0;
-        // double yVelocity=0;
         // int magnetMass=1;
         // int puckMass=2;
         // int playerMass=3;
@@ -82,111 +82,134 @@ public class ObjectMotion extends Thread{
 
         double xPosition;
         double yPosition;
-
-
         Ball player1=p1.passObject();
         Ball player2=p2.passObject();
-        double puckMoveX=0;
-        double puckMoveY=0;
-        double p1MoveX=0;
-        double p1MoveY=0;
-        double p2MoveX=0;
-        double p2MoveY=0;
-        double frictionForce=0.9;
+        // double puckMoveX=0;
+        // double puckMoveY=0;
+        double deflectX=0;
+        double deflectY=0;
+        double frictionLoss=0.9985;
 
-        Timer friction=new Timer();
-        TimerTask counter=new TimerTask(){
-            public int seconds=0;
-            @Override
-            public void run() {
-                seconds++;
-            }
-        };
-        friction.scheduleAtFixedRate(counter,0,1000);
-        boolean frictionFlag=false;
+        // Timer friction=new Timer();
+        // TimerTask counter=new TimerTask(){
+        //     public int seconds=0;
+        //     @Override
+        //     public void run() {
+        //         seconds++;
+        //     }
+        // };
+        // friction.scheduleAtFixedRate(counter,0,1000);
 
-        while(frictionFlag==false){
-
-            if(terminate()){
-                frictionFlag=true;
-            }
-
+        while(!this.isInterrupted()){
             xPosition=scorePuck.getXPosition();
             yPosition=scorePuck.getYPosition();
 
-            // try {
-            //     Thread.sleep((long) 0.2);
-            //     scorePuck.setXVelocity(scorePuck.getXVelocity()*frictionForce);
-            //     scorePuck.setYVelocity(scorePuck.getYVelocity()*frictionForce);
+            if(enteredGoal(1)){
+                result=2;
+                break;
+            }
 
-            // } catch (InterruptedException e) {
-            //     e.printStackTrace();
-            // }
-            // System.out.println("X: "+xPosition+" Y: "+yPosition);
-            // System.out.print(" X: "+player1.getXPosition()+" Y: "+player1.getYPosition());
-            // System.out.println(xPosition+" "+yPosition);
+            if(enteredGoal(2)){
+                result=1;
+                break;
+            }
+
             if(scorePuck.collides(player1)){
                 deflect(scorePuck,player1);
-                p1MoveX=player1.getXPosition()+player1.getXVelocity();
-                p1MoveY=player1.getYPosition()+player1.getYVelocity();
-                if(p1.validateBounds(p1MoveX,p1MoveY)){
-                    player1.setXPosition(p1MoveX);
-                    player1.setYPosition(p1MoveY);
+                deflectX=player1.getXPosition()+player1.getXVelocity();
+                deflectY=player1.getYPosition()+player1.getYVelocity();
+                if(p1.validateBounds(deflectX,deflectY)){
+                    player1.setXPosition(deflectX);
+                    player1.setYPosition(deflectY);
                 }
 
             }
 
             if(scorePuck.collides(player2)){
                 deflect(scorePuck, player2);
-                p2MoveX=player2.getXPosition()+player2.getXVelocity();
-                p2MoveY=player2.getYPosition()+player2.getYVelocity();
-                if(p2.validateBounds(p2MoveX,p2MoveY)){
-                    player2.setXPosition(p2MoveX);
-                    player2.setYPosition(p2MoveY);
+                deflectX=player2.getXPosition()+player2.getXVelocity();
+                deflectY=player2.getYPosition()+player2.getYVelocity();
+                if(p2.validateBounds(deflectX,deflectY)){
+                    player2.setXPosition(deflectX);
+                    player2.setYPosition(deflectY);
                 }
             }
 
+            for(Ball magnet: magnets){
+                if(scorePuck.collides(magnet)){
+                    deflect(scorePuck, magnet);
+                    deflectX=magnet.getXPosition()+magnet.getXVelocity();
+                    deflectY=magnet.getYPosition()+magnet.getYVelocity();
+                    if(magnetBounds(magnet,deflectX,deflectY)){
+                        magnet.setXPosition(deflectX);
+                        magnet.setYPosition(deflectY);
+                    }
+                }
+            }
 
-            puckMoveX=scorePuck.getXPosition()+scorePuck.getXVelocity();
-            puckMoveY=scorePuck.getYPosition()+scorePuck.getYVelocity();
+            deflectX=scorePuck.getXPosition()+scorePuck.getXVelocity();
+            deflectY=scorePuck.getYPosition()+scorePuck.getYVelocity();
 
-            if(puckMoveX-puckRadius<=minX){
+            if(deflectX-puckRadius<=minX){
                 scorePuck.setXVelocity(-scorePuck.getXVelocity()*0.5);
             }
-            else if(puckMoveX+puckRadius>=maxX){
+            else if(deflectX+puckRadius>=maxX){
                 scorePuck.setXVelocity(-scorePuck.getXVelocity()*0.5);
+
             }
-            if(puckMoveY+puckRadius>=maxY){
+            if(deflectY+puckRadius>=maxY){
                 scorePuck.setYVelocity(-scorePuck.getYVelocity()*0.5);
+
             }
-            else if(puckMoveY-puckRadius<=minY){
+            else if(deflectY-puckRadius<=minY){
                 scorePuck.setYVelocity(-scorePuck.getYVelocity()*0.5);
+
             }
+
 
             scorePuck.setXPosition(xPosition+scorePuck.getXVelocity());
             scorePuck.setYPosition(yPosition+scorePuck.getYVelocity());
 
+            try {
+                Thread.sleep(1);
+                scorePuck.setXVelocity(scorePuck.getXVelocity()*frictionLoss);
+                scorePuck.setYVelocity(scorePuck.getYVelocity()*frictionLoss);
+
+            } catch (InterruptedException e) {
+                break;
+            }
         }
-        System.out.println("Reddddd: "+result);
+        return;
     }
-
-
-
 
 
     public void magnetMotion(){
-        boolean frictionFlag=false;
-        while(frictionFlag==false){
-            if(terminate()){
-                frictionFlag=true;
-            }
-            if(terminate()){
-                break;
-            }
+        while(!this.isInterrupted()){
 
         }
-
+        return;
     }
+
+    public Boolean enteredGoal(int goalType){
+        double distance;
+        if(goalType==1){
+            distance=Math.sqrt(Math.pow(scorePuck.getXPosition()-window.goalXPos(1),2)+Math.pow(scorePuck.getYPosition()-600,2))-65;
+            return distance<0;
+        }
+        else{
+            distance=Math.sqrt(Math.pow(scorePuck.getXPosition()-window.goalXPos(2),2)+Math.pow(scorePuck.getYPosition()-600,2))-65;
+            return distance<0;
+        }
+    }
+
+    public Boolean magnetBounds(Ball magnet, double deflectX, double deflectY){
+        if(deflectX-15<=minX || deflectX+15>=maxX || deflectY-15<=minY || deflectY+15>=maxY){
+            return false;
+        }
+        return true;
+    }
+
+
 
 
 
@@ -298,14 +321,6 @@ public class ObjectMotion extends Thread{
 
     public int result(){
         return result;
-    }
-
-    public void forceStop(){
-        this.terminated=true;
-    }
-
-    public boolean terminate(){
-        return terminated;
     }
 }
 

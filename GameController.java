@@ -9,9 +9,9 @@ public class GameController {
             magnets[i]=new Ball(0,0,30, "WHITE",3);
             window.addBall(magnets[i]);
         }
-        Ball scorePuck=new Ball(0,0,40,"YELLOW",3);
-        Ball player1= new Ball(0,0,60,"BLACK",3);
-        Ball player2= new Ball(0,0,60,"BLACK",3);
+        Ball scorePuck=new Ball(0,0,50,"YELLOW",3);
+        Ball player1= new Ball(0,0,70,"BLACK",3);
+        Ball player2= new Ball(0,0,70,"BLACK",3);
         window.addBall(scorePuck);
         window.addBall(player1);
         window.addBall(player2);
@@ -19,7 +19,6 @@ public class GameController {
         double zoneConstraints[][]={{165,1010,165,1035},{1010,1835,165,1035}};
         startGame(window,overheadStats,magnets,scorePuck,zoneConstraints,ballPositions,player1,player2,0);
     }
-
 
     public void startGame(GameWindow window, int[] overheadStats, Ball[] magnets, Ball scorePuck, double[][] zoneConstraints, int[][] ballPositions,Ball player1,Ball player2,int startCondition){
 
@@ -44,9 +43,9 @@ public class GameController {
         newGame(window, overheadStats, winner);
     }
 
-
     public int[] GameRound(GameWindow window,Ball magnets[],Ball scorePuck,Ball player1,Ball player2, int overheadStats[]){
 
+        int winner=0;
         Player p1=new Player(player1,1,window);
         Player p2=new Player(player2,2,window);
         ObjectMotion puckMovement=new ObjectMotion(window,scorePuck,p1,p2,magnets);
@@ -62,41 +61,44 @@ public class GameController {
         while(true){
             System.out.print("");
             if(p1.ended()){
-                overheadStats=roundResult(overheadStats, window, magnets, scorePuck, player1, player2, 2);
+                winner=2;
                 break;
             }
             if(p2.ended()){
-                overheadStats=roundResult(overheadStats, window, magnets, scorePuck, player1, player2, 1);
+                winner=1;
                 break;
             }
             if(puckMovement.result()>0){
                 if(puckMovement.result()==1){
-                    overheadStats=roundResult(overheadStats, window, magnets, scorePuck, player1, player2, 2);
+                    winner=1;
                     break;
                 }
                 if(puckMovement.result()==2){
-                    overheadStats=roundResult(overheadStats, window, magnets, scorePuck, player1, player2, 2);
+                    winner=2;
                     break;
                 }
             }
         }
 
-        killThreads(p1,p2,puckMovement,magMovement);
+        overheadStats=roundResult(overheadStats, window, magnets, scorePuck, player1, player2,winner);
+        killThreads(p1,p2,puckMovement,magMovement,scorePuck,magnets);
+        window.resetBoard(overheadStats, magnets, scorePuck, player1, player2, winner);
         return overheadStats;
     }
 
 
-    private void killThreads(Player p1, Player p2, ObjectMotion puckMovement, ObjectMotion[] magMovement) {
-        p1.interrupt();
-        p2.interrupt();
-        puckMovement.forceStop();
+    private void killThreads(Player p1, Player p2, ObjectMotion puckMovement, ObjectMotion[] magMovement, Ball scorePuck, Ball magnets[]) {
+
+        scorePuck.setXVelocity(0);
+        scorePuck.setYVelocity(0);
         for(int i=0; i<3; i++){
-            magMovement[i].forceStop();
+            magnets[i].setXVelocity(0);
+            magnets[i].setYVelocity(0);
         }
         puckMovement.interrupt();
-        // for(int i=0; i<3; i++){
-        //     magMovement[i].interrupt();
-        // }
+        p1.interrupt();
+        p2.interrupt();
+
         for(int i=0; i<3; i++){
             magMovement[i].interrupt();
         }
@@ -104,29 +106,17 @@ public class GameController {
 
 
     public int[] roundResult(int[] overheadStats, GameWindow window, Ball magnets[], Ball scorePuck, Ball player1, Ball player2, int winner){
-
-        haltMovement(scorePuck, magnets);
         if(winner==1){
             overheadStats[3]++;
             window.scoreIncremeent(1,overheadStats[3]);
-            window.resetBoard(overheadStats, magnets, scorePuck,player1, player2, 2);
         }
         else{
             overheadStats[4]++;
             window.scoreIncremeent(2,overheadStats[4]);
-            window.resetBoard(overheadStats, magnets, scorePuck,player1, player2, 1);
         }
         return overheadStats;
     }
 
-    public void haltMovement(Ball puckMovement, Ball[] magMovement){
-        puckMovement.setXVelocity(0);
-        puckMovement.setYVelocity(0);
-        for(int i=0; i<3; i++){
-            magMovement[i].setXVelocity(0);
-            magMovement[i].setYVelocity(0);
-        }
-    }
 
     public void newGame(GameWindow window, int[] overheadStats, int winner){
         window.getTimerInstance().cancel();
