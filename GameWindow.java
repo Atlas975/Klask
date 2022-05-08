@@ -84,10 +84,7 @@ public class GameWindow extends GameArena{
         }
     }
 
-    public double goalRadius(){
-        return p1Goal.getSize()/2;
 
-    }
 
     public Timer getTimerInstance(){
         return stopwatch;
@@ -154,5 +151,7 @@ public class GameWindow extends GameArena{
             p2Score.setText(""+score);
         }
     }
+
+
 }
 

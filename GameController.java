@@ -47,19 +47,14 @@ public class GameController {
 
         int winner=0;
         Player p1=new Player(player1,1,window);
-        p1.setName("player1");
         Player p2=new Player(player2,2,window);
-        p2.setName("player2");
         ObjectMotion puckMovement=new ObjectMotion(window,scorePuck,p1,p2,magnets);
-        puckMovement.setName("puckMovement");
 
         ObjectMotion magMovement[]=new ObjectMotion[3];
         for(int i=0; i<3; i++){
             magMovement[i]=new ObjectMotion(window,i,p1,p2,magnets,scorePuck);
-            magMovement[i].setName("magMovement"+i);
             magMovement[i].start();
         }
-
         p1.start();
         p2.start();
         puckMovement.start();
@@ -101,18 +96,24 @@ public class GameController {
             magnets[i].setXVelocity(0);
             magnets[i].setYVelocity(0);
         }
-        puckMovement.interrupt();
-        p1.interrupt();
-        p2.interrupt();
-        for(int i=0; i<3; i++){
-            magMovement[i].interrupt();
-            System.out.print(magMovement[i].isAlive());
-        }
-        System.out.println(puckMovement.isInterrupted());
-        System.out.println(p1.isInterrupted());
-        System.out.println(p2.isInterrupted());
-    }
 
+        p1.terminate();
+        p2.terminate();
+        puckMovement.terminate();
+        for(int i=0; i<3; i++){
+            magMovement[i].terminate();
+        }
+
+
+
+        System.out.println(p1.isAlive());
+        System.out.println(p2.isAlive());
+        System.out.println(puckMovement.isAlive());
+        for(int i=0; i<3; i++){
+            System.out.println(magMovement[i].isAlive());
+        }
+
+    }
 
     public int[] roundResult(int[] overheadStats, GameWindow window, Ball magnets[], Ball scorePuck, Ball player1, Ball player2, int winner){
         if(winner==1){
