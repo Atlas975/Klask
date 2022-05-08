@@ -86,7 +86,7 @@ public class ObjectMotion extends Thread{
             moveObject(scorePuck,scorePuck.getXPosition(),scorePuck.getYPosition(),puckRadius,frictionLoss);
         }
         return;
-    }
+    }   
 
     public void magnetMotion(){
         double magnetRadius=magnets[0].getSize()/2;
@@ -97,16 +97,18 @@ public class ObjectMotion extends Thread{
 
         while(!this.isInterrupted()){
             if(latched){
-                magnetMain.setXPosition(player1.getXPosition());
-                magnetMain.setYPosition(player1.getYPosition());
+                break;
             }
             else{
-                playerInteract(magnetMain,player1);
-                playerInteract(magnetMain,player2);
                 magnetsInteract(magnetMain);
                 moveObject(magnetMain,magnetMain.getXPosition(),magnetMain.getYPosition(),magnetRadius,frictionLoss);
-                latched=attractionForce(magnetMain,player1,player2);
+                attractionForce(magnetMain,player1,player2);
             }
+        }
+
+        while(!this.isInterrupted()){
+            magnetMain.setXPosition(player1.getXPosition());
+            magnetMain.setYPosition(player1.getYPosition());
         }
         return;
     }
@@ -185,8 +187,7 @@ public class ObjectMotion extends Thread{
         }
     }
 
-
-    public boolean attractionForce(Ball magnet, Ball player1, Ball player2){
+    public void attractionForce(Ball magnet, Ball player1, Ball player2){
         double magnetXPos=magnet.getXPosition();
         double magnetYPos=magnet.getYPosition();
         double player1XPos=player1.getXPosition();
@@ -194,24 +195,20 @@ public class ObjectMotion extends Thread{
         double player2XPos=player2.getXPosition();
         double player2YPos=player2.getYPosition();
         int attractBoundry=300;
-        double movement=0.1;
+        double movement=0.05;
         double p1Distance=Math.sqrt(Math.pow(player1XPos-magnetXPos,2)+Math.pow(player1YPos-magnetYPos,2));
         double p2Distance=Math.sqrt(Math.pow(player2XPos-magnetXPos,2)+Math.pow(player2YPos-magnetYPos,2));
 
         if(p1Distance==p2Distance){
-            return false;
+            return;
         }
-        else if(p1Distance<15){
+        else if(p1Distance<50){
             p1.incrementMagnet();
-            this.interrupt();
-
-            return true;
-            // permenentAttach(magnet, player1);
+            permenentAttach(magnet, p1.passObject());
         }
-        else if(p2Distance<15){
+        else if(p2Distance<50){
             p2.incrementMagnet();
-            return true;
-            // permenentAttach(magnet, player2);
+            permenentAttach(magnet, p2.passObject());
         }
         else if(p1Distance<attractBoundry){
             if(player1XPos>magnetXPos){
@@ -241,7 +238,6 @@ public class ObjectMotion extends Thread{
                 magnet.setYPosition(magnet.getYPosition()-movement);
             }
         }
-        return false;
     }
 
     public void permenentAttach(Ball magnet, Ball player){

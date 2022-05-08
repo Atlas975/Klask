@@ -10,7 +10,7 @@ public class Ball
 	// Feel free to more instance variables if you think it will
 	// support your work...
 
-	private double[] velocity={0,0};  		// The x and y velocities of the ball
+	private double[] velocity={0,0};  	// The x and y velocities of the ball
 	private double xPosition;			// The X coordinate of this Ball
 	private double yPosition;			// The Y coordinate of this Ball
 	private double size;				// The diameter of this Ball

@@ -47,12 +47,16 @@ public class GameController {
 
         int winner=0;
         Player p1=new Player(player1,1,window);
+        p1.setName("player1");
         Player p2=new Player(player2,2,window);
+        p2.setName("player2");
         ObjectMotion puckMovement=new ObjectMotion(window,scorePuck,p1,p2,magnets);
+        puckMovement.setName("puckMovement");
 
         ObjectMotion magMovement[]=new ObjectMotion[3];
         for(int i=0; i<3; i++){
             magMovement[i]=new ObjectMotion(window,i,p1,p2,magnets,scorePuck);
+            magMovement[i].setName("magMovement"+i);
             magMovement[i].start();
         }
 
@@ -82,8 +86,8 @@ public class GameController {
             }
         }
 
-        overheadStats=roundResult(overheadStats, window, magnets, scorePuck, player1, player2,winner);
         killThreads(p1,p2,puckMovement,magMovement,scorePuck,magnets);
+        overheadStats=roundResult(overheadStats, window, magnets, scorePuck, player1, player2,winner);
         window.resetBoard(overheadStats, magnets, scorePuck, player1, player2, winner);
         return overheadStats;
     }

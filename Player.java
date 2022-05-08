@@ -150,10 +150,17 @@ public class Player extends Thread{
 
     public void incrementMagnet(){
         magnetsLatched++;
-        System.out.println(magnetsLatched);
         if(magnetsLatched==2){
             loss=true;
         }
+    }
+
+    public int getMagnetNum(){
+        return magnetsLatched;
+    }
+
+    public void setLoss(boolean loss){
+        this.loss=loss;
     }
 
     public boolean ended(){
