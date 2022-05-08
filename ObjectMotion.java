@@ -1,11 +1,7 @@
-import java.util.Timer;
-import java.util.TimerTask;
-
 
 public class ObjectMotion extends Thread{
 
     private GameWindow window;
-    private int[] overheadStats[];
     private Player p1;
     private Player p2;
     private Ball magnetMain;
@@ -86,29 +82,18 @@ public class ObjectMotion extends Thread{
             moveObject(scorePuck,scorePuck.getXPosition(),scorePuck.getYPosition(),puckRadius,frictionLoss);
         }
         return;
-    }   
+    }
 
     public void magnetMotion(){
         double magnetRadius=magnets[0].getSize()/2;
         Ball player1=p1.passObject();
         Ball player2=p2.passObject();
-        Boolean latched=false;
-        double frictionLoss=0.8;
-
+        double attractionForce=0.05;
+        double frictionLoss=0.99;
         while(!this.isInterrupted()){
-            if(latched){
-                break;
-            }
-            else{
-                magnetsInteract(magnetMain);
-                moveObject(magnetMain,magnetMain.getXPosition(),magnetMain.getYPosition(),magnetRadius,frictionLoss);
-                attractionForce(magnetMain,player1,player2);
-            }
-        }
-
-        while(!this.isInterrupted()){
-            magnetMain.setXPosition(player1.getXPosition());
-            magnetMain.setYPosition(player1.getYPosition());
+            magnetsInteract(magnetMain);
+            moveObject(magnetMain,magnetMain.getXPosition(),magnetMain.getYPosition(),magnetRadius,frictionLoss);
+            attractionForce(magnetMain,player1,player2,attractionForce,frictionLoss);
         }
         return;
     }
@@ -140,7 +125,7 @@ public class ObjectMotion extends Thread{
     public void magnetsInteract(Ball object){
         for(Ball magnet: magnets){
             if(object.collides(magnet)){
-                deflect(scorePuck, magnet);
+                deflect(object, magnet);
                 double deflectX=magnet.getXPosition()+magnet.getXVelocity();
                 double deflectY=magnet.getYPosition()+magnet.getYVelocity();
                 if(displacementCheck(magnet,deflectX,deflectY,15)){
@@ -150,6 +135,16 @@ public class ObjectMotion extends Thread{
             }
         }
     }
+
+    // public void magnetsRepel(Ball object){
+    //     for(Ball magnet: magnets){
+    //         if(object.collides(magnet)){
+    //             d
+    //         }
+    //     }
+    //     // for(Ball magnet: magnets){
+    //     //     if(object.collides(magnet)){
+    // }
 
     public Boolean displacementCheck(Ball magnet, double deflectX, double deflectY, double radius){
         if(deflectX-radius<=minX || deflectX+radius>=maxX || deflectY-radius<=minY || deflectY+radius>=maxY){
@@ -187,7 +182,7 @@ public class ObjectMotion extends Thread{
         }
     }
 
-    public void attractionForce(Ball magnet, Ball player1, Ball player2){
+    public void attractionForce(Ball magnet, Ball player1, Ball player2, double attractionForce, double frictionLoss){
         double magnetXPos=magnet.getXPosition();
         double magnetYPos=magnet.getYPosition();
         double player1XPos=player1.getXPosition();
@@ -195,7 +190,6 @@ public class ObjectMotion extends Thread{
         double player2XPos=player2.getXPosition();
         double player2YPos=player2.getYPosition();
         int attractBoundry=300;
-        double movement=0.05;
         double p1Distance=Math.sqrt(Math.pow(player1XPos-magnetXPos,2)+Math.pow(player1YPos-magnetYPos,2));
         double p2Distance=Math.sqrt(Math.pow(player2XPos-magnetXPos,2)+Math.pow(player2YPos-magnetYPos,2));
 
@@ -204,48 +198,50 @@ public class ObjectMotion extends Thread{
         }
         else if(p1Distance<50){
             p1.incrementMagnet();
-            permenentAttach(magnet, p1.passObject());
+            permenentAttach(p1.passObject());
         }
         else if(p2Distance<50){
             p2.incrementMagnet();
-            permenentAttach(magnet, p2.passObject());
+            permenentAttach(p2.passObject());
         }
         else if(p1Distance<attractBoundry){
             if(player1XPos>magnetXPos){
-                magnet.setXPosition(magnet.getXPosition()+movement);
+                magnet.setXVelocity(attractionForce);
             }
             else if(player1XPos<magnetXPos){
-                magnet.setXPosition(magnet.getXPosition()-movement);
+                magnet.setXVelocity(-attractionForce);
             }
             if(player1YPos>magnetYPos){
-                magnet.setYPosition(magnet.getYPosition()+movement);
+                magnet.setYVelocity(attractionForce);
             }
             else if(player1YPos<magnetYPos){
-                magnet.setYPosition(magnet.getYPosition()-movement);
+                magnet.setYVelocity(-attractionForce);
             }
         }
         else if(p2Distance<attractBoundry){
             if(player2XPos>magnetXPos){
-                magnet.setXPosition(magnet.getXPosition()+movement);
+                magnet.setXVelocity(attractionForce);
             }
             else if(player2XPos<magnetXPos){
-                magnet.setXPosition(magnet.getXPosition()-movement);
+                magnet.setXVelocity(-attractionForce);
             }
             if(player2YPos>magnetYPos){
-                magnet.setYPosition(magnet.getYPosition()+movement);
+                magnet.setYVelocity(attractionForce);
             }
             else if(player2YPos<magnetYPos){
-                magnet.setYPosition(magnet.getYPosition()-movement);
+                magnet.setYVelocity(-attractionForce);
             }
         }
     }
 
-    public void permenentAttach(Ball magnet, Ball player){
+    public void permenentAttach(Ball player){
         while(!this.isInterrupted()){
-            magnet.setXPosition(player.getXPosition());
-            magnet.setYPosition(player.getYPosition());
+            // magnetMain.setXVelocity(0);
+            // magnetMain.setYVelocity(0);
+            magnetMain.setXPosition(player.getXPosition());
+            magnetMain.setYPosition(player.getYPosition());
         }
-        return;
+        // return;
     }
 
     public void deflect(Ball object1, Ball object2){

@@ -86,8 +86,8 @@ public class GameController {
             }
         }
 
-        killThreads(p1,p2,puckMovement,magMovement,scorePuck,magnets);
         overheadStats=roundResult(overheadStats, window, magnets, scorePuck, player1, player2,winner);
+        killThreads(p1,p2,puckMovement,magMovement,scorePuck,magnets);
         window.resetBoard(overheadStats, magnets, scorePuck, player1, player2, winner);
         return overheadStats;
     }
@@ -106,7 +106,11 @@ public class GameController {
         p2.interrupt();
         for(int i=0; i<3; i++){
             magMovement[i].interrupt();
+            System.out.print(magMovement[i].isAlive());
         }
+        System.out.println(puckMovement.isInterrupted());
+        System.out.println(p1.isInterrupted());
+        System.out.println(p2.isInterrupted());
     }
 
 
