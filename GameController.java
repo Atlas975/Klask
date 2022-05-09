@@ -3,6 +3,8 @@ public class GameController {
         if (modeParameters[0]==2){ // quit option
             return;
         }
+    
+
         GameWindow window = new GameWindow(overheadStats);
         Ball []magnets=new Ball[3];
         for(int i=0; i<3; i++){
