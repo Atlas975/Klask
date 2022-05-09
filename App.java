@@ -1,7 +1,7 @@
 public class App {
     /**
      * Creates an array of game stats represetning round number, player 1 wins, player 2 wins, player 1 round wins
-     * and player 2 round wins. Restrieves the chosen 
+     * and player 2 round wins. Restrieves the chosen user option and passes it to gameController to begin game
      *
      */
     public static void main(String args[]){

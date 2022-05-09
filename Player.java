@@ -13,6 +13,7 @@ public class Player extends Thread{
     private int playerID;
     private int magnetsLatched=0;
 
+    // A synchronized method that allows the thread to be terminated.
     public synchronized void terminate(){
         this.stop=true;
     }
@@ -30,6 +31,10 @@ public class Player extends Thread{
         this.window=window;
     }
 
+    /**
+     * The run function adds a key listener to the window, which updates the player's position based on
+     * the keys pressed
+     */
     @Override
     public void run() {
         if(roundOver()){
@@ -40,6 +45,8 @@ public class Player extends Thread{
             @Override public void keyTyped(KeyEvent e){} // unused input method
             @Override public void keyReleased(KeyEvent e){
                 keyArray=playerInput(e,keyArray,false);
+                playerUpdate(keyArray);
+
             }
             @Override public void keyPressed(KeyEvent e) {
                 keyArray=playerInput(e,keyArray,true);
@@ -48,6 +55,16 @@ public class Player extends Thread{
         });
     }
 
+    /**
+     * This function takes in a key event, a boolean array, and a boolean status. It then checks the
+     * key code of the key event and sets the corresponding index of the boolean array to the boolean
+     * status
+     *
+     * @param e The KeyEvent that is passed in from the KeyListener
+     * @param keyArray The array that stores the keys on/off status.
+     * @param status true if the key is pressed, false if the key is released
+     * @return The keyArray after the key is set to the status
+     */
     public boolean[] playerInput(KeyEvent e,boolean keyArray[], boolean status){
 
         if(playerID==1){
@@ -100,22 +117,28 @@ public class Player extends Thread{
     }
 
 
+    /**
+     * If the player is pressing a key, and the player is not at the edge of the screen, then move the
+     * player in the direction of the key
+     *
+     * @param keyArray An array of booleans that represent the keys that are pressed.
+     */
     public void playerUpdate(boolean keyArray[]){
         double currentX=player.getXPosition();
         double currentY=player.getYPosition();
 
-        if((keyArray[0] ^ keyArray[2]) && player.getXVelocity()<9){
-            player.setXVelocity(player.getXVelocity()+3);
+        if((keyArray[0] ^ keyArray[2]) && player.getXVelocity()<12){
+            player.setXVelocity(player.getXVelocity()+4);
         }
         else{
-            player.setXVelocity(5);
+            player.setXVelocity(0);
         }
 
-        if((keyArray[1] ^ keyArray[3]) && player.getYVelocity()<9){
-            player.setYVelocity(player.getYVelocity()+3);
+        if((keyArray[1] ^ keyArray[3]) && player.getYVelocity()<12){
+            player.setYVelocity(player.getYVelocity()+4);
         }
         else{
-            player.setYVelocity(5);
+            player.setYVelocity(0);
         }
 
 
@@ -137,11 +160,28 @@ public class Player extends Thread{
         }
     }
 
+    /**
+     * If the distance between the ball and the goal is less than 15, then the ball has entered the
+     * goal
+     *
+     * @param goalXPos The x position of the goal
+     * @param ballXPos The x position of the ball
+     * @param ballYPos The y position of the ball
+     * @return A boolean value.
+     */
     public boolean goalEnter(double goalXPos, double ballXPos, double ballYPos){
         double distance=Math.sqrt(Math.pow(goalXPos-ballXPos,2)+Math.pow(600-ballYPos,2))-70;
         return distance < -15;
     }
 
+    /**
+     * If the player's position is within the bounds of the screen, return true. Otherwise, return
+     * false
+     *
+     * @param moveX The x coordinate of the center of the circle
+     * @param moveY The y coordinate of the center of the circle
+     * @return A boolean value.
+     */
     public Boolean validateBounds(double moveX, double moveY){
         if(moveX-35<=minX || moveX+35>=maxX || moveY-35<=minY || moveY+35>=maxY){
             return false;
@@ -150,10 +190,18 @@ public class Player extends Thread{
     }
 
 
+    /**
+     * Passes the ball object
+     *
+     * @return The player object used in this thread
+     */
     public Ball passObject(){
         return player;
     }
 
+    /**
+     * If the number of magnets latched is equal to 2, then the player has lost
+     */
     public void incrementMagnet(){
         magnetsLatched++;
         if(magnetsLatched==2){
@@ -161,10 +209,20 @@ public class Player extends Thread{
         }
     }
 
+    /**
+     * This function sets the loss variable to the value of the loss parameter.
+     *
+     * @param loss If the player has lost the game.
+     */
     public void setLoss(boolean loss){
         this.loss=loss;
     }
 
+    /**
+     * This function returns a boolean value that is true if the game has ended and false otherswise.
+     *
+     * @return the active status of the game
+     */
     public boolean ended(){
         return loss;
     }

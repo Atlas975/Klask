@@ -19,10 +19,16 @@ public class ObjectMotion extends Thread{
     private int minY=165;
     private int maxY=1035;
 
+    /**
+     * If the thread is running, stop it.
+     */
     public synchronized void terminate(){
         this.stop=true;
     }
 
+    /**
+     * @return A boolean value that indicates whether the round is over.
+     */
     public synchronized Boolean roundOver(){
         return this.stop;
     }
@@ -64,6 +70,9 @@ public class ObjectMotion extends Thread{
         this.maxY-=magnetRadius;
     }
 
+    /**
+     * The run activates the motion of the score puck and the magnets depending on the piece index
+     */
     @Override
     public void run() {
         double objectRadius;
@@ -107,6 +116,12 @@ public class ObjectMotion extends Thread{
         }
     }
 
+    /**
+     * If the puck is within 50 pixels of the goal, return true
+     *
+     * @param goalType 1 for the left goal, 2 for the right goal
+     * @return The distance between the puck and the goal.
+     */
     public Boolean enteredGoal(int goalType){
         double distance;
         if(goalType==1){
@@ -119,6 +134,13 @@ public class ObjectMotion extends Thread{
         }
     }
 
+    /**
+     * If the player collides with the ball, deflect the ball and move the player in the direction of the
+     * ball's deflection
+     *
+     * @param object The object that is being interacted with.
+     * @param player The player object
+     */
     public void playerInteract(Ball object, Ball player){
         if(object.collides(player)){
             deflect(object,player);
@@ -131,6 +153,11 @@ public class ObjectMotion extends Thread{
         }
     }
 
+    /**
+     * If the ball collides with a magnet, deflect the ball and move the magnet
+     *
+     * @param object the ball that is being deflected
+     */
     public void magnetsInteract(Ball object){
         for(Ball magnet: magnets){
             if(object.collides(magnet)){
@@ -145,6 +172,15 @@ public class ObjectMotion extends Thread{
         }
     }
 
+    /**
+     * If the ball is going to be displaced outside the bounds of the screen, return false
+     *
+     * @param magnet the ball that is being checked
+     * @param deflectX the x coordinate of the ball if deflection occurs
+     * @param deflectY the y-coordinate of the ball if deflection occurs
+     * @param radius the radius of the ball
+     * @return If the ball is safe to deflect
+     */
     public Boolean displacementCheck(Ball magnet, double deflectX, double deflectY, double radius){
         if(deflectX-radius<=minX || deflectX+radius>=maxX || deflectY-radius<=minY || deflectY+radius>=maxY){
             return false;
@@ -214,10 +250,6 @@ public class ObjectMotion extends Thread{
         int attractBoundry=275;
         double p1Distance=Math.sqrt(Math.pow(player1XPos-magnetXPos,2)+Math.pow(player1YPos-magnetYPos,2));
         double p2Distance=Math.sqrt(Math.pow(player2XPos-magnetXPos,2)+Math.pow(player2YPos-magnetYPos,2));
-        if(this.isInterrupted()){
-            System.out.println(this.isInterrupted());
-        }
-
         if(p1Distance==p2Distance){
             return;
         }
@@ -271,6 +303,7 @@ public class ObjectMotion extends Thread{
             magnetMain.setXPosition(player.getXPosition());
             magnetMain.setYPosition(player.getYPosition());
         }
+        return;
     }
 
     public void deflect(Ball object1, Ball object2){
