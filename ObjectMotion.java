@@ -13,7 +13,6 @@ public class ObjectMotion extends Thread{
     private Ball magnetMain;
     private Ball magnets[];
     private Ball scorePuck;
-    private int result=0;
     private int pieceIndex=-1;
     private int minX=165;
     private int maxX=1835;
@@ -78,13 +77,12 @@ public class ObjectMotion extends Thread{
             frictionLoss=0.9985;
 
             while(!roundOver()){
-
                 if(enteredGoal(1)){
-                    this.result=2;
+                    p1.setLoss(true);
                     break;
                 }
                 if(enteredGoal(2)){
-                    this.result=1;
+                    p2.setLoss(true);
                     break;
                 }
                 playerInteract(scorePuck, player1);
@@ -109,49 +107,11 @@ public class ObjectMotion extends Thread{
         }
     }
 
-    public void puckMotion(){
-        double puckRadius=scorePuck.getSize()/2;
-        Ball player1=p1.passObject();
-        Ball player2=p2.passObject();
-        double frictionLoss=0.9985;
-
-        while(!Thread.currentThread().isInterrupted()){
-            if(enteredGoal(1)){
-                this.result=2;
-                break;
-            }
-            if(enteredGoal(2)){
-                this.result=1;
-                break;
-            }
-            playerInteract(scorePuck, player1);
-            playerInteract(scorePuck, player2);
-            magnetsInteract(scorePuck);
-            moveObject(scorePuck,scorePuck.getXPosition(),scorePuck.getYPosition(),puckRadius,frictionLoss);
-        }
-    }
-
-    public void magnetMotion(){
-        double magnetRadius=magnets[0].getSize()/2;
-        Ball player1=p1.passObject();
-        Ball player2=p2.passObject();
-        // Boolean latched=false;
-        double attractionForce=0.05;
-        double frictionLoss=0.99;
-        while(!this.isInterrupted()){
-            magnetsInteract(magnetMain);
-            moveObject(magnetMain,magnetMain.getXPosition(),magnetMain.getYPosition(),magnetRadius,frictionLoss);
-            attractionForce(magnetMain,player1,player2,attractionForce);
-
-        }
-        // return;
-    }
-
     public Boolean enteredGoal(int goalType){
         double distance;
         if(goalType==1){
             distance=Math.sqrt(Math.pow(scorePuck.getXPosition()-window.goalXPos(1),2)+Math.pow(scorePuck.getYPosition()-600,2))-50;
-            return distance<=0;
+            return distance<0;
         }
         else{
             distance=Math.sqrt(Math.pow(scorePuck.getXPosition()-window.goalXPos(2),2)+Math.pow(scorePuck.getYPosition()-600,2))-50;
@@ -192,6 +152,20 @@ public class ObjectMotion extends Thread{
         return true;
     }
 
+    /**
+     * If the object is going to hit a wall, this method deflects the object and absorbs part
+     * of the objects momentum
+     *
+     * The first thing the function does is calculate the position the object will be in if it
+     * continues on its current trajectory. If the object is going to hit a wall, the function reverses
+     * the object's velocity and slows it down. Then the function moves the object and slows it down
+     *
+     * @param object
+     * @param xPosition
+     * @param yPosition
+     * @param radius
+     * @param frictionLoss velocity percetage conserved while moving
+     */
     public void moveObject(Ball object, double xPosition, double yPosition, double radius, double frictionLoss){
         double deflectX=object.getXPosition()+object.getXVelocity();
         double deflectY=object.getYPosition()+object.getYVelocity();
@@ -237,7 +211,7 @@ public class ObjectMotion extends Thread{
         double player1YPos=player1.getYPosition();
         double player2XPos=player2.getXPosition();
         double player2YPos=player2.getYPosition();
-        int attractBoundry=300;
+        int attractBoundry=275;
         double p1Distance=Math.sqrt(Math.pow(player1XPos-magnetXPos,2)+Math.pow(player1YPos-magnetYPos,2));
         double p2Distance=Math.sqrt(Math.pow(player2XPos-magnetXPos,2)+Math.pow(player2YPos-magnetYPos,2));
         if(this.isInterrupted()){
@@ -247,11 +221,11 @@ public class ObjectMotion extends Thread{
         if(p1Distance==p2Distance){
             return;
         }
-        else if(p1Distance<50){
+        else if(p1Distance<35){
             p1.incrementMagnet();
             playerLatch(p1.passObject());
         }
-        else if(p2Distance<50){
+        else if(p2Distance<35){
             p2.incrementMagnet();
             playerLatch(p2.passObject());
         }
@@ -360,15 +334,6 @@ public class ObjectMotion extends Thread{
             for (int i=0; i < dimensions; i++)
             result[i] = vec[i] / mag;
         }
-        return result;
-    }
-
-    /**
-     * Check if the scorepuck thread has ended and return the loosing player is so.
-     *
-     * @return default of 0, resturns 1 or 2 if a puck has entered that players goal.
-     */
-    public int result(){
         return result;
     }
 }

@@ -20,8 +20,8 @@ public class GameController {
         startGame(window,overheadStats,magnets,scorePuck,zoneConstraints,ballPositions,player1,player2,0);
     }
 
-    public void startGame(GameWindow window, int[] overheadStats, Ball[] magnets, Ball scorePuck, double[][] zoneConstraints, int[][] ballPositions,Ball player1,Ball player2,int startCondition){
 
+    public void startGame(GameWindow window, int[] overheadStats, Ball[] magnets, Ball scorePuck, double[][] zoneConstraints, int[][] ballPositions,Ball player1,Ball player2,int startCondition){
         window.resetBoard(overheadStats,magnets,scorePuck,player1,player2,startCondition);
         int winner=0;
         boolean gameRun=true;
@@ -43,6 +43,7 @@ public class GameController {
         newGame(window, overheadStats, winner);
     }
 
+
     public int[] GameRound(GameWindow window,Ball magnets[],Ball scorePuck,Ball player1,Ball player2, int overheadStats[]){
 
         int winner=0;
@@ -59,6 +60,8 @@ public class GameController {
         p2.start();
         puckMovement.start();
 
+
+
         while(true){
             System.out.print("");
             if(p1.ended()){
@@ -69,17 +72,31 @@ public class GameController {
                 winner=1;
                 break;
             }
-            if(puckMovement.result()>0){
-                if(puckMovement.result()==1){
-                    winner=1;
-                    break;
-                }
-                if(puckMovement.result()==2){
-                    winner=2;
-                    break;
-                }
-            }
         }
+
+
+        // Object sync = new Object();
+        // synchronized(sync){
+        //     System.out.print("");
+        //     if(p1.ended()){
+        //         winner=2;
+        //         sync.notify();
+        //     }
+        //     if(p2.ended()){
+        //         winner=1;
+        //         sync.notify();
+        //     }
+        //     if(puckMovement.result()>0){
+        //         if(puckMovement.result()==1){
+        //             winner=1;
+        //             sync.notify();
+        //         }
+        //         if(puckMovement.result()==2){
+        //             winner=2;
+        //             sync.notify();
+        //         }
+        //     }
+        // }
 
         overheadStats=roundResult(overheadStats, window, magnets, scorePuck, player1, player2,winner);
         killThreads(p1,p2,puckMovement,magMovement,scorePuck,magnets);
@@ -89,31 +106,18 @@ public class GameController {
 
 
     private void killThreads(Player p1, Player p2, ObjectMotion puckMovement, ObjectMotion[] magMovement, Ball scorePuck, Ball magnets[]) {
-
+        p1.terminate();
+        p2.terminate();
         scorePuck.setXVelocity(0);
         scorePuck.setYVelocity(0);
+        puckMovement.terminate();
         for(int i=0; i<3; i++){
             magnets[i].setXVelocity(0);
             magnets[i].setYVelocity(0);
-        }
-
-        p1.terminate();
-        p2.terminate();
-        puckMovement.terminate();
-        for(int i=0; i<3; i++){
             magMovement[i].terminate();
         }
-
-
-
-        System.out.println(p1.isAlive());
-        System.out.println(p2.isAlive());
-        System.out.println(puckMovement.isAlive());
-        for(int i=0; i<3; i++){
-            System.out.println(magMovement[i].isAlive());
-        }
-
     }
+
 
     public int[] roundResult(int[] overheadStats, GameWindow window, Ball magnets[], Ball scorePuck, Ball player1, Ball player2, int winner){
         if(winner==1){

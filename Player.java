@@ -1,11 +1,8 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-
-
-
 public class Player extends Thread{
-    private Boolean stop;
+    private Boolean stop=false;
     private double minX;
     private double maxX;
     private double minY=215;
@@ -23,6 +20,7 @@ public class Player extends Thread{
     public synchronized Boolean roundOver(){
         return this.stop;
     }
+
     // Constructor class to control the player pucks motion
     public Player(Ball piece, int playerID, GameWindow window){
         this.minX=window.playerMinX(playerID);
@@ -32,9 +30,11 @@ public class Player extends Thread{
         this.window=window;
     }
 
-
     @Override
     public void run() {
+        if(roundOver()){
+            return;
+        }
         window.addKeyListener(new KeyListener() {
             boolean keyArray[]=new boolean[4];
             @Override public void keyTyped(KeyEvent e){} // unused input method
@@ -47,7 +47,6 @@ public class Player extends Thread{
             }
         });
     }
-
 
     public boolean[] playerInput(KeyEvent e,boolean keyArray[], boolean status){
 
@@ -151,7 +150,6 @@ public class Player extends Thread{
     }
 
 
-
     public Ball passObject(){
         return player;
     }
@@ -161,10 +159,6 @@ public class Player extends Thread{
         if(magnetsLatched==2){
             loss=true;
         }
-    }
-
-    public int getMagnetNum(){
-        return magnetsLatched;
     }
 
     public void setLoss(boolean loss){
