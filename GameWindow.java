@@ -85,7 +85,6 @@ public class GameWindow extends GameArena{
     }
 
 
-
     public Timer getTimerInstance(){
         return stopwatch;
     }

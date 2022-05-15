@@ -1,4 +1,5 @@
 import java.awt.event.KeyEvent;
+import java.awt.Color;
 import java.awt.event.KeyListener;
 
 public class Player extends Thread{
@@ -12,6 +13,7 @@ public class Player extends Thread{
     private Ball player;
     private int playerID;
     private int magnetsLatched=0;
+    private Rectangle handle;
 
     // A synchronized method that allows the thread to be terminated.
     public synchronized void terminate(){
@@ -29,6 +31,8 @@ public class Player extends Thread{
         this.playerID=playerID;
         this.player=piece;
         this.window=window;
+        this.handle=new Rectangle(piece.getXPosition()-15, piece.getYPosition()-80, 30, 80,"BLACK",4);
+        // window.addRectangle(this.handle);
     }
 
     /**
@@ -116,7 +120,6 @@ public class Player extends Thread{
         return keyArray;
     }
 
-
     /**
      * If the player is pressing a key, and the player is not at the edge of the screen, then move the
      * player in the direction of the key
@@ -126,6 +129,8 @@ public class Player extends Thread{
     public void playerUpdate(boolean keyArray[]){
         double currentX=player.getXPosition();
         double currentY=player.getYPosition();
+        // double handleX=handle.getXPosition();
+        // double handleY=handle.getYPosition();
 
         if((keyArray[0] ^ keyArray[2]) && player.getXVelocity()<12){
             player.setXVelocity(player.getXVelocity()+4);
@@ -144,15 +149,19 @@ public class Player extends Thread{
 
         if(keyArray[0] && currentX>minX){
             player.setXPosition(currentX-25);
+            // handle.setXPosition(currentX-25);
         }
         if(keyArray[1] && currentY>minY){
             player.setYPosition(currentY-25);
+            // handle.setYPosition(currentY-25);
         }
         if(keyArray[2] && (currentX<maxX)){
             player.setXPosition(currentX+25);
+            // handle.setXPosition(currentX+25);
         }
         if(keyArray[3] && (currentY<maxY)){
             player.setYPosition(currentY+25);
+            // handle.setYPosition(currentY+25);
         }
 
         if(goalEnter(window.goalXPos(playerID), currentX, currentY)){
@@ -188,6 +197,7 @@ public class Player extends Thread{
         }
         return true;
     }
+
 
 
     /**

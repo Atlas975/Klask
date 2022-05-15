@@ -138,7 +138,7 @@ public class Ball
 
 	/**
 	 * Sets the colour of this Ball.
-	 * @param c the new colour of this Ball, as a String value. Permissable colours are: BLACK, BLUE, CYAN, DARKGREY, GREY, GREEN, LIGHTGREY, MAGENTA, ORANGE, PINK, RED, WHITE, YELLOW or #RRGGBB.
+	 * @param c the new colour of this Bal1l, as a String value. Permissable colours are: BLACK, BLUE, CYAN, DARKGREY, GREY, GREEN, LIGHTGREY, MAGENTA, ORANGE, PINK, RED, WHITE, YELLOW or #RRGGBB.
 	 */
 	public void setColour(String c)
 	{

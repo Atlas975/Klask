@@ -110,7 +110,7 @@ public class ObjectMotion extends Thread{
             while(!roundOver()){
                 magnetsInteract(magnetMain);
                 moveObject(magnetMain,magnetMain.getXPosition(),magnetMain.getYPosition(),objectRadius,frictionLoss);
-                attractionForce(magnetMain,player1,player2,attractionForce);
+                attractionControl(magnetMain,player1,player2,attractionForce);
             }
             return;
         }
@@ -207,16 +207,16 @@ public class ObjectMotion extends Thread{
         double deflectY=object.getYPosition()+object.getYVelocity();
 
         if(deflectX-radius<=minX){
-            object.setXVelocity(-object.getXVelocity()*0.5);
+            object.setXVelocity(-object.getXVelocity()*0.75);
         }
         else if(deflectX+radius>=maxX){
-            object.setXVelocity(-object.getXVelocity()*0.5);
+            object.setXVelocity(-object.getXVelocity()*0.75);
         }
         if(deflectY+radius>=maxY){
-            object.setYVelocity(-object.getYVelocity()*0.5);
+            object.setYVelocity(-object.getYVelocity()*0.75);
         }
         else if(deflectY-radius<=minY){
-            object.setYVelocity(-object.getYVelocity()*0.5);
+            object.setYVelocity(-object.getYVelocity()*0.75);
         }
 
         object.setXPosition(xPosition+object.getXVelocity());
@@ -240,7 +240,7 @@ public class ObjectMotion extends Thread{
      * @param player2 The second player object
      * @param attractionForce The velocity that magnets head towards the player
      */
-    public void attractionForce(Ball magnet, Ball player1, Ball player2, double attractionForce){
+    public void attractionControl(Ball magnet, Ball player1, Ball player2, double attractionForce){
         double magnetXPos=magnet.getXPosition();
         double magnetYPos=magnet.getYPosition();
         double player1XPos=player1.getXPosition();
@@ -262,34 +262,42 @@ public class ObjectMotion extends Thread{
             playerLatch(p2.passObject());
         }
         else if(p1Distance<attractBoundry){
-            if(player1XPos>magnetXPos){
-                magnet.setXVelocity(attractionForce);
+            if(p1Distance<150){
+                attract(magnet,magnetXPos,magnetYPos,player1XPos,player1YPos,attractionForce*2);
             }
-            else if(player1XPos<magnetXPos){
-                magnet.setXVelocity(-attractionForce);
+            else if(p1Distance<200){
+                attract(magnet,magnetXPos,magnetYPos,player1XPos,player1YPos,attractionForce*1.5);
             }
-            if(player1YPos>magnetYPos){
-                magnet.setYVelocity(attractionForce);
-            }
-            else if(player1YPos<magnetYPos){
-                magnet.setYVelocity(-attractionForce);
+            else{
+                attract(magnet,magnetXPos,magnetYPos,player1XPos,player1YPos,attractionForce);
             }
         }
         else if(p2Distance<attractBoundry){
-            if(player2XPos>magnetXPos){
-                magnet.setXVelocity(attractionForce);
+            if(p2Distance<150){
+                attract(magnet,magnetXPos,magnetYPos,player2XPos,player2YPos,attractionForce*2);
             }
-            else if(player2XPos<magnetXPos){
-                magnet.setXVelocity(-attractionForce);
+            else if(p2Distance<200){
+                attract(magnet,magnetXPos,magnetYPos,player2XPos,player2YPos,attractionForce*1.5);
             }
-            if(player2YPos>magnetYPos){
-                magnet.setYVelocity(attractionForce);
-            }
-            else if(player2YPos<magnetYPos){
-                magnet.setYVelocity(-attractionForce);
+            else{
+                attract(magnet,magnetXPos,magnetYPos,player2XPos,player2YPos,attractionForce);
             }
         }
+    }
 
+    public void attract(Ball magnet, double magnetXPos,double magnetYPos, double playerXPos, double playerYPos, double attractionForce){
+        if(playerXPos>magnetXPos){
+            magnet.setXVelocity(attractionForce);
+        }
+        else if(playerXPos<magnetXPos){
+            magnet.setXVelocity(-attractionForce);
+        }
+        if(playerYPos>magnetYPos){
+            magnet.setYVelocity(attractionForce);
+        }
+        else if(playerYPos<magnetYPos){
+            magnet.setYVelocity(-attractionForce);
+        }
     }
 
     /**
