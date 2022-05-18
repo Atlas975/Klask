@@ -37,7 +37,7 @@ public class Player extends Thread{
 
     /**
      * The run function adds a key listener to the window, which updates the player's position based on
-     * the keys pressed
+     * if a key is pressed or released
      */
     @Override
     public void run() {
