@@ -91,7 +91,7 @@ public class GameWindow extends GameArena{
 
     public double playerMinX(int type){
         if(type==1){
-            return 198;
+            return 190;
         }
         else{
             return 940.5;
@@ -100,10 +100,10 @@ public class GameWindow extends GameArena{
 
     public double playerMaxX(int type){
         if(type==1){
-            return 859.5;
+            return 866;
         }
         else{
-            return 1602;
+            return 1610;
         }
     }
 

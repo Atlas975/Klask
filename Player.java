@@ -6,8 +6,8 @@ public class Player extends Thread{
     private Boolean stop=false;
     private double minX;
     private double maxX;
-    private double minY=193.5;
-    private double maxY=882;
+    private double minY=195;
+    private double maxY=887;
     private GameWindow window;
     private boolean loss=false;
     private Ball player;
@@ -180,7 +180,7 @@ public class Player extends Thread{
      */
     public boolean goalEnter(double goalXPos, double ballXPos, double ballYPos){
         double distance=Math.sqrt(Math.pow(goalXPos-ballXPos,2)+Math.pow(540-ballYPos,2))-63;
-        return distance < -13.5;
+        return distance < -1;
     }
 
     /**

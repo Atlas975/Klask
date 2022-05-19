@@ -206,16 +206,26 @@ public class ObjectMotion extends Thread{
         double deflectX=object.getXPosition()+object.getXVelocity();
         double deflectY=object.getYPosition()+object.getYVelocity();
 
-        if(deflectX-radius<=minX){
+        if(deflectX<minX){
+            System.out.println(p1.passObject().getXVelocity());
+            System.out.println(p1.passObject().getXVelocity());
+
             object.setXVelocity(-object.getXVelocity()*0.75);
         }
-        else if(deflectX+radius>=maxX){
+        else if(deflectX>maxX){
+            System.out.println(p1.passObject().getXVelocity());
+            System.out.println(p1.passObject().getXVelocity());
+
             object.setXVelocity(-object.getXVelocity()*0.75);
         }
-        if(deflectY+radius>=maxY){
+        if(deflectY>maxY){
+            System.out.println(p1.passObject().getXVelocity());
+            System.out.println(p1.passObject().getXVelocity());
             object.setYVelocity(-object.getYVelocity()*0.75);
         }
-        else if(deflectY-radius<=minY){
+        else if(deflectY<minY){
+            System.out.println(p1.passObject().getXVelocity());
+            System.out.println(p1.passObject().getXVelocity());
             object.setYVelocity(-object.getYVelocity()*0.75);
         }
 
@@ -247,7 +257,7 @@ public class ObjectMotion extends Thread{
         double player1YPos=player1.getYPosition();
         double player2XPos=player2.getXPosition();
         double player2YPos=player2.getYPosition();
-        int attractBoundry=275;
+        int attractBoundry=270;
         double p1Distance=Math.sqrt(Math.pow(player1XPos-magnetXPos,2)+Math.pow(player1YPos-magnetYPos,2));
         double p2Distance=Math.sqrt(Math.pow(player2XPos-magnetXPos,2)+Math.pow(player2YPos-magnetYPos,2));
         if(p1Distance==p2Distance){
@@ -276,7 +286,7 @@ public class ObjectMotion extends Thread{
             if(p2Distance<135){
                 attract(magnet,magnetXPos,magnetYPos,player2XPos,player2YPos,attractionForce*2);
             }
-            else if(p2Distance<200){
+            else if(p2Distance<180){
                 attract(magnet,magnetXPos,magnetYPos,player2XPos,player2YPos,attractionForce*1.5);
             }
             else{
