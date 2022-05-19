@@ -9,7 +9,9 @@ public class GameWindow extends GameArena{
     private Ball p2Goal;
     private Text p1Score;
     private Text p2Score;
-    private double ballPositions[][]={{189,189},{189,891},{1611,189},{1611,891}};
+    // private double ballPositions[][]={{189,189},{189,891},{1611,189},{1611,891}};
+    private double ballPositions[][]={{199,199},{199,881},{1601,199},{1601,881}};
+
 
     public GameWindow(int []overheadStats){
         super(1800,1080);
