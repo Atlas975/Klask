@@ -9,16 +9,16 @@ public class GameWindow extends GameArena{
     private Ball p2Goal;
     private Text p1Score;
     private Text p2Score;
-    private double ballPositions[][]={{210,210},{210,990},{1790,210},{1790,990}};
+    private double ballPositions[][]={{189,189},{189,891},{1611,189},{1611,891}};
 
     public GameWindow(int []overheadStats){
-        super(2000,1200);
+        super(1800,1080);
         this.setFocusable(true);
         this.setBackground(new Color(0x2e3440));
-        Rectangle gameZone=new Rectangle(165,165,1670,870,"BLUE",2);
-        Ball p1goal= new Ball(250,600,80,"GREY",2);
-        Ball p2goal= new Ball(1750,600,80,"GREY",2);
-        Line split= new Line(1006,165,1006,1035,6,"GREY",2);
+        Rectangle gameZone=new Rectangle(148.5,148.5,1503,783,"BLUE",2);
+        Ball p1goal= new Ball(225,540,80,"GREY",2);
+        Ball p2goal= new Ball(1575,540,80,"GREY",2);
+        Line split= new Line(905.4,148.5,905.4,931.5,5,"GREY",2);
         this.p1Goal=p1goal;
         this.p2Goal=p2goal;
         this.addRectangle(gameZone);
@@ -30,15 +30,15 @@ public class GameWindow extends GameArena{
     }
 
     public void gameText(int[] overheadStats){
-        Text welcomeText=new Text("Welcome to Klask!",30,150,80,"WHITE");
-        Text roundNumber=new Text("Round "+overheadStats[0],30,950,80,"WHITE");
-        Text p1Wins=new Text("W : "+overheadStats[1],30,40,1150,"WHITE");
-        Text p2Wins=new Text("W : "+overheadStats[2],30,1890,1150,"WHITE");
-        Text p1Score=new Text(""+overheadStats[3],40,50,610,"WHITE");
-        Text p2Score=new Text(""+overheadStats[4],40,1930,610,"WHITE");
+        Text welcomeText=new Text("Welcome to Klask!",27,135,72,"WHITE");
+        Text roundNumber=new Text("Round "+overheadStats[0],27,855,72,"WHITE");
+        Text p1Wins=new Text("W : "+overheadStats[1],27,36,1035,"WHITE");
+        Text p2Wins=new Text("W : "+overheadStats[2],27,1701,1035,"WHITE");
+        Text p1Score=new Text(""+overheadStats[3],36,45,549,"WHITE");
+        Text p2Score=new Text(""+overheadStats[4],36,1737,549,"WHITE");
         this.p1Score=p1Score;
         this.p2Score=p2Score;
-        Text timerText=new Text("Time elapsed: 0s",30,1585,80,"WHITE");
+        Text timerText=new Text("Time elapsed: 0s",27,1425.5,72,"WHITE");
         Timer stopwatch=new Timer();
         TimerTask counter=new TimerTask(){
             int seconds=0;
@@ -60,18 +60,18 @@ public class GameWindow extends GameArena{
     }
 
     public void scoreZones(){
-        double scorePosition[][]={{185,185},{185,1015},{1815,185},{1815,1015}};
+        double scorePosition[][]={{166.5,166.5},{166.5,913.5},{1633.5,166.5},{1633.5,913.5}};
 
         for(int i=0; i<4; i++){
-            this.addBall(new Ball(scorePosition[i][0],scorePosition[i][1],150,"GREY",3));
-            this.addBall(new Ball(scorePosition[i][0],scorePosition[i][1],120,"BLUE",3));
+            this.addBall(new Ball(scorePosition[i][0],scorePosition[i][1],135,"GREY",3));
+            this.addBall(new Ball(scorePosition[i][0],scorePosition[i][1],108,"BLUE",3));
         }
-        int overlapFill[][]={{120,120,1880,120},{1880,120,1880,1080},{1880,1080,120,1080},{120,1080,120,120}};
-        double borderFill[][]={{160,160,1840,160},{1840,160,1840,1040},{1840,1040,160,1040},{160,1040,160,160}};
+        int overlapFill[][]={{108,108,1692,108},{1692,108,1692,972},{1692,972,108,972},{108,972,108,108}};
+        double borderFill[][]={{144,144,1656,144},{1656,144,1656,936},{1656,936,144,936},{144,936,144,144}};
 
         for(int i=0; i<4; i++){
-            this.addLine(new Line(overlapFill[i][0],overlapFill[i][1],overlapFill[i][2],overlapFill[i][3],60,"BLACK",3));
-            this.addLine(new Line(borderFill[i][0],borderFill[i][1],borderFill[i][2],borderFill[i][3],20,"GREY",3));
+            this.addLine(new Line(overlapFill[i][0],overlapFill[i][1],overlapFill[i][2],overlapFill[i][3],54,"BLACK",3));
+            this.addLine(new Line(borderFill[i][0],borderFill[i][1],borderFill[i][2],borderFill[i][3],18,"GREY",3));
         }
     }
 
@@ -89,21 +89,21 @@ public class GameWindow extends GameArena{
         return stopwatch;
     }
 
-    public int playerMinX(int type){
+    public double playerMinX(int type){
         if(type==1){
-            return 220;
+            return 198;
         }
         else{
-            return 1045;
+            return 940.5;
         }
     }
 
-    public int playerMaxX(int type){
+    public double playerMaxX(int type){
         if(type==1){
-            return 955;
+            return 859.5;
         }
         else{
-            return 1780;
+            return 1602;
         }
     }
 
@@ -126,17 +126,17 @@ public class GameWindow extends GameArena{
         scorePuck.setXPosition(ballPositions[position][0]);
         scorePuck.setYPosition(ballPositions[position][1]);
 
-        int magnetPosY=850;
+        int magnetPosY=765;
         for(int i=0; i<magnets.length; i++){
-            magnets[i].setXPosition(1008);
+            magnets[i].setXPosition(907.2);
             magnets[i].setYPosition(magnetPosY);
-            magnetPosY-=250;
+            magnetPosY-=225;
         }
 
-        player1.setXPosition(this.goalXPos(1)+250);
-        player1.setYPosition(600);
-        player2.setXPosition(this.goalXPos(2)-250);
-        player2.setYPosition(600);
+        player1.setXPosition(goalXPos(1)+225);
+        player1.setYPosition(540);
+        player2.setXPosition(goalXPos(2)-225);
+        player2.setYPosition(540);
         for (int i=0; i<this.getKeyListeners().length; i++){
             this.removeKeyListener(this.getKeyListeners()[i]);
         }

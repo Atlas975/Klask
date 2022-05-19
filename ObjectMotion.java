@@ -14,10 +14,10 @@ public class ObjectMotion extends Thread{
     private Ball magnets[];
     private Ball scorePuck;
     private int pieceIndex=-1;
-    private int minX=165;
-    private int maxX=1835;
-    private int minY=165;
-    private int maxY=1035;
+    private double minX=148.5;
+    private double maxX=1651.5;
+    private double minY=148.5;
+    private double maxY=931.5;
 
     /**
      * If the thread is running, stop it.
@@ -125,11 +125,11 @@ public class ObjectMotion extends Thread{
     public Boolean enteredGoal(int goalType){
         double distance;
         if(goalType==1){
-            distance=Math.sqrt(Math.pow(scorePuck.getXPosition()-window.goalXPos(1),2)+Math.pow(scorePuck.getYPosition()-600,2))-50;
+            distance=Math.sqrt(Math.pow(scorePuck.getXPosition()-window.goalXPos(1),2)+Math.pow(scorePuck.getYPosition()-540,2))-45;
             return distance<0;
         }
         else{
-            distance=Math.sqrt(Math.pow(scorePuck.getXPosition()-window.goalXPos(2),2)+Math.pow(scorePuck.getYPosition()-600,2))-50;
+            distance=Math.sqrt(Math.pow(scorePuck.getXPosition()-window.goalXPos(2),2)+Math.pow(scorePuck.getYPosition()-540,2))-45;
             return distance<0;
         }
     }
@@ -164,7 +164,7 @@ public class ObjectMotion extends Thread{
                 deflect(object, magnet);
                 double deflectX=magnet.getXPosition()+magnet.getXVelocity();
                 double deflectY=magnet.getYPosition()+magnet.getYVelocity();
-                if(displacementCheck(magnet,deflectX,deflectY,15)){
+                if(displacementCheck(magnet,deflectX,deflectY,13.5)){
                     magnet.setXPosition(deflectX);
                     magnet.setYPosition(deflectY);
                 }
@@ -253,19 +253,19 @@ public class ObjectMotion extends Thread{
         if(p1Distance==p2Distance){
             return;
         }
-        else if(p1Distance<35){
+        else if(p1Distance<31.5){
             p1.incrementMagnet();
             playerLatch(p1.passObject());
         }
-        else if(p2Distance<35){
+        else if(p2Distance<31.5){
             p2.incrementMagnet();
             playerLatch(p2.passObject());
         }
         else if(p1Distance<attractBoundry){
-            if(p1Distance<150){
+            if(p1Distance<135){
                 attract(magnet,magnetXPos,magnetYPos,player1XPos,player1YPos,attractionForce*2);
             }
-            else if(p1Distance<200){
+            else if(p1Distance<180){
                 attract(magnet,magnetXPos,magnetYPos,player1XPos,player1YPos,attractionForce*1.5);
             }
             else{
@@ -273,7 +273,7 @@ public class ObjectMotion extends Thread{
             }
         }
         else if(p2Distance<attractBoundry){
-            if(p2Distance<150){
+            if(p2Distance<135){
                 attract(magnet,magnetXPos,magnetYPos,player2XPos,player2YPos,attractionForce*2);
             }
             else if(p2Distance<200){

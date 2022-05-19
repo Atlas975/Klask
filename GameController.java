@@ -8,22 +8,19 @@ public class GameController{
             return;
         }
 
-
         GameWindow window = new GameWindow(overheadStats);
         Ball []magnets=new Ball[3];
         for(int i=0; i<3; i++){
-            magnets[i]=new Ball(0,0,30, "WHITE",4);
+            magnets[i]=new Ball(0,0,27, "WHITE",4);
             window.addBall(magnets[i]);
         }
-        Ball scorePuck=new Ball(0,0,50,"YELLOW",3);
-        Ball player1= new Ball(0,0,70,"BLACK",3);
-        Ball player2= new Ball(0,0,70,"BLACK",3);
+        Ball scorePuck=new Ball(0,0,45,"YELLOW",3);
+        Ball player1= new Ball(0,0,63,"BLACK",3);
+        Ball player2= new Ball(0,0,63,"BLACK",3);
         window.addBall(scorePuck);
         window.addBall(player1);
         window.addBall(player2);
-        int ballPositions[][]={{205,205},{205,995},{1800,205},{1800,995}};
-        double zoneConstraints[][]={{165,1010,165,1035},{1010,1835,165,1035}};
-        startGame(window,overheadStats,magnets,scorePuck,zoneConstraints,ballPositions,player1,player2,0);
+        startGame(window,overheadStats,magnets,scorePuck, player1,player2,0);
     }
 
 
@@ -34,14 +31,11 @@ public class GameController{
      * @param overheadStats an array of integers that contains the following information:
      * @param magnets the array of magnets that are on the board
      * @param scorePuck the puck that is used to score points
-     * @param zoneConstraints This is a 2D array that contains the x and y coordinates of the top left and
-     * bottom right corners of the zone.
-     * @param ballPositions The positions of the balls on the board.
      * @param player1 The first player's ball
      * @param player2 The second player's ball
      * @param startCondition 0 for normal, 1 for player 1, 2 for player 2
     */
-    public void startGame(GameWindow window, int[] overheadStats, Ball[] magnets, Ball scorePuck, double[][] zoneConstraints, int[][] ballPositions,Ball player1,Ball player2,int startCondition){
+    public void startGame(GameWindow window, int[] overheadStats, Ball[] magnets, Ball scorePuck, Ball player1,Ball player2,int startCondition){
         window.resetBoard(overheadStats,magnets,scorePuck,player1,player2,startCondition);
         int winner=0;
         boolean gameRun=true;

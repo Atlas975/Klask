@@ -6,8 +6,8 @@ public class Player extends Thread{
     private Boolean stop=false;
     private double minX;
     private double maxX;
-    private double minY=215;
-    private double maxY=980;
+    private double minY=193.5;
+    private double maxY=882;
     private GameWindow window;
     private boolean loss=false;
     private Ball player;
@@ -31,7 +31,7 @@ public class Player extends Thread{
         this.playerID=playerID;
         this.player=piece;
         this.window=window;
-        this.handle=new Rectangle(piece.getXPosition()-15, piece.getYPosition()-80, 30, 80,"BLACK",4);
+        // this.handle=new Rectangle(piece.getXPosition()-15, piece.getYPosition()-80, 30, 80,"BLACK",4);
         // window.addRectangle(this.handle);
     }
 
@@ -132,15 +132,15 @@ public class Player extends Thread{
         // double handleX=handle.getXPosition();
         // double handleY=handle.getYPosition();
 
-        if((keyArray[0] ^ keyArray[2]) && player.getXVelocity()<12){
-            player.setXVelocity(player.getXVelocity()+4);
+        if((keyArray[0] ^ keyArray[2]) && player.getXVelocity()<10.8){
+            player.setXVelocity(player.getXVelocity()+3.6);
         }
         else{
             player.setXVelocity(0);
         }
 
-        if((keyArray[1] ^ keyArray[3]) && player.getYVelocity()<12){
-            player.setYVelocity(player.getYVelocity()+4);
+        if((keyArray[1] ^ keyArray[3]) && player.getYVelocity()<10.8){
+            player.setYVelocity(player.getYVelocity()+3.6);
         }
         else{
             player.setYVelocity(0);
@@ -148,19 +148,19 @@ public class Player extends Thread{
 
 
         if(keyArray[0] && currentX>minX){
-            player.setXPosition(currentX-25);
+            player.setXPosition(currentX-18);
             // handle.setXPosition(currentX-25);
         }
         if(keyArray[1] && currentY>minY){
-            player.setYPosition(currentY-25);
+            player.setYPosition(currentY-18);
             // handle.setYPosition(currentY-25);
         }
         if(keyArray[2] && (currentX<maxX)){
-            player.setXPosition(currentX+25);
+            player.setXPosition(currentX+18);
             // handle.setXPosition(currentX+25);
         }
         if(keyArray[3] && (currentY<maxY)){
-            player.setYPosition(currentY+25);
+            player.setYPosition(currentY+18);
             // handle.setYPosition(currentY+25);
         }
 
@@ -179,8 +179,8 @@ public class Player extends Thread{
      * @return A boolean value.
      */
     public boolean goalEnter(double goalXPos, double ballXPos, double ballYPos){
-        double distance=Math.sqrt(Math.pow(goalXPos-ballXPos,2)+Math.pow(600-ballYPos,2))-70;
-        return distance < -15;
+        double distance=Math.sqrt(Math.pow(goalXPos-ballXPos,2)+Math.pow(540-ballYPos,2))-63;
+        return distance < -13.5;
     }
 
     /**
@@ -192,7 +192,7 @@ public class Player extends Thread{
      * @return A boolean value.
      */
     public Boolean validateBounds(double moveX, double moveY){
-        if(moveX-35<=minX || moveX+35>=maxX || moveY-35<=minY || moveY+35>=maxY){
+        if(moveX-31.5<=minX || moveX+31.5>=maxX || moveY-31.5<=minY || moveY+31.5>=maxY){
             return false;
         }
         return true;
