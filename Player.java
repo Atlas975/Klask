@@ -132,15 +132,15 @@ public class Player extends Thread{
         // double handleX=handle.getXPosition();
         // double handleY=handle.getYPosition();
 
-        if((keyArray[0] ^ keyArray[2]) && player.getXVelocity()<10.8){
-            player.setXVelocity(player.getXVelocity()+3.6);
+        if((keyArray[0] ^ keyArray[2]) && player.getXVelocity()<8){
+            player.setXVelocity(player.getXVelocity()+2);
         }
         else{
             player.setXVelocity(0);
         }
 
-        if((keyArray[1] ^ keyArray[3]) && player.getYVelocity()<10.8){
-            player.setYVelocity(player.getYVelocity()+3.6);
+        if((keyArray[1] ^ keyArray[3]) && player.getYVelocity()<8){
+            player.setYVelocity(player.getYVelocity()+2);
         }
         else{
             player.setYVelocity(0);
