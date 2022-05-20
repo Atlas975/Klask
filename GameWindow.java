@@ -9,10 +9,11 @@ public class GameWindow extends GameArena{
     private Ball p2Goal;
     private Text p1Score;
     private Text p2Score;
-    // private double ballPositions[][]={{189,189},{189,891},{1611,189},{1611,891}};
     private double ballPositions[][]={{199,199},{199,881},{1601,199},{1601,881}};
 
 
+    // This is the constructor for the GameWindow class. It is used to create the game window and add
+    // all the objects to it.
     public GameWindow(int []overheadStats){
         super(1800,1080);
         this.setFocusable(true);
@@ -31,6 +32,11 @@ public class GameWindow extends GameArena{
         scoreZones();
     }
 
+    /**
+     * It creates and adds the text objects that are displayed on the screen
+     *
+     * @param overheadStats an array of integers that contains the following information:
+     */
     public void gameText(int[] overheadStats){
         Text welcomeText=new Text("Welcome to Klask!",27,135,72,"WHITE");
         Text roundNumber=new Text("Round "+overheadStats[0],27,855,72,"WHITE");
@@ -61,6 +67,11 @@ public class GameWindow extends GameArena{
         this.addText(timerText);
     }
 
+
+
+    /**
+     * Used for GUI, creates the games borders, ball start zones and goal zones
+     */
     public void scoreZones(){
         double scorePosition[][]={{166.5,166.5},{166.5,913.5},{1633.5,166.5},{1633.5,913.5}};
 
@@ -77,6 +88,12 @@ public class GameWindow extends GameArena{
         }
     }
 
+    /**
+     * Resturns the x position of the playeer
+     *
+     * @param type 1 for player 1, 2 for player 2
+     * @return The x position of the goal.
+     */
     public double goalXPos(int type){
         if(type==1){
             return p1Goal.getXPosition();
@@ -87,10 +104,21 @@ public class GameWindow extends GameArena{
     }
 
 
+    /**
+     * This function returns the stopwatch object so it can manually be turned off.
+     *
+     * @return The stopwatch object.
+     */
     public Timer getTimerInstance(){
         return stopwatch;
     }
 
+    /**
+     * Returns the minimum x value for the player of the given type.
+     *
+     * @param type 1 for player 1, 2 for player 2
+     * @return The minimum x value for the player.
+     */
     public double playerMinX(int type){
         if(type==1){
             return 190;
@@ -100,6 +128,12 @@ public class GameWindow extends GameArena{
         }
     }
 
+    /**
+     * Returns the maximum x value for the player of the given type
+     *
+     * @param type 1 for player 1, 2 for player 2
+     * @return The maximum x value of the player.
+     */
     public double playerMaxX(int type){
         if(type==1){
             return 866;
@@ -109,6 +143,18 @@ public class GameWindow extends GameArena{
         }
     }
 
+
+    /**
+     * Resets the board to its original position, ball position is based on startCondition parameter
+     *
+     * @param overheadStats an array of integers that contains the score of each player, the number of
+     * goals scored by each player, and the number of shots taken by each player.
+     * @param magnets an array of the magnets on the board
+     * @param scorePuck the puck that is used to score
+     * @param player1 player 1's movement piece
+     * @param player2 player 2's movement piece
+     * @param startCondition 1 for player 1, 2 for player 2, 0 for random
+     */
     public void resetBoard(int[] overheadStats, Ball[] magnets, Ball scorePuck, Ball player1,Ball player2,int startCondition){
 
         int position=0;
@@ -144,6 +190,12 @@ public class GameWindow extends GameArena{
         }
     }
 
+    /**
+     * Increments the score text each round
+     *
+     * @param type 1 for player 1 and 2 for player 2
+     * @param score The score to be displayed
+     */
     public void scoreIncremeent(int type,int score){
         if(type==1){
             p1Score.setText(""+score);

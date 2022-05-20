@@ -149,19 +149,15 @@ public class Player extends Thread{
 
         if(keyArray[0] && currentX>minX){
             player.setXPosition(currentX-18);
-            // handle.setXPosition(currentX-25);
         }
         if(keyArray[1] && currentY>minY){
             player.setYPosition(currentY-18);
-            // handle.setYPosition(currentY-25);
         }
         if(keyArray[2] && (currentX<maxX)){
             player.setXPosition(currentX+18);
-            // handle.setXPosition(currentX+25);
         }
         if(keyArray[3] && (currentY<maxY)){
             player.setYPosition(currentY+18);
-            // handle.setYPosition(currentY+25);
         }
 
         if(goalEnter(window.goalXPos(playerID), currentX, currentY)){

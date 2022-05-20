@@ -75,13 +75,14 @@ public class ObjectMotion extends Thread{
      */
     @Override
     public void run() {
+        System.out.print("");
         double objectRadius;
         double frictionLoss;
         double attractionForce;
         Ball player1=p1.passObject();
         Ball player2=p2.passObject();
 
-        if(pieceIndex==-1){
+        if(pieceIndex==-1){ // control the score puck
             objectRadius=scorePuck.getSize()/2;
             frictionLoss=0.9985;
 
@@ -102,7 +103,7 @@ public class ObjectMotion extends Thread{
             return;
         }
 
-        else{
+        else{ // control the magnets
             objectRadius=magnets[0].getSize()/2;
             frictionLoss=0.99;
             attractionForce=0.05;
@@ -117,7 +118,7 @@ public class ObjectMotion extends Thread{
     }
 
     /**
-     * If the puck is within 50 pixels of the goal, return true
+     * If the puck reaches either goal, the round is terminated
      *
      * @param goalType 1 for the left goal, 2 for the right goal
      * @return The distance between the puck and the goal.
@@ -207,25 +208,15 @@ public class ObjectMotion extends Thread{
         double deflectY=object.getYPosition()+object.getYVelocity();
 
         if(deflectX<minX){
-            System.out.println(p1.passObject().getXVelocity());
-            System.out.println(p1.passObject().getXVelocity());
-
             object.setXVelocity(-object.getXVelocity()*0.75);
         }
         else if(deflectX>maxX){
-            System.out.println(p1.passObject().getXVelocity());
-            System.out.println(p1.passObject().getXVelocity());
-
             object.setXVelocity(-object.getXVelocity()*0.75);
         }
         if(deflectY>maxY){
-            System.out.println(p1.passObject().getXVelocity());
-            System.out.println(p1.passObject().getXVelocity());
             object.setYVelocity(-object.getYVelocity()*0.75);
         }
         else if(deflectY<minY){
-            System.out.println(p1.passObject().getXVelocity());
-            System.out.println(p1.passObject().getXVelocity());
             object.setYVelocity(-object.getYVelocity()*0.75);
         }
 
@@ -242,13 +233,13 @@ public class ObjectMotion extends Thread{
     }
 
     /**
-     * If the distance between the magnet and either player is less than 50, the magnet latches on to the player. If
-     * the distance is less than 300, the magnet is attracted to the player
+     * If the distance between the magnet and either player is less than 13.5, the magnet latches on to the player. If
+     * the distance is less than attractBound, the magnet is attracted to the player
      *
      * @param magnet The magnet object
      * @param player1 The first player object
      * @param player2 The second player object
-     * @param attractionForce The velocity that magnets head towards the player
+     * @param attractionForce The velocity that a magnet heads towards the player
      */
     public void attractionControl(Ball magnet, Ball player1, Ball player2, double attractionForce){
         double magnetXPos=magnet.getXPosition();
@@ -388,22 +379,3 @@ public class ObjectMotion extends Thread{
         return result;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

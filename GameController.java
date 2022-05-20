@@ -107,6 +107,7 @@ public class GameController{
         }
 
         overheadStats=roundResult(overheadStats, window, magnets, scorePuck, player1, player2,winner);
+        window.resetBoard(overheadStats, magnets, scorePuck, player1, player2, winner);
         killThreads(p1,p2,puckMovement,magMovement,scorePuck,magnets);
         window.resetBoard(overheadStats, magnets, scorePuck, player1, player2, winner);
         return overheadStats;
