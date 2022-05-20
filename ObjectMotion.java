@@ -71,7 +71,7 @@ public class ObjectMotion extends Thread{
     }
 
     /**
-     * The run activates the motion of the score puck and the magnets depending on the piece index
+     * Actiates the motion of the score puck and the magnets depending on the piece index
      */
     @Override
     public void run() {

@@ -1,10 +1,10 @@
 
 public class GameController{
-    // This is the constructor for the GameController class. It creates a new GameWindow object, and
-    // then creates the magnets, the scorePuck, and the player1 and player2 balls. It then calls the
+    // This is the constructor for the GameController class. It creates a new GameWindow object,
+    // then creates the magnets, the scorePuck, and the player1 / player2 balls. It then calls the
     // startGame function to begin the game.
-    public GameController(int overheadStats[], int modeParameters[]) {
-        if (modeParameters[0]==2){ // quit option
+    public GameController(int overheadStats[], int option) {
+        if (option==1){ // quit option
             return;
         }
 
@@ -20,7 +20,7 @@ public class GameController{
         window.addBall(scorePuck);
         window.addBall(player1);
         window.addBall(player2);
-        startGame(window,overheadStats,magnets,scorePuck, player1,player2,modeParameters);
+        startGame(window,overheadStats,magnets,scorePuck, player1,player2);
     }
 
     /**
@@ -32,9 +32,8 @@ public class GameController{
      * @param scorePuck the puck that is used to score points
      * @param player1 The first player's ball
      * @param player2 The second player's ball
-     * @param startCondition 0 for n, 1 for player 1, 2 for player 2
     */
-    public void startGame(GameWindow window, int[] overheadStats, Ball[] magnets, Ball scorePuck, Ball player1,Ball player2, int[] modeParameters){
+    public void startGame(GameWindow window, int[] overheadStats, Ball[] magnets, Ball scorePuck, Ball player1,Ball player2){
         window.resetBoard(overheadStats,magnets,scorePuck,player1,player2,0);
         int winner=0;
         boolean gameRun=true;
@@ -43,7 +42,7 @@ public class GameController{
             for (int i=0; i<window.getKeyListeners().length; i++){
                 window.removeKeyListener(window.getKeyListeners()[i]);
             }
-            overheadStats=GameRound(window, magnets, scorePuck, player1, player2, overheadStats, modeParameters);
+            overheadStats=GameRound(window, magnets, scorePuck, player1, player2, overheadStats);
             window.resetBoard(overheadStats, magnets, scorePuck, player1, player2, -1);
             if(overheadStats[3]==6){
                 gameRun=false;
@@ -72,14 +71,12 @@ public class GameController{
      * played, and the number of rounds won by each player.
      * @return The modified overhead stats array with a players game wins incremented
      */
-    public int[] GameRound(GameWindow window,Ball magnets[],Ball scorePuck,Ball player1,Ball player2, int overheadStats[], int[] modeParameters){
+    public int[] GameRound(GameWindow window,Ball magnets[],Ball scorePuck,Ball player1,Ball player2, int overheadStats[]){
 
         int winner=0;
         Player p1=new Player(player1,1,window);
         Player p2=new Player(player2,2,window);
         ObjectMotion puckMovement=new ObjectMotion(window,scorePuck,p1,p2,magnets);
-        // ObjectMotion puckMovent[]=new ObjectMotion[modeParameters[1]];
-
         ObjectMotion magMovement[]=new ObjectMotion[3];
         for(int i=0; i<3; i++){
             magMovement[i]=new ObjectMotion(window,i,p1,p2,magnets,scorePuck);
@@ -135,16 +132,10 @@ public class GameController{
 
 
     /**
-     * This function takes in the overheadStats array, the GameWindow, the magnets array, the scorePuck,
-     * the player1 and player2 balls, and the winner of the round. It then increments the winner's score
-     * and returns the overheadStats array
+     * This function increments the round wins for the winning player and updates game text to reflect this
      *
      * @param overheadStats an array of integers containing info on the state of the game
      * @param window The GameWindow object that the game is being played in.
-     * @param magnets An array of magnet objects used in the game.
-     * @param scorePuck The score puck ball
-     * @param player1 The first player's ball
-     * @param player2 The second player's ball
      * @param winner the player who won the round
      * @return The modified overheadStats array
      */
@@ -162,7 +153,7 @@ public class GameController{
 
 
     /**
-     * It creates a new game
+     * Creates a new game
      *
      * @param window The GameWindow instance that is currently running.
      * @param overheadStats an array of integers that contains the following information:
@@ -176,7 +167,7 @@ public class GameController{
         overheadStats[4]=0;
         MenuOptions options=new MenuOptions("Player "+winner+" wins!",overheadStats);
         options.dispose();
-        new GameController(overheadStats,options.getModeParameters());
+        new GameController(overheadStats,options.getOption());
         window.exit();
     }
 

@@ -27,7 +27,7 @@ class MenuOptions extends JFrame {
         JPanel textPanel=new JPanel();
         textPanel=createPanel(textPanel, 1, 4, 750, 150);
         JPanel options=new JPanel();
-        options=createPanel(options, 1, 3, 750, 100);
+        options=createPanel(options, 1, 2, 750, 100);
 
         Font txtFont=new Font("Arial",Font.BOLD,18);
         textDisplay("Select option", txtFont, textPanel);
@@ -35,19 +35,17 @@ class MenuOptions extends JFrame {
         textDisplay("P1 wins: "+score[1], txtFont, textPanel);
         textDisplay("P2 wins: "+score[2], txtFont, textPanel);
 
-        JButton []buttonOptions=new JButton[3];
-        buttonOptions[0]=new JButton("Normal");
-        buttonOptions[1]=new JButton("Frenzy");
-        buttonOptions[2]=new JButton("Quit");
+        JButton []buttonOptions=new JButton[2];
+        buttonOptions[0]=new JButton("Play");
+        buttonOptions[1]=new JButton("Quit");
         buttonOptions[0].setBackground(new Color(0xa3be8c));
-        buttonOptions[1].setBackground(new Color(0xbf616a));
-        buttonOptions[2].setBackground(new Color(0xb48ead));
+        buttonOptions[1].setBackground(new Color(0xb48ead));
 
         for(int i=0; i<buttonOptions.length; i++){
             final int mode=i;
             options.add(buttonOptions[i]);
             buttonOptions[i].addActionListener(
-                e->setModeParameters(mode)
+                e->setOption(mode)
             );
         }
 
@@ -89,35 +87,20 @@ class MenuOptions extends JFrame {
         textPanel.add(txt);
     }
 
-    /**
-     * This method initializes parameters that control various characteristics of
-     * each mode
-     *
-     * @param mode the identifying number of the game mode the use chose
-     *             param modeParameters[0] stores each modes idetifying number
-     *             param modeParameters[1] maximum number of overall inputs from a
-     *             user
-     *             param modeParameters[2] number of rounds the user gets
-     *             param modeParameters[3] number of colours the user has to guess
-     *             param modeParameters[4] number of rows for score board
-     *             param modeParameters[5] number of columns for score board
-     *             param modeParameters[6] amount of time each mode has
-     */
-    public void setModeParameters(int mode) {
+    public void setOption(int option){
         synchronized (this) {
-            int[] modeParameters = new int[2];
-            modeParameters[0] = mode;
-            switch (mode) {
-                case 0 -> {
-                    modeParameters[1]=1;
-                }
-                case 1 -> {
-                    modeParameters[1]=4;
-                }
-            }
-            this.modeParameters = modeParameters;
+            this.option = option;
             notify();
         }
+    }
+
+    /**
+     * This function returns 0 if the user chose to play, 1 if the user chose to quit
+     *
+     * @return The option variable is being returned.
+     */
+    public int getOption(){
+        return option;
     }
 
 

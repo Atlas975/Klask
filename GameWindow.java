@@ -12,8 +12,7 @@ public class GameWindow extends GameArena{
     private double ballPositions[][]={{199,199},{199,881},{1601,199},{1601,881}};
 
 
-    // This is the constructor for the GameWindow class. It is used to create the game window and add
-    // all the objects to it.
+    // Constructor for game window class, initializes the games GUI
     public GameWindow(int []overheadStats){
         super(1800,1080);
         this.setFocusable(true);
@@ -33,7 +32,7 @@ public class GameWindow extends GameArena{
     }
 
     /**
-     * It creates and adds the text objects that are displayed on the screen
+     * Creates and adds the text objects that are displayed on the screen
      *
      * @param overheadStats an array of integers that contains the following information:
      */
@@ -199,9 +198,8 @@ public class GameWindow extends GameArena{
     /**
      * Remove the handles from the player movement pieces
      *
-     *
      * @param p1handle player 1's handle
-     * @param p2handle player 2's handle 
+     * @param p2handle player 2's handle
      */
     public void removeHandle(Rectangle p1handle, Rectangle p2handle){
         this.removeRectangle(p1handle);
