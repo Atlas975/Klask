@@ -88,6 +88,7 @@ public class GameWindow extends GameArena{
         }
     }
 
+
     /**
      * Resturns the x position of the playeer
      *
@@ -193,6 +194,18 @@ public class GameWindow extends GameArena{
         for (int i=0; i<this.getKeyListeners().length; i++){
             this.removeKeyListener(this.getKeyListeners()[i]);
         }
+    }
+
+    /**
+     * Remove the handles from the player movement pieces
+     *
+     *
+     * @param p1handle player 1's handle
+     * @param p2handle player 2's handle 
+     */
+    public void removeHandle(Rectangle p1handle, Rectangle p2handle){
+        this.removeRectangle(p1handle);
+        this.removeRectangle(p2handle);
     }
 
     /**

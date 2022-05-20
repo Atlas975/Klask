@@ -2,7 +2,7 @@
 public class GameController{
     // This is the constructor for the GameController class. It creates a new GameWindow object, and
     // then creates the magnets, the scorePuck, and the player1 and player2 balls. It then calls the
-    // startGame function.
+    // startGame function to begin the game.
     public GameController(int overheadStats[], int modeParameters[]) {
         if (modeParameters[0]==2){ // quit option
             return;
@@ -20,23 +20,22 @@ public class GameController{
         window.addBall(scorePuck);
         window.addBall(player1);
         window.addBall(player2);
-        startGame(window,overheadStats,magnets,scorePuck, player1,player2,0);
+        startGame(window,overheadStats,magnets,scorePuck, player1,player2,modeParameters);
     }
-
 
     /**
      * This function is the main game loop. It runs the game until one player reaches 6 points
      *
      * @param window The GameWindow object that the game is being played in.
-     * @param overheadStats an array of integers that contains the following information:
-     * @param magnets the array of magnets that are on the board
+     * @param overheadStats an array of integers that contain the values in the text display
+     * @param magnets the array of magnet ball that are on the board
      * @param scorePuck the puck that is used to score points
      * @param player1 The first player's ball
      * @param player2 The second player's ball
-     * @param startCondition 0 for normal, 1 for player 1, 2 for player 2
+     * @param startCondition 0 for n, 1 for player 1, 2 for player 2
     */
-    public void startGame(GameWindow window, int[] overheadStats, Ball[] magnets, Ball scorePuck, Ball player1,Ball player2,int startCondition){
-        window.resetBoard(overheadStats,magnets,scorePuck,player1,player2,startCondition);
+    public void startGame(GameWindow window, int[] overheadStats, Ball[] magnets, Ball scorePuck, Ball player1,Ball player2, int[] modeParameters){
+        window.resetBoard(overheadStats,magnets,scorePuck,player1,player2,0);
         int winner=0;
         boolean gameRun=true;
 
@@ -44,7 +43,7 @@ public class GameController{
             for (int i=0; i<window.getKeyListeners().length; i++){
                 window.removeKeyListener(window.getKeyListeners()[i]);
             }
-            overheadStats=GameRound(window, magnets, scorePuck, player1, player2, overheadStats);
+            overheadStats=GameRound(window, magnets, scorePuck, player1, player2, overheadStats, modeParameters);
             window.resetBoard(overheadStats, magnets, scorePuck, player1, player2, -1);
             if(overheadStats[3]==6){
                 gameRun=false;
@@ -65,28 +64,25 @@ public class GameController{
      * the overhead stats
      *
      * @param window The game window
-     * @param magnets an array of 3 magnets
+     * @param magnets an array of 3 magnet objects
      * @param scorePuck The puck that is used to score points
      * @param player1 The first player's paddle
      * @param player2 The second player's paddle
      * @param overheadStats an array of integers that keeps track of the score, the number of rounds
      * played, and the number of rounds won by each player.
-     * @return The overheadStats array is being returned.
+     * @return The modified overhead stats array with a players game wins incremented
      */
-    public int[] GameRound(GameWindow window,Ball magnets[],Ball scorePuck,Ball player1,Ball player2, int overheadStats[]){
+    public int[] GameRound(GameWindow window,Ball magnets[],Ball scorePuck,Ball player1,Ball player2, int overheadStats[], int[] modeParameters){
 
         int winner=0;
         Player p1=new Player(player1,1,window);
-        p1.setName("p1");
         Player p2=new Player(player2,2,window);
-        p2.setName("p2");
         ObjectMotion puckMovement=new ObjectMotion(window,scorePuck,p1,p2,magnets);
-        puckMovement.setName("puckM");
+        // ObjectMotion puckMovent[]=new ObjectMotion[modeParameters[1]];
 
         ObjectMotion magMovement[]=new ObjectMotion[3];
         for(int i=0; i<3; i++){
             magMovement[i]=new ObjectMotion(window,i,p1,p2,magnets,scorePuck);
-            magMovement[i].setName("mag"+i);
             magMovement[i].start();
         }
         p1.start();
@@ -105,13 +101,23 @@ public class GameController{
             }
         }
 
-        overheadStats=roundResult(overheadStats, window, magnets, scorePuck, player1, player2,winner);
+        overheadStats=roundResult(overheadStats, window, winner);
         killThreads(p1,p2,puckMovement,magMovement,scorePuck,magnets);
         window.resetBoard(overheadStats, magnets, scorePuck, player1, player2, winner);
         return overheadStats;
     }
 
 
+    /**
+     * Terminates the 6 threads controlling movement of objects (puck, 2 players and 3 magnets)
+     *
+     * @param p1 The first player's paddle
+     * @param p2 The second player's paddle
+     * @param puckMovement The puck's movement thread
+     * @param magMovement The array of magnet movement threads
+     * @param scorePuck The puck ball object, velocity is reset to 0
+     * @param magnets The array of magnet ball objects, velocity is reset to 0
+     */
     private void killThreads(Player p1, Player p2, ObjectMotion puckMovement, ObjectMotion[] magMovement, Ball scorePuck, Ball magnets[]) {
         p1.terminate();
         p2.terminate();
@@ -123,6 +129,8 @@ public class GameController{
             magnets[i].setXVelocity(0);
             magnets[i].setYVelocity(0);
         }
+        p1.removeHandle();
+        p2.removeHandle();
     }
 
 
@@ -131,16 +139,16 @@ public class GameController{
      * the player1 and player2 balls, and the winner of the round. It then increments the winner's score
      * and returns the overheadStats array
      *
-     * @param overheadStats an array of integers that contains the following information:
+     * @param overheadStats an array of integers containing info on the state of the game
      * @param window The GameWindow object that the game is being played in.
-     * @param magnets An array of all the magnets in the game.
-     * @param scorePuck The puck that is used to keep track of the score.
+     * @param magnets An array of magnet objects used in the game.
+     * @param scorePuck The score puck ball
      * @param player1 The first player's ball
      * @param player2 The second player's ball
      * @param winner the player who won the round
-     * @return The overheadStats array is being returned.
+     * @return The modified overheadStats array
      */
-    public int[] roundResult(int[] overheadStats, GameWindow window, Ball magnets[], Ball scorePuck, Ball player1, Ball player2, int winner){
+    public int[] roundResult(int[] overheadStats, GameWindow window, int winner){
         if(winner==1){
             overheadStats[3]++;
             window.scoreIncremeent(1,overheadStats[3]);
@@ -153,13 +161,13 @@ public class GameController{
     }
 
 
-/**
- * It creates a new game
- *
- * @param window The GameWindow instance that is currently running.
- * @param overheadStats an array of integers that contains the following information:
- * @param winner the player who won the game
- */
+    /**
+     * It creates a new game
+     *
+     * @param window The GameWindow instance that is currently running.
+     * @param overheadStats an array of integers that contains the following information:
+     * @param winner the player who won the game
+     */
     public void newGame(GameWindow window, int[] overheadStats, int winner){
         window.getTimerInstance().cancel();
         overheadStats[winner]+=1;

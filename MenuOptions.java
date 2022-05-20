@@ -1,19 +1,19 @@
 import java.awt.*;
 import javax.swing.*;
 
+
 /**
- * An extension of CBbody that initializes the games main menu where the user
- * can select a mode to play
+ * An extension of JFrame that creates the games main options meny
  */
 class MenuOptions extends JFrame {
     private int option;
     private int[] modeParameters;
 
     /**
-    *This is the constructor for the CBoptions class. it takes in a given title, message and the
+    *This is the constructor for the MenuOptions class. it takes in a given title, message and the
     current score and uses this to create the user menu
-    *@param title the title of the user
-    *@param message the message disp layed to the user
+    *@param title the inro message shown
+    *@param message the message displayed to the user
     *@param score the games current score
     */
     public MenuOptions(String title,int[] score) {
@@ -64,6 +64,17 @@ class MenuOptions extends JFrame {
     }
 
 
+    /**
+     * This function creates a panel with a grid layout, sets the preferred size, and sets the background
+     * color
+     *
+     * @param panel panel object containing the
+     * @param rows number of rows in the grid
+     * @param cols number of columns
+     * @param width The width of the panel
+     * @param height The height of the panel
+     * @return A JPanel object.
+     */
     public JPanel createPanel(JPanel panel, int rows,int cols, int width, int height){
         panel.setLayout(new GridLayout(rows,cols));
         panel.setPreferredSize(new Dimension(width, height));
@@ -94,19 +105,14 @@ class MenuOptions extends JFrame {
      */
     public void setModeParameters(int mode) {
         synchronized (this) {
-            int[] modeParameters = new int[7];
+            int[] modeParameters = new int[2];
             modeParameters[0] = mode;
             switch (mode) {
                 case 0 -> {
-                    modeParameters[1]=0;
+                    modeParameters[1]=1;
                 }
                 case 1 -> {
-                    modeParameters[1] = 16;
-                    modeParameters[2] = 4;
-                    modeParameters[3] = 4;
-                    modeParameters[4] = 8;
-                    modeParameters[5] = 2;
-                    modeParameters[6] = 45;
+                    modeParameters[1]=4;
                 }
             }
             this.modeParameters = modeParameters;
@@ -114,15 +120,9 @@ class MenuOptions extends JFrame {
         }
     }
 
-    /**
-     * This is a getter method that returns the option that the user selected.
-     */
-    int getOption() {
-        return option;
-    }
 
     /**
-     * Returns the mode parameters
+     * Returns the mode parameters, used to retrieve info on the users option choice
      *
      * @return The mode parameters.
      */

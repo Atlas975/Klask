@@ -145,12 +145,6 @@ public class ObjectMotion extends Thread{
     public void playerInteract(Ball object, Ball player){
         if(object.collides(player)){
             deflect(object,player);
-            double deflectX=player.getXPosition()+player.getXVelocity();
-            double deflectY=player.getYPosition()+player.getYVelocity();
-            if(p1.validateBounds(deflectX,deflectY)){
-                player.setXPosition(deflectX);
-                player.setYPosition(deflectY);
-            }
         }
     }
 
@@ -174,7 +168,7 @@ public class ObjectMotion extends Thread{
     }
 
     /**
-     * If the ball is going to be displaced outside the bounds of the screen, return false
+     * If a ball is going to be displaced outside the bounds of the screen, return false
      *
      * @param magnet the ball that is being checked
      * @param deflectX the x coordinate of the ball if deflection occurs
@@ -195,7 +189,7 @@ public class ObjectMotion extends Thread{
      *
      * The first thing the function does is calculate the position the object will be in if it
      * continues on its current trajectory. If the object is going to hit a wall, the function reverses
-     * the object's velocity and slows it down. Then the function moves the object and slows it down
+     * the object's velocity and slows it down. Friction force is also applied to slow it down
      *
      * @param object
      * @param xPosition
@@ -234,7 +228,7 @@ public class ObjectMotion extends Thread{
 
     /**
      * If the distance between the magnet and either player is less than 13.5, the magnet latches on to the player. If
-     * the distance is less than attractBound, the magnet is attracted to the player
+     * the distance is less than attractBound, the magnet is attracted to the player, magnet speed based on proximity
      *
      * @param magnet The magnet object
      * @param player1 The first player object
@@ -286,6 +280,16 @@ public class ObjectMotion extends Thread{
         }
     }
 
+    /**
+     * Attracts the magnet in a direction depending on its position relative to the player
+     *
+     * @param magnet The magnet object that is being attracted to the player
+     * @param magnetXPos The x position of the magnet
+     * @param magnetYPos The y position of the magnet
+     * @param playerXPos The x position of the player
+     * @param playerYPos The y position of the player
+     * @param attractionForce The force of attraction.
+     */
     public void attract(Ball magnet, double magnetXPos,double magnetYPos, double playerXPos, double playerYPos, double attractionForce){
         if(playerXPos>magnetXPos){
             magnet.setXVelocity(attractionForce);
@@ -303,7 +307,7 @@ public class ObjectMotion extends Thread{
 
     /**
      * While the thread is not interrupted, set the magnet's x and y position to the player's x and y
-     * position.
+     * position. This is called when a magnet is confirmed to be latched
      *
      * @param player The player object that the magnet will latch onto.
      */

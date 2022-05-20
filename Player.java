@@ -1,5 +1,4 @@
 import java.awt.event.KeyEvent;
-import java.awt.Color;
 import java.awt.event.KeyListener;
 
 public class Player extends Thread{
@@ -20,19 +19,20 @@ public class Player extends Thread{
         this.stop=true;
     }
 
+    // A synchronized method that tells the main thread if the round is over
     public synchronized Boolean roundOver(){
         return this.stop;
     }
 
-    // Constructor class to control the player pucks motion
+    // Constructor class to control the player pucks motion,
     public Player(Ball piece, int playerID, GameWindow window){
         this.minX=window.playerMinX(playerID);
         this.maxX=window.playerMaxX(playerID);
         this.playerID=playerID;
         this.player=piece;
         this.window=window;
-        // this.handle=new Rectangle(piece.getXPosition()-15, piece.getYPosition()-80, 30, 80,"BLACK",4);
-        // window.addRectangle(this.handle);
+        this.handle=new Rectangle(piece.getXPosition()-15, piece.getYPosition()-70, 27, 50,"BLACK",4);
+        window.addRectangle(this.handle);
     }
 
     /**
@@ -60,9 +60,7 @@ public class Player extends Thread{
     }
 
     /**
-     * This function takes in a key event, a boolean array, and a boolean status. It then checks the
-     * key code of the key event and sets the corresponding index of the boolean array to the boolean
-     * status
+     * Modifies an array of booleans that represent the keys that are currently being pressed.
      *
      * @param e The KeyEvent that is passed in from the KeyListener
      * @param keyArray The array that stores the keys on/off status.
@@ -70,7 +68,6 @@ public class Player extends Thread{
      * @return The keyArray after the key is set to the status
      */
     public boolean[] playerInput(KeyEvent e,boolean keyArray[], boolean status){
-
         if(playerID==1){
             switch(e.getKeyCode()){
                 case 65 ->{
@@ -129,8 +126,6 @@ public class Player extends Thread{
     public void playerUpdate(boolean keyArray[]){
         double currentX=player.getXPosition();
         double currentY=player.getYPosition();
-        // double handleX=handle.getXPosition();
-        // double handleY=handle.getYPosition();
 
         if((keyArray[0] ^ keyArray[2]) && player.getXVelocity()<8){
             player.setXVelocity(player.getXVelocity()+2);
@@ -138,7 +133,6 @@ public class Player extends Thread{
         else{
             player.setXVelocity(0);
         }
-
         if((keyArray[1] ^ keyArray[3]) && player.getYVelocity()<8){
             player.setYVelocity(player.getYVelocity()+2);
         }
@@ -146,18 +140,21 @@ public class Player extends Thread{
             player.setYVelocity(0);
         }
 
-
         if(keyArray[0] && currentX>minX){
             player.setXPosition(currentX-18);
+            handle.setXPosition(currentX-33);
         }
         if(keyArray[1] && currentY>minY){
             player.setYPosition(currentY-18);
+            handle.setYPosition(currentY-88);
         }
         if(keyArray[2] && (currentX<maxX)){
             player.setXPosition(currentX+18);
+            handle.setXPosition(currentX+3);
         }
         if(keyArray[3] && (currentY<maxY)){
             player.setYPosition(currentY+18);
+            handle.setYPosition(currentY-52);
         }
 
         if(goalEnter(window.goalXPos(playerID), currentX, currentY)){
@@ -166,8 +163,7 @@ public class Player extends Thread{
     }
 
     /**
-     * If the distance between the ball and the goal is less than 15, then the ball has entered the
-     * goal
+     * Returns confirmation on if the score puck has enetered a goal
      *
      * @param goalXPos The x position of the goal
      * @param ballXPos The x position of the ball
@@ -175,8 +171,8 @@ public class Player extends Thread{
      * @return A boolean value.
      */
     public boolean goalEnter(double goalXPos, double ballXPos, double ballYPos){
-        double distance=Math.sqrt(Math.pow(goalXPos-ballXPos,2)+Math.pow(540-ballYPos,2))-63;
-        return distance < -1;
+        double distance=Math.sqrt(Math.pow(goalXPos-ballXPos,2)+Math.pow(540-ballYPos,2))-35;
+        return distance < 0;
     }
 
     /**
@@ -194,8 +190,6 @@ public class Player extends Thread{
         return true;
     }
 
-
-
     /**
      * Passes the ball object
      *
@@ -205,8 +199,14 @@ public class Player extends Thread{
         return player;
     }
 
+
+    public void removeHandle(){
+        window.removeRectangle(this.handle);
+    }
+
+
     /**
-     * If the number of magnets latched is equal to 2, then the player has lost
+     * Increments the counter used to check how many magnets a player has latched
      */
     public void incrementMagnet(){
         magnetsLatched++;
