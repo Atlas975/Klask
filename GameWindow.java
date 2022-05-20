@@ -161,8 +161,11 @@ public class GameWindow extends GameArena{
         Random locationIndex=new Random();
 
         switch(startCondition){
+            case -1:
+                break;
             case 1:
                 position=2+locationIndex.nextInt(2);
+
                 break;
             case 2:
                 position=locationIndex.nextInt(2);
@@ -171,8 +174,10 @@ public class GameWindow extends GameArena{
                 position=locationIndex.nextInt(4);
         }
 
-        scorePuck.setXPosition(ballPositions[position][0]);
-        scorePuck.setYPosition(ballPositions[position][1]);
+        if(startCondition > -1){
+            scorePuck.setXPosition(ballPositions[position][0]);
+            scorePuck.setYPosition(ballPositions[position][1]);
+        }
 
         int magnetPosY=765;
         for(int i=0; i<magnets.length; i++){

@@ -45,6 +45,7 @@ public class GameController{
                 window.removeKeyListener(window.getKeyListeners()[i]);
             }
             overheadStats=GameRound(window, magnets, scorePuck, player1, player2, overheadStats);
+            window.resetBoard(overheadStats, magnets, scorePuck, player1, player2, -1);
             if(overheadStats[3]==6){
                 gameRun=false;
                 winner=1;
@@ -92,8 +93,6 @@ public class GameController{
         p2.start();
         puckMovement.start();
 
-
-
         while(true){
             System.out.print("");
             if(p1.ended()){
@@ -107,7 +106,6 @@ public class GameController{
         }
 
         overheadStats=roundResult(overheadStats, window, magnets, scorePuck, player1, player2,winner);
-        window.resetBoard(overheadStats, magnets, scorePuck, player1, player2, winner);
         killThreads(p1,p2,puckMovement,magMovement,scorePuck,magnets);
         window.resetBoard(overheadStats, magnets, scorePuck, player1, player2, winner);
         return overheadStats;

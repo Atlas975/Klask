@@ -14,10 +14,10 @@ public class ObjectMotion extends Thread{
     private Ball magnets[];
     private Ball scorePuck;
     private int pieceIndex=-1;
-    private double minX=148.5;
-    private double maxX=1651.5;
-    private double minY=148.5;
-    private double maxY=931.5;
+    private double minX=150;
+    private double maxX=1650;
+    private double minY=150;
+    private double maxY=930;
 
     /**
      * If the thread is running, stop it.
