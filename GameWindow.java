@@ -9,7 +9,7 @@ public class GameWindow extends GameArena{
     private Ball p2Goal;
     private Text p1Score;
     private Text p2Score;
-    private double ballPositions[][]={{199,199},{199,881},{1601,199},{1601,881}};
+    private double ballPositions[][]={{200,200},{200,880},{1605,200},{1605,880}};
 
 
     // Constructor for game window class, initializes the games GUI

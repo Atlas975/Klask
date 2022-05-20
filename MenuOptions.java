@@ -16,36 +16,39 @@ class MenuOptions extends JFrame {
     *@param message the message displayed to the user
     *@param score the games current score
     */
-    public MenuOptions(String title,int[] score) {
+    public MenuOptions(String title, int[] score) {
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         this.setTitle(title);
-        this.setSize(750,250);
+        this.setSize(750, 250);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel textPanel=new JPanel();
-        textPanel=createPanel(textPanel, 1, 4, 750, 150);
-        JPanel options=new JPanel();
-        options=createPanel(options, 1, 2, 750, 100);
+        JPanel textPanel = new JPanel();
+        textPanel = createPanel(textPanel, 1, 4, 750, 150);
+        JPanel options = new JPanel();
+        options = createPanel(options, 1, 2, 750, 100);
 
-        Font txtFont=new Font("Arial",Font.BOLD,18);
+        Font txtFont = new Font("Arial", Font.BOLD, 18);
         textDisplay("Select option", txtFont, textPanel);
         textDisplay("Round "+score[0], txtFont, textPanel);
         textDisplay("P1 wins: "+score[1], txtFont, textPanel);
         textDisplay("P2 wins: "+score[2], txtFont, textPanel);
 
-        JButton []buttonOptions=new JButton[2];
-        buttonOptions[0]=new JButton("Play");
-        buttonOptions[1]=new JButton("Quit");
+        JButton []buttonOptions = new JButton[2];
+        buttonOptions[0] = new JButton("Play");
+        buttonOptions[1] = new JButton("Quit");
+        buttonOptions[0].setFont(txtFont);
+        buttonOptions[1].setFont(txtFont);
         buttonOptions[0].setBackground(new Color(0xa3be8c));
-        buttonOptions[1].setBackground(new Color(0xb48ead));
+        buttonOptions[1].setBackground(new Color(0xBF616A));
 
-        for(int i=0; i<buttonOptions.length; i++){
-            final int mode=i;
+        for(int i = 0; i < buttonOptions.length; i ++ ){
+            final int mode = i;
+            buttonOptions[i].setFont(txtFont);
             options.add(buttonOptions[i]);
             buttonOptions[i].addActionListener(
-                e->setOption(mode)
+                e-> setOption(mode)
             );
         }
 
@@ -73,15 +76,15 @@ class MenuOptions extends JFrame {
      * @param height The height of the panel
      * @return A JPanel object.
      */
-    public JPanel createPanel(JPanel panel, int rows,int cols, int width, int height){
-        panel.setLayout(new GridLayout(rows,cols));
+    public JPanel createPanel(JPanel panel, int rows, int cols, int width, int height){
+        panel.setLayout(new GridLayout(rows, cols));
         panel.setPreferredSize(new Dimension(width, height));
         panel.setBackground(new Color(0x2e3440));
         return panel;
     }
 
     public void textDisplay(String message, Font txtFont, JPanel textPanel){
-        JLabel txt=new JLabel(message,SwingConstants.CENTER);
+        JLabel txt = new JLabel(message, SwingConstants.CENTER);
         txt.setFont(txtFont);
         txt.setForeground(Color.white);
         textPanel.add(txt);
