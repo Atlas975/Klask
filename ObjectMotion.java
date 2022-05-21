@@ -75,7 +75,6 @@ public class ObjectMotion extends Thread{
      */
     @Override
     public void run() {
-        System.out.print("");
         double objectRadius;
         double frictionLoss;
         double attractionForce;
@@ -184,33 +183,27 @@ public class ObjectMotion extends Thread{
     }
 
     /**
-     * If the object is going to hit a wall, this method deflects the object and absorbs part
+     * If the object is going to hit a wall, this method deflects the object and absorbs a portion
      * of the objects momentum
      *
      * The first thing the function does is calculate the position the object will be in if it
      * continues on its current trajectory. If the object is going to hit a wall, the function reverses
      * the object's velocity and slows it down. Friction force is also applied to slow it down
      *
-     * @param object
-     * @param xPosition
-     * @param yPosition
-     * @param radius
+     * @param object The object that is being deflected
+     * @param xPosition the x-coordinate of the object
+     * @param yPosition the y-coordinate of the object
+     * @param radius the radius of the object
      * @param frictionLoss velocity percetage conserved while moving
      */
     public void moveObject(Ball object, double xPosition, double yPosition, double radius, double frictionLoss){
         double deflectX=object.getXPosition()+object.getXVelocity();
         double deflectY=object.getYPosition()+object.getYVelocity();
 
-        if(deflectX<minX){
+        if(deflectX<minX || deflectX>maxX){
             object.setXVelocity(-object.getXVelocity()*0.75);
         }
-        else if(deflectX>maxX){
-            object.setXVelocity(-object.getXVelocity()*0.75);
-        }
-        if(deflectY>maxY){
-            object.setYVelocity(-object.getYVelocity()*0.75);
-        }
-        else if(deflectY<minY){
+        if(deflectY<minY || deflectY>maxY){
             object.setYVelocity(-object.getYVelocity()*0.75);
         }
 
@@ -258,25 +251,21 @@ public class ObjectMotion extends Thread{
         }
         else if(p1Distance<attractBoundry){
             if(p1Distance<135){
-                attract(magnet,magnetXPos,magnetYPos,player1XPos,player1YPos,attractionForce*2);
+                attractionForce*=2;
             }
             else if(p1Distance<180){
-                attract(magnet,magnetXPos,magnetYPos,player1XPos,player1YPos,attractionForce*1.5);
+                attractionForce*=1.5;
             }
-            else{
-                attract(magnet,magnetXPos,magnetYPos,player1XPos,player1YPos,attractionForce);
-            }
+            attract(magnet,magnetXPos,magnetYPos,player1XPos,player1YPos,attractionForce);
         }
         else if(p2Distance<attractBoundry){
             if(p2Distance<135){
-                attract(magnet,magnetXPos,magnetYPos,player2XPos,player2YPos,attractionForce*2);
+                attractionForce*=2;
             }
             else if(p2Distance<180){
-                attract(magnet,magnetXPos,magnetYPos,player2XPos,player2YPos,attractionForce*1.5);
+                attractionForce*=1.5;
             }
-            else{
-                attract(magnet,magnetXPos,magnetYPos,player2XPos,player2YPos,attractionForce);
-            }
+            attract(magnet,magnetXPos,magnetYPos,player2XPos,player2YPos,attractionForce);
         }
     }
 

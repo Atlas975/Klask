@@ -200,6 +200,9 @@ public class Player extends Thread{
     }
 
 
+    /**
+     * Removes the player puck handle from the board
+     */
     public void removeHandle(){
         window.removeRectangle(this.handle);
     }
