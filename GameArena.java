@@ -1,4 +1,7 @@
 import javax.swing.*;
+/**
+ * A class that controls the game.
+ */
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;

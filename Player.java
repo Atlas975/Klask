@@ -1,6 +1,9 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Controls a player pucks motion, also indicates to the main thread if this player puck has entered its own goal or has two magnets latched on it
+ */
 public class Player extends Thread{
     private Boolean stop=false;
     private double minX;
@@ -163,7 +166,7 @@ public class Player extends Thread{
     }
 
     /**
-     * Returns confirmation on if the score puck has enetered a goal
+     * Returns confirmation on if the player puck has enetered a goal
      *
      * @param goalXPos The x position of the goal
      * @param ballXPos The x position of the ball
@@ -175,20 +178,6 @@ public class Player extends Thread{
         return distance < 0;
     }
 
-    /**
-     * If the player's position is within the bounds of the screen, return true. Otherwise, return
-     * false
-     *
-     * @param moveX The x coordinate of the center of the circle
-     * @param moveY The y coordinate of the center of the circle
-     * @return A boolean value.
-     */
-    public Boolean validateBounds(double moveX, double moveY){
-        if(moveX-31.5<=minX || moveX+31.5>=maxX || moveY-31.5<=minY || moveY+31.5>=maxY){
-            return false;
-        }
-        return true;
-    }
 
     /**
      * Passes the ball object

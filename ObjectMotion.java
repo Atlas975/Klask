@@ -1,9 +1,8 @@
-/**
- * It creates a MenuOptions object, which is a JFrame that allows the user to select the game mode and
- * the number of players. It then creates a GameController object, which is a JFrame that contains the
- * game
- */
 
+
+/**
+ * Controls the motion of a single score puck or magnet, the stop flag indicates if a loss has occured, class also indicates to the main thread if a scorepuck has entered a goal, magnet loss condition is flagged by the player class
+ */
 public class ObjectMotion extends Thread{
 
     private Boolean stop=false;
@@ -71,7 +70,7 @@ public class ObjectMotion extends Thread{
     }
 
     /**
-     * Actiates the motion of the score puck and the magnets depending on the piece index
+     * Activates the motion of the score puck and the magnets depending on the piece index
      */
     @Override
     public void run() {
@@ -221,7 +220,7 @@ public class ObjectMotion extends Thread{
 
     /**
      * If the distance between the magnet and either player is less than 13.5, the magnet latches on to the player. If
-     * the distance is less than attractBound, the magnet is attracted to the player, magnet speed based on proximity
+     * the distance is less than attractBound, the magnet is attracted to the player, attract force based on proximity
      *
      * @param magnet The magnet object
      * @param player1 The first player object

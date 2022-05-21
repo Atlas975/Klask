@@ -1,4 +1,7 @@
 
+/**
+ * Controls the core game logic, manages this using the GameWindow, Player and ObjectMotion classes
+ */
 public class GameController{
     // This is the constructor for the GameController class. It creates a new GameWindow object,
     // then creates the magnets, the scorePuck, and the player1 / player2 balls. It then calls the

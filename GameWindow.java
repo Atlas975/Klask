@@ -3,6 +3,9 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Creates the games main GUI, also contains a method to reset the board upon a round completion
+ */
 public class GameWindow extends GameArena{
     private Timer stopwatch;
     private Ball p1Goal;
@@ -12,7 +15,7 @@ public class GameWindow extends GameArena{
     private double ballPositions[][]={{200,200},{200,880},{1605,200},{1605,880}};
 
 
-    // Constructor for game window class, initializes the games GUI
+    // Constructor for game window class, initializes the games, overheadStats re used in display text
     public GameWindow(int []overheadStats){
         super(1800,1080);
         this.setFocusable(true);
@@ -145,15 +148,14 @@ public class GameWindow extends GameArena{
 
 
     /**
-     * Resets the board to its original position, ball position is based on startCondition parameter
+     * Resets board pieces its original position, ball position is based on startCondition parameter
      *
-     * @param overheadStats an array of integers that contains the score of each player, the number of
-     * goals scored by each player, and the number of shots taken by each player.
+     * @param overheadStats an array of integers that containing informatuon about the game state
      * @param magnets an array of the magnets on the board
      * @param scorePuck the puck that is used to score
      * @param player1 player 1's movement piece
      * @param player2 player 2's movement piece
-     * @param startCondition 1 for player 1, 2 for player 2, 0 for random
+     * @param startCondition 1 for player 1, 2 for player 2, 0 for random, -1 for no effect
      */
     public void resetBoard(int[] overheadStats, Ball[] magnets, Ball scorePuck, Ball player1,Ball player2,int startCondition){
 
@@ -165,7 +167,6 @@ public class GameWindow extends GameArena{
                 break;
             case 1:
                 position=2+locationIndex.nextInt(2);
-
                 break;
             case 2:
                 position=locationIndex.nextInt(2);
