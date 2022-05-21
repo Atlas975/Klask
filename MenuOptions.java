@@ -3,7 +3,7 @@ import javax.swing.*;
 
 
 /**
- * An extension of JFrame that creates the games main options meny
+ * Option menu that displays game info and prompts the user to begin a new game / exit.
  */
 class MenuOptions extends JFrame {
     private int option;

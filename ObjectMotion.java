@@ -1,7 +1,7 @@
 
 
 /**
- * Controls the motion of a single score puck or magnet, the stop flag indicates if a loss has occured, class also indicates to the main thread if a scorepuck has entered a goal, magnet loss condition is flagged by the player class
+ * Controls motion for a score puck or magnet, also notifies GameController thread if a player has scored.
  */
 public class ObjectMotion extends Thread{
 
@@ -222,7 +222,7 @@ public class ObjectMotion extends Thread{
      * If the distance between the magnet and either player is less than 13.5, the magnet latches on to the player. If
      * the distance is less than attractBound, the magnet is attracted to the player, attract force based on proximity
      *
-     * @param magnet The magnet object
+     * @param magnet The magnet object in focus
      * @param player1 The first player object
      * @param player2 The second player object
      * @param attractionForce The velocity that a magnet heads towards the player

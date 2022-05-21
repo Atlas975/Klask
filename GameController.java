@@ -1,6 +1,6 @@
 
 /**
- * Controls the core game logic, manages this using the GameWindow, Player and ObjectMotion classes
+ * Controls game's core logic, manages this via GameWindow, Player and ObjectMotion classes.
  */
 public class GameController{
     // This is the constructor for the GameController class. It creates a new GameWindow object,

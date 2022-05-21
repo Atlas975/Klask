@@ -2,7 +2,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
- * Controls a player pucks motion, also indicates to the main thread if this player puck has entered its own goal or has two magnets latched on it
+ * Controls player piece motion and notifies GameController thread if a player enters own goal / latches 2 magnets.
  */
 public class Player extends Thread{
     private Boolean stop=false;

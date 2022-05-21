@@ -4,7 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Creates the games main GUI, also contains a method to reset the board upon a round completion
+ * Creates game's main GUI, also contains a method to reset the board upon a round completion.
  */
 public class GameWindow extends GameArena{
     private Timer stopwatch;
