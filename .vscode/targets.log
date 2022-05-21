@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat May 21 13:45:48 2022
+# Make data base, printed on Sat May 21 14:43:41 2022
 
 # Variables
 
@@ -19,7 +19,9 @@ LC_ALL = C
 # environment
 NO_AT_BRIDGE = 1
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-9707dd94-8145-4fce-990a-e7653d97d597.sock
+GJS_DEBUG_OUTPUT = stderr
+# environment
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-4112f39c-2291-48a1-9a15-735c692899be.sock
 # environment
 VSCODE_CWD = /home/adilw
 # environment
@@ -101,7 +103,7 @@ ZSH = /home/adilw/.oh-my-zsh
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 2523
+VSCODE_PID = 91279
 # environment
 XDG_SESSION_TYPE = wayland
 # automatic
@@ -127,6 +129,8 @@ MAKECMDGOALS := all
 # environment
 XMODIFIERS = @im=ibus
 # environment
+GJS_DEBUG_TOPICS = JS ERROR;JS LOG
+# environment
 SHLVL = 0
 # environment
 MAKELEVEL := 0
@@ -141,7 +145,7 @@ MAKEFILES :=
 # automatic
 ^F = $(notdir $^)
 # environment
-INVOCATION_ID = a69cf902788d4b9ba086108b620ef1fb
+INVOCATION_ID = b7ba2329292a40a8be368b39773a8d99
 # environment
 VSCODE_LOG_NATIVE = false
 # environment
@@ -150,8 +154,6 @@ USERNAME = adilw
 GNOME_SETUP_DISPLAY = :1
 # automatic
 ?F = $(notdir $?)
-# environment
-DESKTOP_AUTOSTART_ID = 107a610fabe4f92591165307860015017500000020740017
 # environment
 XDG_CURRENT_DESKTOP = GNOME
 # environment
@@ -169,11 +171,11 @@ GNUMAKEFLAGS :=
 # environment
 LOGNAME = adilw
 # environment
-GIO_LAUNCHED_DESKTOP_FILE = /home/adilw/.config/autostart/code.desktop
+GIO_LAUNCHED_DESKTOP_FILE = /home/adilw/.local/share/applications/code.desktop
 # makefile
 .DEFAULT_GOAL := 
 # environment
-SYSTEMD_EXEC_PID = 2074
+SYSTEMD_EXEC_PID = 2128
 # environment
 HISTCONTROL = ignoredups
 # environment
@@ -191,7 +193,7 @@ which_declare = typeset -f
 # environment
 DEBUGINFOD_URLS = https://debuginfod.fedoraproject.org/ 
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 2523
+GIO_LAUNCHED_DESKTOP_FILE_PID = 91279
 # environment
 PAGER = less
 # environment
@@ -199,7 +201,7 @@ _ = /usr/bin/make
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
-JOURNAL_STREAM = 8:33870
+JOURNAL_STREAM = 8:32144
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -227,7 +229,7 @@ XDG_MENU_PREFIX = gnome-
 # environment
 GDMSESSION = gnome
 # variable set hash-table stats:
-# Load=107/1024=10%, Rehash=0, Collisions=5/134=4%
+# Load=108/1024=11%, Rehash=0, Collisions=5/135=4%
 
 # Pattern-specific Variable Values
 
@@ -291,9 +293,9 @@ GNUmakefile:
 # current buf: size = 8162 B / used = 274 B / count = 26 / avg = 10 B
 
 # strcache performance: lookups = 29 / hit rate = 10%
- 
 # hash-table stats:
+ 
 # Load=26/8192=0%, Rehash=0, Collisions=0/29=0%
-# Finished Make data base on Sat May 21 13:45:48 2022
+# Finished Make data base on Sat May 21 14:43:41 2022
 
  

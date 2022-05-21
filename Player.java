@@ -2,7 +2,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
- * Controls player piece motion and notifies GameController thread if a player enters own goal / latches 2 magnets.
+ * Controls player piece motion and notifies GameController thread if a player enters own goal / latches 2 magnets. Player 1 controlled by W A S D keys, Player 2 controlled by left, right, up, down arrow keys.
  */
 public class Player extends Thread{
     private Boolean stop=false;
