@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
-
 # GNU Make 4.3
 # Built for x86_64-redhat-linux-gnu
 # Copyright (C) 1988-2020 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat May 21 14:43:41 2022
+# Make data base, printed on Sun May 22 13:56:35 2022
 
 # Variables
 
@@ -19,9 +17,7 @@ LC_ALL = C
 # environment
 NO_AT_BRIDGE = 1
 # environment
-GJS_DEBUG_OUTPUT = stderr
-# environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-4112f39c-2291-48a1-9a15-735c692899be.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-a7c348df-187c-4b1a-861d-2e116e4008e5.sock
 # environment
 VSCODE_CWD = /home/adilw
 # environment
@@ -59,7 +55,7 @@ VSCODE_CODE_CACHE_PATH = /home/adilw/.config/Code/CachedData/8dfae7a5cd50421d10c
 # environment
 LANG = C
 # environment
-XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.TU8RM1
+XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.MNQ8L1
 # default
 .LOADED := 
 # default
@@ -71,7 +67,7 @@ CURDIR := /home/adilw/Dropbox/Adil_Code/Orion/Java/Klask
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
 LESSOPEN = ||/usr/bin/lesspipe.sh %s
 # automatic
@@ -103,13 +99,13 @@ ZSH = /home/adilw/.oh-my-zsh
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 91279
+VSCODE_PID = 2508
 # environment
 XDG_SESSION_TYPE = wayland
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
-SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/2074,unix/unix:/tmp/.ICE-unix/2074
+SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/2079,unix/unix:/tmp/.ICE-unix/2079
 # automatic
 *F = $(notdir $*)
 # environment
@@ -129,8 +125,6 @@ MAKECMDGOALS := all
 # environment
 XMODIFIERS = @im=ibus
 # environment
-GJS_DEBUG_TOPICS = JS ERROR;JS LOG
-# environment
 SHLVL = 0
 # environment
 MAKELEVEL := 0
@@ -145,7 +139,7 @@ MAKEFILES :=
 # automatic
 ^F = $(notdir $^)
 # environment
-INVOCATION_ID = b7ba2329292a40a8be368b39773a8d99
+INVOCATION_ID = 501070e9852f48418066714efd689ccc
 # environment
 VSCODE_LOG_NATIVE = false
 # environment
@@ -154,6 +148,8 @@ USERNAME = adilw
 GNOME_SETUP_DISPLAY = :1
 # automatic
 ?F = $(notdir $?)
+# environment
+DESKTOP_AUTOSTART_ID = 106b1ddac87d7d72b1165322416547156900000020790017
 # environment
 XDG_CURRENT_DESKTOP = GNOME
 # environment
@@ -171,11 +167,11 @@ GNUMAKEFLAGS :=
 # environment
 LOGNAME = adilw
 # environment
-GIO_LAUNCHED_DESKTOP_FILE = /home/adilw/.local/share/applications/code.desktop
+GIO_LAUNCHED_DESKTOP_FILE = /home/adilw/.config/autostart/code.desktop
 # makefile
 .DEFAULT_GOAL := 
 # environment
-SYSTEMD_EXEC_PID = 2128
+SYSTEMD_EXEC_PID = 2079
 # environment
 HISTCONTROL = ignoredups
 # environment
@@ -187,13 +183,13 @@ USER = adilw
 # default
 MAKE_VERSION := 4.3
 # environment
-MANAGERPID = 1953
+MANAGERPID = 1963
 # environment
 which_declare = typeset -f
 # environment
 DEBUGINFOD_URLS = https://debuginfod.fedoraproject.org/ 
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 91279
+GIO_LAUNCHED_DESKTOP_FILE_PID = 2508
 # environment
 PAGER = less
 # environment
@@ -201,7 +197,7 @@ _ = /usr/bin/make
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
-JOURNAL_STREAM = 8:32144
+JOURNAL_STREAM = 8:33151
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -229,7 +225,7 @@ XDG_MENU_PREFIX = gnome-
 # environment
 GDMSESSION = gnome
 # variable set hash-table stats:
-# Load=108/1024=11%, Rehash=0, Collisions=5/135=4%
+# Load=107/1024=10%, Rehash=0, Collisions=5/134=4%
 
 # Pattern-specific Variable Values
 
@@ -237,9 +233,9 @@ GDMSESSION = gnome
 
 # Directories
 
-# . (device 40, inode 1644136): 18 files, no impossibilities.
+# . (device 40, inode 1644136): 31 files, no impossibilities.
 
-# 18 files, no impossibilities in 1 directories.
+# 31 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -289,13 +285,15 @@ GNUmakefile:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 26 / storage = 274 B / avg = 10 B
-# current buf: size = 8162 B / used = 274 B / count = 26 / avg = 10 B
+# strcache buffers: 1 (0) / strings = 39 / storage = 472 B / avg = 12 B
+# current buf: size = 8162 B / used = 472 B / count = 39 / avg = 12 B
 
-# strcache performance: lookups = 29 / hit rate = 10%
+# strcache performance: lookups = 42 / hit rate = 7%
 # hash-table stats:
  
-# Load=26/8192=0%, Rehash=0, Collisions=0/29=0%
-# Finished Make data base on Sat May 21 14:43:41 2022
+make: *** No rule to make target 'all'.  Stop.
+
+# Load=39/8192=0%, Rehash=0, Collisions=0/42=0%
+# Finished Make data base on Sun May 22 13:56:35 2022
 
  
