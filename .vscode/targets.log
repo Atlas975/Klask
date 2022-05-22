@@ -1,4 +1,6 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+make: *** No rule to make target 'all'.  Stop.
+
 # GNU Make 4.3
 # Built for x86_64-redhat-linux-gnu
 # Copyright (C) 1988-2020 Free Software Foundation, Inc.
@@ -6,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun May 22 13:56:35 2022
+# Make data base, printed on Sun May 22 18:24:00 2022
 
 # Variables
 
@@ -17,7 +19,7 @@ LC_ALL = C
 # environment
 NO_AT_BRIDGE = 1
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-a7c348df-187c-4b1a-861d-2e116e4008e5.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-5cc3f62e-8bfb-423e-acff-51086a041640.sock
 # environment
 VSCODE_CWD = /home/adilw
 # environment
@@ -55,7 +57,7 @@ VSCODE_CODE_CACHE_PATH = /home/adilw/.config/Code/CachedData/8dfae7a5cd50421d10c
 # environment
 LANG = C
 # environment
-XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.MNQ8L1
+XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.NFYGM1
 # default
 .LOADED := 
 # default
@@ -99,13 +101,13 @@ ZSH = /home/adilw/.oh-my-zsh
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 2508
+VSCODE_PID = 2533
 # environment
 XDG_SESSION_TYPE = wayland
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
-SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/2079,unix/unix:/tmp/.ICE-unix/2079
+SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/2067,unix/unix:/tmp/.ICE-unix/2067
 # automatic
 *F = $(notdir $*)
 # environment
@@ -139,7 +141,7 @@ MAKEFILES :=
 # automatic
 ^F = $(notdir $^)
 # environment
-INVOCATION_ID = 501070e9852f48418066714efd689ccc
+INVOCATION_ID = 89dc1c49d98d42678d6866d321e85fb2
 # environment
 VSCODE_LOG_NATIVE = false
 # environment
@@ -149,7 +151,7 @@ GNOME_SETUP_DISPLAY = :1
 # automatic
 ?F = $(notdir $?)
 # environment
-DESKTOP_AUTOSTART_ID = 106b1ddac87d7d72b1165322416547156900000020790017
+DESKTOP_AUTOSTART_ID = 10c02f950f62467d38165324020142066100000020670017
 # environment
 XDG_CURRENT_DESKTOP = GNOME
 # environment
@@ -171,7 +173,7 @@ GIO_LAUNCHED_DESKTOP_FILE = /home/adilw/.config/autostart/code.desktop
 # makefile
 .DEFAULT_GOAL := 
 # environment
-SYSTEMD_EXEC_PID = 2079
+SYSTEMD_EXEC_PID = 2067
 # environment
 HISTCONTROL = ignoredups
 # environment
@@ -183,13 +185,13 @@ USER = adilw
 # default
 MAKE_VERSION := 4.3
 # environment
-MANAGERPID = 1963
+MANAGERPID = 1956
 # environment
 which_declare = typeset -f
 # environment
 DEBUGINFOD_URLS = https://debuginfod.fedoraproject.org/ 
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 2508
+GIO_LAUNCHED_DESKTOP_FILE_PID = 2533
 # environment
 PAGER = less
 # environment
@@ -197,7 +199,7 @@ _ = /usr/bin/make
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
-JOURNAL_STREAM = 8:33151
+JOURNAL_STREAM = 8:32079
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -233,7 +235,7 @@ GDMSESSION = gnome
 
 # Directories
 
-# . (device 40, inode 1644136): 31 files, no impossibilities.
+# . (device 41, inode 1644136): 31 files, no impossibilities.
 
 # 31 files, no impossibilities in 1 directories.
 
@@ -290,10 +292,7 @@ GNUmakefile:
 
 # strcache performance: lookups = 42 / hit rate = 7%
 # hash-table stats:
- 
-make: *** No rule to make target 'all'.  Stop.
-
 # Load=39/8192=0%, Rehash=0, Collisions=0/42=0%
-# Finished Make data base on Sun May 22 13:56:35 2022
+# Finished Make data base on Sun May 22 18:24:00 2022
 
  

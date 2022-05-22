@@ -5,24 +5,24 @@
  */
 public class ObjectMotion extends Thread{
 
-    private Boolean stop=false;
+    private Boolean stop = false;
     private GameWindow window;
     private Player p1;
     private Player p2;
     private Ball magnetMain;
     private Ball magnets[];
     private Ball scorePuck;
-    private int pieceIndex=-1;
-    private double minX=150;
-    private double maxX=1650;
-    private double minY=150;
-    private double maxY=930;
+    private int pieceIndex = -1;
+    private double minX = 150;
+    private double maxX = 1650;
+    private double minY = 150;
+    private double maxY = 930;
 
     /**
      * If the thread is running, stop it.
      */
     public synchronized void terminate(){
-        this.stop=true;
+        this.stop = true;
     }
 
     /**
@@ -33,40 +33,40 @@ public class ObjectMotion extends Thread{
     }
 
     // Constructor for controlling the score pucks motion
-    public ObjectMotion(GameWindow window,Ball scorePuck,Player p1, Player p2, Ball magnets[]){
-        double puckRadius= scorePuck.getSize()/2;
-        this.window=window;
-        this.p1=p1;
-        this.p2=p2;
-        this.scorePuck=scorePuck;
-        this.magnets=magnets;
-        this.minX+=puckRadius;
-        this.maxX-=puckRadius;
-        this.minY+=puckRadius;
-        this.maxY-=puckRadius;
+    public ObjectMotion(GameWindow window, Ball scorePuck, Player p1, Player p2, Ball magnets[]){
+        double puckRadius = scorePuck.getSize()/2;
+        this.window = window;
+        this.p1 = p1;
+        this.p2 = p2;
+        this.scorePuck = scorePuck;
+        this.magnets = magnets;
+        this.minX += puckRadius;
+        this.maxX -= puckRadius;
+        this.minY += puckRadius;
+        this.maxY -= puckRadius;
     }
 
     // Constructor for controlling magnet motion, the magnet in focus is stored as magnetMain
-    public ObjectMotion(GameWindow window,int pieceIndex, Player p1, Player p2, Ball magnets[], Ball scorePuck){
-        double magnetRadius= magnets[0].getSize()/2;
-        this.window=window;
-        this.p1=p1;
-        this.p2=p2;
-        this.pieceIndex=pieceIndex;
-        this.magnetMain=magnets[pieceIndex];
-        Ball magnetsTemp[]=new Ball[2];
-        int i=0;
+    public ObjectMotion(GameWindow window, int pieceIndex, Player p1, Player p2, Ball magnets[], Ball scorePuck){
+        double magnetRadius = magnets[0].getSize()/2;
+        this.window = window;
+        this.p1 = p1;
+        this.p2 = p2;
+        this.pieceIndex = pieceIndex;
+        this.magnetMain = magnets[pieceIndex];
+        Ball magnetsTemp[] = new Ball[2];
+        int i = 0;
         for(Ball magnet: magnets){
-            if(magnet!=magnetMain){
-                magnetsTemp[i]=magnet;
-                i++;
+            if(magnet != magnetMain){
+                magnetsTemp[i] = magnet;
+                i ++ ;
             }
         }
-        this.magnets=magnetsTemp;
-        this.minX+=magnetRadius;
-        this.maxX-=magnetRadius;
-        this.minY+=magnetRadius;
-        this.maxY-=magnetRadius;
+        this.magnets = magnetsTemp;
+        this.minX += magnetRadius;
+        this.maxX -= magnetRadius;
+        this.minY += magnetRadius;
+        this.maxY -= magnetRadius;
     }
 
     /**
@@ -77,12 +77,12 @@ public class ObjectMotion extends Thread{
         double objectRadius;
         double frictionLoss;
         double attractionForce;
-        Ball player1=p1.passObject();
-        Ball player2=p2.passObject();
+        Ball player1 = p1.passObject();
+        Ball player2 = p2.passObject();
 
-        if(pieceIndex==-1){ // control the score puck
-            objectRadius=scorePuck.getSize()/2;
-            frictionLoss=0.9985;
+        if(pieceIndex == -1){ // control the score puck
+            objectRadius = scorePuck.getSize()/2;
+            frictionLoss = 0.9985;
 
             while(!roundOver()){
                 if(enteredGoal(1)){
@@ -96,20 +96,20 @@ public class ObjectMotion extends Thread{
                 playerInteract(scorePuck, player1);
                 playerInteract(scorePuck, player2);
                 magnetsInteract(scorePuck);
-                moveObject(scorePuck,scorePuck.getXPosition(),scorePuck.getYPosition(),objectRadius,frictionLoss);
+                moveObject(scorePuck, scorePuck.getXPosition(), scorePuck.getYPosition(), objectRadius, frictionLoss);
             }
             return;
         }
 
         else{ // control the magnets
-            objectRadius=magnets[0].getSize()/2;
-            frictionLoss=0.99;
-            attractionForce=0.05;
+            objectRadius = magnets[0].getSize()/2;
+            frictionLoss = 0.99;
+            attractionForce = 0.05;
 
             while(!roundOver()){
                 magnetsInteract(magnetMain);
-                moveObject(magnetMain,magnetMain.getXPosition(),magnetMain.getYPosition(),objectRadius,frictionLoss);
-                attractionControl(magnetMain,player1,player2,attractionForce);
+                moveObject(magnetMain, magnetMain.getXPosition(), magnetMain.getYPosition(), objectRadius, frictionLoss);
+                attractionControl(magnetMain, player1, player2, attractionForce);
             }
             return;
         }
@@ -123,13 +123,13 @@ public class ObjectMotion extends Thread{
      */
     public Boolean enteredGoal(int goalType){
         double distance;
-        if(goalType==1){
-            distance=Math.sqrt(Math.pow(scorePuck.getXPosition()-window.goalXPos(1),2)+Math.pow(scorePuck.getYPosition()-540,2))-45;
-            return distance<0;
+        if(goalType == 1){
+            distance = Math.sqrt(Math.pow(scorePuck.getXPosition()-window.goalXPos(1), 2)+Math.pow(scorePuck.getYPosition()-540, 2))-45;
+            return distance < 0;
         }
         else{
-            distance=Math.sqrt(Math.pow(scorePuck.getXPosition()-window.goalXPos(2),2)+Math.pow(scorePuck.getYPosition()-540,2))-45;
-            return distance<0;
+            distance = Math.sqrt(Math.pow(scorePuck.getXPosition()-window.goalXPos(2), 2)+Math.pow(scorePuck.getYPosition()-540, 2))-45;
+            return distance < 0;
         }
     }
 
@@ -142,7 +142,7 @@ public class ObjectMotion extends Thread{
      */
     public void playerInteract(Ball object, Ball player){
         if(object.collides(player)){
-            deflect(object,player);
+            deflect(object, player);
         }
     }
 
@@ -155,9 +155,9 @@ public class ObjectMotion extends Thread{
         for(Ball magnet: magnets){
             if(object.collides(magnet)){
                 deflect(object, magnet);
-                double deflectX=magnet.getXPosition()+magnet.getXVelocity();
-                double deflectY=magnet.getYPosition()+magnet.getYVelocity();
-                if(displacementCheck(magnet,deflectX,deflectY,13.5)){
+                double deflectX = magnet.getXPosition()+magnet.getXVelocity();
+                double deflectY = magnet.getYPosition()+magnet.getYVelocity();
+                if(displacementCheck(magnet, deflectX, deflectY, 13.5)){
                     magnet.setXPosition(deflectX);
                     magnet.setYPosition(deflectY);
                 }
@@ -175,7 +175,7 @@ public class ObjectMotion extends Thread{
      * @return If the ball is safe to deflect
      */
     public Boolean displacementCheck(Ball magnet, double deflectX, double deflectY, double radius){
-        if(deflectX-radius<=minX || deflectX+radius>=maxX || deflectY-radius<=minY || deflectY+radius>=maxY){
+        if(deflectX-radius <= minX || deflectX+radius >= maxX || deflectY-radius <= minY || deflectY+radius >= maxY){
             return false;
         }
         return true;
@@ -196,13 +196,13 @@ public class ObjectMotion extends Thread{
      * @param frictionLoss velocity percetage conserved while moving
      */
     public void moveObject(Ball object, double xPosition, double yPosition, double radius, double frictionLoss){
-        double deflectX=object.getXPosition()+object.getXVelocity();
-        double deflectY=object.getYPosition()+object.getYVelocity();
+        double deflectX = object.getXPosition()+object.getXVelocity();
+        double deflectY = object.getYPosition()+object.getYVelocity();
 
-        if(deflectX<minX || deflectX>maxX){
+        if(deflectX < minX || deflectX > maxX){
             object.setXVelocity(-object.getXVelocity()*0.75);
         }
-        if(deflectY<minY || deflectY>maxY){
+        if(deflectY < minY || deflectY > maxY){
             object.setYVelocity(-object.getYVelocity()*0.75);
         }
 
@@ -228,43 +228,43 @@ public class ObjectMotion extends Thread{
      * @param attractionForce The velocity that a magnet heads towards the player
      */
     public void attractionControl(Ball magnet, Ball player1, Ball player2, double attractionForce){
-        double magnetXPos=magnet.getXPosition();
-        double magnetYPos=magnet.getYPosition();
-        double player1XPos=player1.getXPosition();
-        double player1YPos=player1.getYPosition();
-        double player2XPos=player2.getXPosition();
-        double player2YPos=player2.getYPosition();
-        int attractBoundry=270;
-        double p1Distance=Math.sqrt(Math.pow(player1XPos-magnetXPos,2)+Math.pow(player1YPos-magnetYPos,2));
-        double p2Distance=Math.sqrt(Math.pow(player2XPos-magnetXPos,2)+Math.pow(player2YPos-magnetYPos,2));
-        if(p1Distance==p2Distance){
+        double magnetXPos = magnet.getXPosition();
+        double magnetYPos = magnet.getYPosition();
+        double player1XPos = player1.getXPosition();
+        double player1YPos = player1.getYPosition();
+        double player2XPos = player2.getXPosition();
+        double player2YPos = player2.getYPosition();
+        int attractBoundry = 270;
+        double p1Distance = Math.sqrt(Math.pow(player1XPos-magnetXPos, 2)+Math.pow(player1YPos-magnetYPos, 2));
+        double p2Distance = Math.sqrt(Math.pow(player2XPos-magnetXPos, 2)+Math.pow(player2YPos-magnetYPos, 2));
+        if(p1Distance == p2Distance){
             return;
         }
-        else if(p1Distance<31.5){
+        else if(p1Distance < 31.5){
             p1.incrementMagnet();
             playerLatch(p1.passObject());
         }
-        else if(p2Distance<31.5){
+        else if(p2Distance < 31.5){
             p2.incrementMagnet();
             playerLatch(p2.passObject());
         }
-        else if(p1Distance<attractBoundry){
-            if(p1Distance<135){
-                attractionForce*=2;
+        else if(p1Distance < attractBoundry){
+            if(p1Distance < 135){
+                attractionForce *= 2;
             }
-            else if(p1Distance<180){
-                attractionForce*=1.5;
+            else if(p1Distance < 180){
+                attractionForce *= 1.5;
             }
-            attract(magnet,magnetXPos,magnetYPos,player1XPos,player1YPos,attractionForce);
+            attract(magnet, magnetXPos, magnetYPos, player1XPos, player1YPos, attractionForce);
         }
-        else if(p2Distance<attractBoundry){
-            if(p2Distance<135){
-                attractionForce*=2;
+        else if(p2Distance < attractBoundry){
+            if(p2Distance < 135){
+                attractionForce *= 2;
             }
-            else if(p2Distance<180){
-                attractionForce*=1.5;
+            else if(p2Distance < 180){
+                attractionForce *= 1.5;
             }
-            attract(magnet,magnetXPos,magnetYPos,player2XPos,player2YPos,attractionForce);
+            attract(magnet, magnetXPos, magnetYPos, player2XPos, player2YPos, attractionForce);
         }
     }
 
@@ -278,17 +278,17 @@ public class ObjectMotion extends Thread{
      * @param playerYPos The y position of the player
      * @param attractionForce The force of attraction.
      */
-    public void attract(Ball magnet, double magnetXPos,double magnetYPos, double playerXPos, double playerYPos, double attractionForce){
-        if(playerXPos>magnetXPos){
+    public void attract(Ball magnet, double magnetXPos, double magnetYPos, double playerXPos, double playerYPos, double attractionForce){
+        if(playerXPos > magnetXPos){
             magnet.setXVelocity(attractionForce);
         }
-        else if(playerXPos<magnetXPos){
+        else if(playerXPos < magnetXPos){
             magnet.setXVelocity(-attractionForce);
         }
-        if(playerYPos>magnetYPos){
+        if(playerYPos > magnetYPos){
             magnet.setYVelocity(attractionForce);
         }
-        else if(playerYPos<magnetYPos){
+        else if(playerYPos < magnetYPos){
             magnet.setYVelocity(-attractionForce);
         }
     }
@@ -310,14 +310,14 @@ public class ObjectMotion extends Thread{
     public void deflect(Ball object1, Ball object2){
         // The position and speed of each of the two balls in the x and y axis before collision.
         // YOU NEED TO FILL THESE VALUES IN AS APPROPRIATE...
-        double xPosition1=object1.getXPosition();
-        double xPosition2=object2.getXPosition();
-        double yPosition1=object1.getYPosition();
-        double yPosition2=object2.getYPosition();
-        double xSpeed1=object1.getXVelocity();
-        double xSpeed2=object2.getXVelocity();
-        double ySpeed1=object1.getYVelocity();
-        double ySpeed2=object2.getYVelocity();
+        double xPosition1 = object1.getXPosition();
+        double xPosition2 = object2.getXPosition();
+        double yPosition1 = object1.getYPosition();
+        double yPosition2 = object2.getYPosition();
+        double xSpeed1 = object1.getXVelocity();
+        double xSpeed2 = object2.getXVelocity();
+        double ySpeed1 = object1.getYVelocity();
+        double ySpeed2 = object2.getYVelocity();
         // Calculate initial momentum of the balls... We assume unit mass here.
         double p1InitialMomentum = Math.sqrt(xSpeed1 * xSpeed1 + ySpeed1 * ySpeed1);
         double p2InitialMomentum = Math.sqrt(xSpeed2 * xSpeed2 + ySpeed2 * ySpeed2);
@@ -356,16 +356,16 @@ public class ObjectMotion extends Thread{
         double mag = 0.0;
         int dimensions = vec.length;
         double[] result = new double[dimensions];
-        for (int i=0; i < dimensions; i++)
+        for (int i = 0; i < dimensions; i ++ )
         mag += vec[i] * vec[i];
         mag = Math.sqrt(mag);
         if (mag == 0.0){
             result[0] = 1.0;
-            for (int i=1; i < dimensions; i++)
+            for (int i = 1; i < dimensions; i ++ )
             result[i] = 0.0;
         }
         else{
-            for (int i=0; i < dimensions; i++)
+            for (int i = 0; i < dimensions; i ++ )
             result[i] = vec[i] / mag;
         }
         return result;

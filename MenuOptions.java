@@ -48,7 +48,7 @@ class MenuOptions extends JFrame {
             buttonOptions[i].setFont(txtFont);
             options.add(buttonOptions[i]);
             buttonOptions[i].addActionListener(
-                e-> setOption(mode)
+                e -> setOption(mode)
             );
         }
 

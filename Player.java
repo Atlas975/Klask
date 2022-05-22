@@ -6,21 +6,21 @@ import java.awt.event.KeyListener;
  * Player 1 controlled by W A S D keys, Player 2 controlled by left, right, up, down arrow keys.
  */
 public class Player extends Thread{
-    private Boolean stop=false;
+    private Boolean stop = false;
     private double minX;
     private double maxX;
-    private double minY=195;
-    private double maxY=887;
+    private double minY = 195;
+    private double maxY = 887;
     private GameWindow window;
-    private boolean loss=false;
+    private boolean loss = false;
     private Ball player;
     private int playerID;
-    private int magnetsLatched=0;
+    private int magnetsLatched = 0;
     private Rectangle handle;
 
     // A synchronized method that allows the thread to be terminated.
     public synchronized void terminate(){
-        this.stop=true;
+        this.stop = true;
     }
 
     // A synchronized method that tells the main thread if the round is over
@@ -30,12 +30,12 @@ public class Player extends Thread{
 
     // Constructor class to control the player pucks motion,
     public Player(Ball piece, int playerID, GameWindow window){
-        this.minX=window.playerMinX(playerID);
-        this.maxX=window.playerMaxX(playerID);
-        this.playerID=playerID;
-        this.player=piece;
-        this.window=window;
-        this.handle=new Rectangle(piece.getXPosition()-15, piece.getYPosition()-70, 27, 50,"BLACK",4);
+        this.minX = window.playerMinX(playerID);
+        this.maxX = window.playerMaxX(playerID);
+        this.playerID = playerID;
+        this.player = piece;
+        this.window = window;
+        this.handle = new Rectangle(piece.getXPosition()-15, piece.getYPosition()-70, 27, 50, "BLACK", 4);
         window.addRectangle(this.handle);
     }
 
@@ -49,15 +49,15 @@ public class Player extends Thread{
             return;
         }
         window.addKeyListener(new KeyListener() {
-            boolean keyArray[]=new boolean[4];
+            boolean keyArray[] = new boolean[4];
             @Override public void keyTyped(KeyEvent e){} // unused input method
             @Override public void keyReleased(KeyEvent e){
-                keyArray=playerInput(e,keyArray,false);
+                keyArray = playerInput(e, keyArray, false);
                 playerUpdate(keyArray);
 
             }
             @Override public void keyPressed(KeyEvent e) {
-                keyArray=playerInput(e,keyArray,true);
+                keyArray = playerInput(e, keyArray, true);
                 playerUpdate(keyArray);
             }
         });
@@ -71,25 +71,25 @@ public class Player extends Thread{
      * @param status true if the key is pressed, false if the key is released
      * @return The keyArray after the key is set to the status
      */
-    public boolean[] playerInput(KeyEvent e,boolean keyArray[], boolean status){
-        if(playerID==1){
+    public boolean[] playerInput(KeyEvent e, boolean keyArray[], boolean status){
+        if(playerID == 1){
             switch(e.getKeyCode()){
-                case 65 ->{
-                    keyArray[0]=status;
+                case 65 -> {
+                    keyArray[0] = status;
                     break;
                 }
-                case 87 ->{
-                    keyArray[1]=status;
-                    break;
-
-                }
-                case 68 ->{
-                    keyArray[2]=status;
+                case 87 -> {
+                    keyArray[1] = status;
                     break;
 
                 }
-                case 83 ->{
-                    keyArray[3]=status;
+                case 68 -> {
+                    keyArray[2] = status;
+                    break;
+
+                }
+                case 83 -> {
+                    keyArray[3] = status;
                     break;
 
                 }
@@ -97,22 +97,22 @@ public class Player extends Thread{
         }
         else{
             switch(e.getKeyCode()){
-                case 37 ->{
-                    keyArray[0]=status;
+                case 37 -> {
+                    keyArray[0] = status;
                     break;
                 }
-                case 38 ->{
-                    keyArray[1]=status;
-                    break;
-
-                }
-                case 39 ->{
-                    keyArray[2]=status;
+                case 38 -> {
+                    keyArray[1] = status;
                     break;
 
                 }
-                case 40 ->{
-                    keyArray[3]=status;
+                case 39 -> {
+                    keyArray[2] = status;
+                    break;
+
+                }
+                case 40 -> {
+                    keyArray[3] = status;
                     break;
 
                 }
@@ -128,41 +128,41 @@ public class Player extends Thread{
      * @param keyArray An array of booleans that represent the keys that are pressed.
      */
     public void playerUpdate(boolean keyArray[]){
-        double currentX=player.getXPosition();
-        double currentY=player.getYPosition();
+        double currentX = player.getXPosition();
+        double currentY = player.getYPosition();
 
-        if((keyArray[0] ^ keyArray[2]) && player.getXVelocity()<8){
+        if((keyArray[0] ^ keyArray[2]) && player.getXVelocity() < 8){
             player.setXVelocity(player.getXVelocity()+2);
         }
         else{
             player.setXVelocity(0);
         }
-        if((keyArray[1] ^ keyArray[3]) && player.getYVelocity()<8){
+        if((keyArray[1] ^ keyArray[3]) && player.getYVelocity() < 8){
             player.setYVelocity(player.getYVelocity()+2);
         }
         else{
             player.setYVelocity(0);
         }
 
-        if(keyArray[0] && currentX>minX){
+        if(keyArray[0] && currentX > minX){
             player.setXPosition(currentX-18);
             handle.setXPosition(currentX-33);
         }
-        if(keyArray[1] && currentY>minY){
+        if(keyArray[1] && currentY > minY){
             player.setYPosition(currentY-18);
             handle.setYPosition(currentY-88);
         }
-        if(keyArray[2] && (currentX<maxX)){
+        if(keyArray[2] && (currentX < maxX)){
             player.setXPosition(currentX+18);
             handle.setXPosition(currentX+3);
         }
-        if(keyArray[3] && (currentY<maxY)){
+        if(keyArray[3] && (currentY < maxY)){
             player.setYPosition(currentY+18);
             handle.setYPosition(currentY-52);
         }
 
         if(goalEnter(window.goalXPos(playerID), currentX, currentY)){
-            loss=true;
+            loss = true;
         }
     }
 
@@ -175,7 +175,7 @@ public class Player extends Thread{
      * @return A boolean value.
      */
     public boolean goalEnter(double goalXPos, double ballXPos, double ballYPos){
-        double distance=Math.sqrt(Math.pow(goalXPos-ballXPos,2)+Math.pow(540-ballYPos,2))-35;
+        double distance = Math.sqrt(Math.pow(goalXPos-ballXPos, 2)+Math.pow(540-ballYPos, 2))-35;
         return distance < 0;
     }
 
@@ -202,9 +202,9 @@ public class Player extends Thread{
      * Increments the counter used to check how many magnets a player has latched
      */
     public void incrementMagnet(){
-        magnetsLatched++;
-        if(magnetsLatched==2){
-            loss=true;
+        magnetsLatched ++ ;
+        if(magnetsLatched == 2){
+            loss = true;
         }
     }
 
@@ -214,7 +214,7 @@ public class Player extends Thread{
      * @param loss If the player has lost the game.
      */
     public void setLoss(boolean loss){
-        this.loss=loss;
+        this.loss = loss;
     }
 
     /**
